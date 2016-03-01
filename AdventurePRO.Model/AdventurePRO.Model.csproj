@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\AdventurePRO.Model.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -40,7 +41,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Adventure.cs" />
+    <Compile Include="Attraction.cs" />
+    <Compile Include="Acquirable.cs" />
+    <Compile Include="Comment.cs" />
+    <Compile Include="DbItem.cs" />
+    <Compile Include="Destination.cs" />
+    <Compile Include="Nameable.cs" />
+    <Compile Include="Hotel.cs" />
+    <Compile Include="Location.cs" />
+    <Compile Include="Occupancy.cs" />
+    <Compile Include="OnlineDescribed.cs" />
+    <Compile Include="Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Taxi.cs" />
+    <Compile Include="Ticket.cs" />
+    <Compile Include="Weather.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
