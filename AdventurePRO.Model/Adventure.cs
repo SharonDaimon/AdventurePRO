@@ -72,5 +72,10 @@ namespace AdventurePRO.Model
         /// All adventure attractions list
         /// </summary>
         public Attraction[] Attractions { get; set; }
+
+        /// <summary>
+        /// Weather forecasts list
+        /// </summary>
+        public Weather[] Weather { get; set; }
     }
 }

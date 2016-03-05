@@ -18,10 +18,5 @@ namespace AdventurePRO.Model
         /// The location of the place
         /// </summary>
         public Location Location { get; set; }
-
-        /// <summary>
-        /// Weather forecasts list
-        /// </summary>
-        public Weather[] Weather { get; set; }
     }
 }
