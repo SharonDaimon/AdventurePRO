@@ -13,5 +13,10 @@ namespace AdventurePRO.Model
         /// The price of the product
         /// </summary>
         public float Cost { get; set; }
+
+        /// <summary>
+        /// The currency in which the price is considered
+        /// </summary>
+        public string Currency { get; set; }
     }
 }

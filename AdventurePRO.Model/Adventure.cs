@@ -23,10 +23,15 @@ namespace AdventurePRO.Model
                         .Concat<Acquirable>(Taxis)
                         .Concat(Hotels)
                         .Concat(Attractions)
-                         select a.Cost)
+                         select StaticCurrencyConverter.Convert(a.Cost, a.Currency,this.Currency))
                          .Sum();    
             }
         }
+
+        /// <summary>
+        /// The currency in which the full price is calculated
+        /// </summary>
+        public string Currency { get; set; }
 
         /// <summary>
         /// Adventure start date

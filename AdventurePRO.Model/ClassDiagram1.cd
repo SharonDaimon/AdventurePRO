@@ -7,8 +7,8 @@
         <Point X="17" Y="2.853" />
         <Point X="17" Y="3.451" />
         <Point X="16.375" Y="3.451" />
-        <Point X="16.375" Y="1.312" />
-        <Point X="15" Y="1.312" />
+        <Point X="16.375" Y="1.409" />
+        <Point X="15" Y="1.409" />
       </Path>
     </InheritanceLine>
     <AssociationLine Name="Destination" Type="AdventurePRO.Model.Destination">
@@ -22,7 +22,7 @@
       </MemberNameLabel>
     </AssociationLine>
     <TypeIdentifier>
-      <HashCode>AAQAAEAAAAACAABAAAAAAAAAAAQAAAAUAAAgAEEAAAA=</HashCode>
+      <HashCode>AAQAAEAAAAACAABAAAAAAAAACAQAAAAUAAAgAEEAAAA=</HashCode>
       <FileName>Adventure.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -30,28 +30,28 @@
       <Property Name="Home" />
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
-      <Property Name="Weather" />
+      <Property Name="Persons" />
+      <Property Name="Hotels" />
       <Property Name="Taxis" />
       <Property Name="Tickets" />
-      <Property Name="Hotels" />
       <Property Name="Attractions" />
-      <Property Name="Persons" />
+      <Property Name="Weather" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="AdventurePRO.Model.Ticket">
     <Position X="1.75" Y="4.75" Width="1.5" />
     <InheritanceLine Type="AdventurePRO.Model.Acquirable" ManuallyRouted="true" FixedFromPoint="true">
       <Path>
-        <Point X="17.125" Y="6.733" />
+        <Point X="17.125" Y="6.925" />
         <Point X="17.125" Y="7.101" />
         <Point X="15.907" Y="7.101" Type="JumpStart" />
         <Point X="15.741" Y="7.101" Type="JumpEnd" />
         <Point X="15.132" Y="7.101" />
         <Point X="15.132" Y="3.053" />
-        <Point X="14.375" Y="3.053" Type="JumpStart" />
-        <Point X="14.208" Y="3.053" Type="JumpEnd" />
-        <Point X="13.792" Y="3.053" Type="JumpStart" />
-        <Point X="13.625" Y="3.053" Type="JumpEnd" />
+        <Point X="14.411" Y="3.053" Type="JumpStart" />
+        <Point X="14.245" Y="3.053" Type="JumpEnd" />
+        <Point X="13.865" Y="3.053" Type="JumpStart" />
+        <Point X="13.698" Y="3.053" Type="JumpEnd" />
         <Point X="10.583" Y="3.053" Type="JumpStart" />
         <Point X="10.417" Y="3.053" Type="JumpEnd" />
         <Point X="8.583" Y="3.053" Type="JumpStart" />
@@ -160,7 +160,7 @@
   <Class Name="AdventurePRO.Model.Weather">
     <Position X="18.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAgAAAAAAAAAAAAAAAAAAAAAABAAAAAAAEAAA=</HashCode>
+      <HashCode>AAAAAAAAgAAAAAAAIAAAAAAAAAAAAAABAAAAAAAEAAA=</HashCode>
       <FileName>Weather.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -174,6 +174,11 @@
         <Point X="12" Y="12.405" />
       </Path>
     </InheritanceLine>
+    <AssociationLine Name="Tickets" Type="AdventurePRO.Model.Ticket">
+      <MemberNameLabel ManuallyPlaced="true">
+        <Position X="-0.736" Y="0.025" />
+      </MemberNameLabel>
+    </AssociationLine>
     <AssociationLine Name="Accomodation" Type="AdventurePRO.Model.Occupancy" FixedToPoint="true">
       <Path>
         <Point X="5.75" Y="11.5" />
@@ -181,11 +186,6 @@
       </Path>
       <MemberNameLabel ManuallyPlaced="true" ManuallySized="true">
         <Position X="-1.393" Y="0.065" Height="0.182" Width="1.272" />
-      </MemberNameLabel>
-    </AssociationLine>
-    <AssociationLine Name="Tickets" Type="AdventurePRO.Model.Ticket">
-      <MemberNameLabel ManuallyPlaced="true">
-        <Position X="-0.736" Y="0.025" />
       </MemberNameLabel>
     </AssociationLine>
     <AssociationLine Name="Attractions" Type="AdventurePRO.Model.AttractionTicket" FixedFromPoint="true">
@@ -270,7 +270,7 @@
     <Position X="16.75" Y="7.5" Width="1.5" />
     <InheritanceLine Type="AdventurePRO.Model.Acquirable" FixedFromPoint="true" FixedToPoint="true">
       <Path>
-        <Point X="17.875" Y="6.733" />
+        <Point X="17.875" Y="6.925" />
         <Point X="17.875" Y="7.5" />
       </Path>
     </InheritanceLine>
@@ -285,7 +285,7 @@
   <Class Name="AdventurePRO.Model.Acquirable">
     <Position X="16.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAABAACAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Acquirable.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -293,7 +293,7 @@
     <Position X="7.75" Y="10" Width="1.5" />
     <InheritanceLine Type="AdventurePRO.Model.Acquirable" ManuallyRouted="true" FixedToPoint="true">
       <Path>
-        <Point X="17.5" Y="6.733" />
+        <Point X="17.5" Y="6.925" />
         <Point X="17.5" Y="7.406" />
         <Point X="15.907" Y="7.406" Type="JumpStart" />
         <Point X="15.741" Y="7.406" Type="JumpEnd" />

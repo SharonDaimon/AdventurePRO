@@ -18,7 +18,9 @@ namespace AdventurePRO.Model
         {
             get
             {
-                return (from oc in Occupancies select oc.Cost).Sum();
+                return (from oc in Occupancies
+                        select StaticCurrencyConverter.Convert(oc.Cost, oc.Currency, this.Currency))
+                        .Sum();
             }
         }
         /// <summary>

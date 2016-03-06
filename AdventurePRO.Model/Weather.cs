@@ -16,6 +16,11 @@ namespace AdventurePRO.Model
         public float Temperature { get; set; }
 
         /// <summary>
+        /// Unit of temperature measurement
+        /// </summary>
+        public string Unit { get; set; }
+
+        /// <summary>
         /// For which location does this forecast right 
         /// </summary>
         public Location Region { get; set; }
