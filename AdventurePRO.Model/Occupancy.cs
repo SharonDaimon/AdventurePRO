@@ -52,11 +52,6 @@ namespace AdventurePRO.Model
         public Person[] Guests { get; set; }
 
         /// <summary>
-        /// Room booking href
-        /// </summary>
-        public string BookingHref { get; set; }
-
-        /// <summary>
         /// Type of the room
         /// </summary>
         public string Type { get; set; }

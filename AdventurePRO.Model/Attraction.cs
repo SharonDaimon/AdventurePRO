@@ -17,11 +17,6 @@ namespace AdventurePRO.Model
         /// The location ticket
         /// </summary>
         public AttractionTicket[] Tickets { get; set; }
-
-        /// <summary>
-        /// The attraction order href
-        /// </summary>
-        public string OrderHref { get; set; }
     }
 
     /// <summary>

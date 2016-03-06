@@ -18,5 +18,10 @@ namespace AdventurePRO.Model
         /// The currency in which the price is considered
         /// </summary>
         public string Currency { get; set; }
+
+        /// <summary>
+        /// A link to order or book it
+        /// </summary>
+        public string OrderLink { get; set; }
     }
 }
