@@ -29,5 +29,10 @@ namespace AdventurePRO.Model
         /// Forecast date
         /// </summary>
         public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Weather Type
+        /// </summary>
+        public enum Type { Sunny, Cloudy, Partly_Cloudy, Rainy, Stormy, Thunderstorm }
     }
 }
