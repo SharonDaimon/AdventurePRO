@@ -9,7 +9,7 @@ namespace AdventurePRO.Model
     /// <summary>
     /// Describes smth. described online
     /// </summary>
-    public abstract class OnlineDescribed : Acquirable
+    public abstract class OnlineDescribed : Nameable
     {
         /// <summary>
         /// The descriotion
