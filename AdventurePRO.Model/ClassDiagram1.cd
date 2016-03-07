@@ -85,22 +85,6 @@
   </Class>
   <Class Name="AdventurePRO.Model.Taxi">
     <Position X="9.75" Y="6.5" Width="1.5" />
-    <InheritanceLine Type="AdventurePRO.Model.OnlineDescribed" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="16.75" Y="7.839" />
-        <Point X="16.705" Y="7.839" Type="JumpStart" />
-        <Point X="16.539" Y="7.839" Type="JumpEnd" />
-        <Point X="16.375" Y="7.839" />
-        <Point X="16.375" Y="7.875" />
-        <Point X="15.907" Y="7.875" Type="JumpStart" />
-        <Point X="15.741" Y="7.875" Type="JumpEnd" />
-        <Point X="12.819" Y="7.875" Type="JumpStart" />
-        <Point X="12.653" Y="7.875" Type="JumpEnd" />
-        <Point X="11.98" Y="7.875" Type="JumpStart" />
-        <Point X="11.814" Y="7.875" Type="JumpEnd" />
-        <Point X="11.25" Y="7.875" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AgAAAAAAACQAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Taxi.cs</FileName>
@@ -136,6 +120,13 @@
   </Class>
   <Class Name="AdventurePRO.Model.Weather">
     <Position X="18.5" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="AdventurePRO.Model.Weather.Type" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Weather.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAAAgAAAAAAAIAAAAAAAAAAAAAABAAAAAAAEAAA=</HashCode>
       <FileName>Weather.cs</FileName>
@@ -225,7 +216,7 @@
       </Path>
     </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAIgAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAIAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Destination.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -239,7 +230,7 @@
   <Class Name="AdventurePRO.Model.Nameable">
     <Position X="16.75" Y="3.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Nameable.cs</FileName>
     </TypeIdentifier>
   </Class>

@@ -8,7 +8,7 @@ namespace AdventurePRO.Model
     /// <summary>
     /// Describes a taxi
     /// </summary>
-    public class Taxi : OnlineDescribed
+    public class Taxi : Acquirable
     {
         /// <summary>
         /// Passengers list

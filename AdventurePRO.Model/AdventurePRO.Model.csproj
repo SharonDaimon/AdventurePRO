@@ -45,6 +45,7 @@
     <Compile Include="Attraction.cs" />
     <Compile Include="Acquirable.cs" />
     <Compile Include="Comment.cs" />
+    <Compile Include="Country.cs" />
     <Compile Include="CurrencyConvert.cs" />
     <Compile Include="DbItem.cs" />
     <Compile Include="Destination.cs" />
