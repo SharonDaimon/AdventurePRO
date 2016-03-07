@@ -10,11 +10,6 @@ namespace AdventurePRO.Model
     public class Destination : Nameable
     {
         /// <summary>
-        /// The code of the place
-        /// </summary>
-        public int Code { get; set; }
-
-        /// <summary>
         /// The location of the place
         /// </summary>
         public Location Location { get; set; }

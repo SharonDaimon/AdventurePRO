@@ -12,6 +12,11 @@ namespace AdventurePRO.Model
         /// <summary>
         /// The name
         /// </summary>
-        public int Name { get; set; }
+        public string Name { get; set; }
+
+        /// <summary>
+        /// The code
+        /// </summary>
+        public string Code { get; set; }
     }
 }
