@@ -62,8 +62,8 @@
     <InheritanceLine Type="AdventurePRO.Model.OnlineDescribed" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
       <Path>
         <Point X="16.75" Y="8.125" />
-        <Point X="16.705" Y="8.125" Type="JumpStart" />
-        <Point X="16.539" Y="8.125" Type="JumpEnd" />
+        <Point X="16.58" Y="8.125" Type="JumpStart" />
+        <Point X="16.414" Y="8.125" Type="JumpEnd" />
         <Point X="15.907" Y="8.125" Type="JumpStart" />
         <Point X="15.741" Y="8.125" Type="JumpEnd" />
         <Point X="12.736" Y="8.125" />
@@ -101,8 +101,8 @@
     <InheritanceLine Type="AdventurePRO.Model.OnlineDescribed" FixedToPoint="true">
       <Path>
         <Point X="16.75" Y="8.857" />
-        <Point X="16.705" Y="8.857" Type="JumpStart" />
-        <Point X="16.539" Y="8.857" Type="JumpEnd" />
+        <Point X="16.58" Y="8.857" Type="JumpStart" />
+        <Point X="16.414" Y="8.857" Type="JumpEnd" />
         <Point X="15.907" Y="8.857" Type="JumpStart" />
         <Point X="15.741" Y="8.857" Type="JumpEnd" />
         <Point X="10.583" Y="8.857" Type="JumpStart" />
@@ -179,24 +179,6 @@
   </Class>
   <Class Name="AdventurePRO.Model.Occupancy">
     <Position X="4.25" Y="6" Width="2.5" />
-    <InheritanceLine Type="AdventurePRO.Model.OnlineDescribed" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
-      <Path>
-        <Point X="16.75" Y="8.375" />
-        <Point X="16.705" Y="8.375" Type="JumpStart" />
-        <Point X="16.539" Y="8.375" Type="JumpEnd" />
-        <Point X="15.907" Y="8.375" Type="JumpStart" />
-        <Point X="15.741" Y="8.375" Type="JumpEnd" />
-        <Point X="11.897" Y="8.375" />
-        <Point X="11.897" Y="5.249" />
-        <Point X="10.583" Y="5.249" Type="JumpStart" />
-        <Point X="10.417" Y="5.249" Type="JumpEnd" />
-        <Point X="8.583" Y="5.249" Type="JumpStart" />
-        <Point X="8.417" Y="5.249" Type="JumpEnd" />
-        <Point X="7.125" Y="5.249" />
-        <Point X="7.125" Y="6.267" />
-        <Point X="6.75" Y="6.267" />
-      </Path>
-    </InheritanceLine>
     <TypeIdentifier>
       <HashCode>AAAAAgAAAAAABAAAAAIAAAACAAAIAAAAAQAAAAAAACg=</HashCode>
       <FileName>Occupancy.cs</FileName>
