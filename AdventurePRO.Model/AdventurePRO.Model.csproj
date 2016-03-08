@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adventure.cs" />
+    <Compile Include="APIs\Hotelbeds\ApiClient.cs" />
     <Compile Include="APIs\HttpManager.cs" />
     <Compile Include="Attraction.cs" />
     <Compile Include="Acquirable.cs" />
