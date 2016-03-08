@@ -31,6 +31,11 @@ namespace AdventurePRO.Model.APIs.Hotelbeds
         public const string ENDPOINT = "https://api.test.hotelbeds.com";
 
         /// <summary>
+        /// Default language
+        /// </summary>
+        public const string LANG = "ENG";
+
+        /// <summary>
         /// Creates an ApiClient with given key and secret
         /// </summary>
         /// <param name="key">Api key</param>
