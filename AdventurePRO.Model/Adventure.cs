@@ -4,6 +4,8 @@
 
 using System;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace AdventurePRO.Model
 {
@@ -19,12 +21,12 @@ namespace AdventurePRO.Model
         {
             get
             {
-                return (from a in Tickets
-                        .Concat<Acquirable>(Taxis)
-                        .Concat(Hotels)
-                        .Concat(Attractions)
-                         select StaticCurrencyConverter.Convert(a.Cost, a.Currency,this.Currency))
-                         .Sum();    
+                return (from a in Tickets.Cast<Acquirable>()
+                        .Concat(Taxis)
+                        .Concat(from h in Hotels from o in h.Occupancies select o)
+                        .Concat(from a in Attractions from t in a.Tickets select t)
+                        select StaticCurrencyConverter.Convert(a.Cost, a.Currency, this.Currency))
+                         .Sum();
             }
         }
 

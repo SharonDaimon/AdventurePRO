@@ -8,7 +8,7 @@ namespace AdventurePRO.Model
     /// <summary>
     /// Describes a hotel room
     /// </summary>
-    public class Occupancy : OnlineDescribed
+    public class Occupancy : Acquirable
     {
         /// <summary>
         /// Check out date
