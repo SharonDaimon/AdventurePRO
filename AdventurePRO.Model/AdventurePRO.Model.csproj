@@ -45,8 +45,11 @@
   <ItemGroup>
     <Compile Include="Adventure.cs" />
     <Compile Include="APIs\Hotelbeds\ApiClient.cs" />
+    <Compile Include="APIs\Hotelbeds\ApiClient.HotelApi.cs" />
     <Compile Include="APIs\Hotelbeds\ApiClient.HotelContentApi.cs" />
     <Compile Include="APIs\HttpManager.cs" />
+    <Compile Include="APIs\Options\Accomodation.cs" />
+    <Compile Include="APIs\Results\HotelRoom.cs" />
     <Compile Include="Attraction.cs" />
     <Compile Include="Acquirable.cs" />
     <Compile Include="Comment.cs" />
@@ -68,6 +71,7 @@
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
