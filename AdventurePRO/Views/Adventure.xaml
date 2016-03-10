@@ -1,0 +1,306 @@
+﻿<UserControl x:Class="AdventurePRO.Views.Adventure"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AdventurePRO.Views"
+             xmlns:converters="clr-namespace:AdventurePRO.Views.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:AcquirableArraySumConverter x:Shared="false"  x:Key="acquirableArraySumConverter"/>
+        <converters:HotelsOccupanciesConverter x:Shared="false" x:Key="hotelsOccupanciesConverter"/>
+        <converters:AttractionsTicketsConverter x:Shared="false" x:Key="attractionsTicketsConverter"/>
+        <converters:AcquirableToCostStringConverter x:Shared="false" x:Key="acquirableToCostStringConverter"/>
+        <converters:AdventureCostStringConverter x:Shared="false" x:Key="adventureCostStringConverter"/>
+        <converters:WeatherSizeConverter x:Shared="false" x:Key="weatherSizeConverter"/>
+        <converters:WeatherWidgetConverter x:Shared="false" x:Key="weatherWidgetConverter"/>
+        <converters:DateStringConverter x:Shared="false" x:Key="dateStringConverter"/>
+        <converters:BoolToVisibilityConverter x:Shared="false" x:Key="boolToVisibilityConverter"/>
+        
+        <Style x:Key="Icon">
+            <Setter Property="Image.Width" Value="24"/>
+        </Style>
+
+        <Style x:Key="Definition">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding 
+                           RelativeSource={RelativeSource Mode=FindAncestor,
+                           AncestorType={x:Type ListBoxItem}},Path=IsSelected}" 
+                 Value="True">
+                    <Setter Property="StackPanel.Visibility" Value="Visible"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding 
+                           RelativeSource={RelativeSource Mode=FindAncestor,
+                           AncestorType={x:Type ListBoxItem}},Path=IsSelected}" 
+                 Value="False">
+                    <Setter Property="StackPanel.Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <Grid Style="{StaticResource Stretch}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <!-- Date -->
+                <RowDefinition/>
+                <!-- Separator -->
+                <RowDefinition/>
+                <!-- Tickets -->
+                <RowDefinition/>
+                <!-- Taxis -->
+                <RowDefinition/>
+                <!-- Hotels -->
+                <RowDefinition/>
+                <!-- Attractions -->
+                <RowDefinition/>
+                <!-- Separator -->
+                <RowDefinition/>
+                <!-- Cost -->
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!-- Start and finish date -->
+            <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                <TextBlock Text="{Binding Path=StartDate, Converter={StaticResource dateStringConverter}}" Style="{StaticResource Date}"/>
+                <TextBlock Text=" - " Style="{StaticResource Date}"/>
+                <TextBlock Text="{Binding Path=FinishDate, Converter={StaticResource dateStringConverter}}" Style="{StaticResource Date}"/>
+            </StackPanel>
+
+            <Separator Grid.Row="1" Grid.Column="1"/>
+
+            <!-- Tickets -->
+            <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                <Image Source="pack://siteoforigin:,,,/Properties/fa-plane.png" Style="{StaticResource Icon}"/>
+                <TextBlock Style="{StaticResource Cost}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource acquirableArraySumConverter}">
+                            <Binding Path="Tickets"/>
+                            <Binding Path="Currency"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+
+
+            <!-- Taxis -->
+            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
+                <Image Source="pack://siteoforigin:,,,/Properties/fa-taxi.png" Style="{StaticResource Icon}"/>
+                <TextBlock Style="{StaticResource Cost}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource acquirableArraySumConverter}">
+                            <Binding Path="Taxis"/>
+                            <Binding Path="Currency"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Hotels -->
+            <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
+                <Image Source="pack://siteoforigin:,,,/Properties/fa-bed.png" Style="{StaticResource Icon}"/>
+                <TextBlock Style="{StaticResource Cost}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource acquirableArraySumConverter}">
+                            <Binding Path="Hotels" Converter="{StaticResource hotelsOccupanciesConverter}"/>
+                            <Binding Path="Currency"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+
+            <!-- Attractions -->
+            <StackPanel Grid.Row="5" Grid.Column="0" Orientation="Horizontal">
+                <Image Source="pack://siteoforigin:,,,/Properties/fa-university.png" Style="{StaticResource Icon}"/>
+                <TextBlock Style="{StaticResource Cost}">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource acquirableArraySumConverter}">
+                            <Binding Path="Attractions" Converter="{StaticResource attractionsTicketsConverter}"/>
+                            <Binding Path="Currency"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
+
+            <Separator Grid.Row="6" Grid.Column="0"/>
+
+            <!-- Total cost -->
+            <StackPanel Grid.Row="7" Grid.Column="1" Orientation="Horizontal">
+                <TextBlock Text="Total: " Style="{StaticResource TotalCost}"/>
+                <TextBlock Text="{Binding Path=., Converter={StaticResource adventureCostStringConverter}}" Style="{StaticResource TotalCost}"/>
+            </StackPanel>
+
+        </Grid>
+
+        <StackPanel Style="{StaticResource Definition}" HorizontalAlignment="Stretch">
+            <!-- Tickets -->
+            <TextBlock Style="{StaticResource h1}" >Tickets</TextBlock>
+            <Grid Style="{StaticResource Stretch}">
+                <ListView ItemsSource="{Binding Path=Tickets}" 
+                      HorizontalContentAlignment="Stretch">
+                    <ListView.View>
+                        <GridView>
+                            <GridView.Columns>
+                                <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Path=TransportType}"/>
+                                <GridViewColumn Header="Owner" DisplayMemberBinding="{Binding Path=Owner.Name}"/>
+                                <GridViewColumn Header="From" DisplayMemberBinding="{Binding Path=From}"/>
+                                <GridViewColumn Header="To" DisplayMemberBinding="{Binding Path=To}"/>
+                                <GridViewColumn Header="Departure" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Departure, Converter={StaticResource dateStringConverter}}"
+                                                   Style="{StaticResource Date}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Arrival">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Arrival, Converter={StaticResource dateStringConverter}}"
+                                                   Style="{StaticResource Date}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Cost">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=., Converter={StaticResource acquirableToCostStringConverter}}" Style="{StaticResource Cost}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView.Columns>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+            <!-- Taxis -->
+            <StackPanel Style="{StaticResource Stretch}">
+                <TextBlock Style="{StaticResource h1}" >Taxis</TextBlock>
+                <ListBox ItemsSource="{Binding Path=Taxis}"  HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Style="{StaticResource Stretch}">
+                                <TextBlock Text="{Binding Path=When, Converter={StaticResource dateStringConverter}}" 
+                                           Style="{StaticResource Date}" />
+                                <Separator Style="{StaticResource Stretch}"/>
+                                <TextBlock Text="{Binding Path=., Converter={StaticResource acquirableToCostStringConverter}}" Style="{StaticResource Cost}"/>
+                                <local:PersonsList DataContext="{Binding Path=Passengers}" 
+                                                   Style="{StaticResource Stretch}" 
+                                                   HorizontalContentAlignment="Stretch"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+
+            <!-- Hotels -->
+            <TextBlock Style="{StaticResource h1}" >Hotels</TextBlock>
+            <ListBox ItemsSource="{Binding Path=Hotels}"  HorizontalContentAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Style="{StaticResource Stretch}">
+                            <local:OnlineDescribed Style="{StaticResource Stretch}"/>
+
+                            <!-- Occupancies -->
+                            <TextBlock Style="{StaticResource h2}" >Occupancies</TextBlock>
+                            <ListBox ItemsSource="{Binding Path=Occupancies}"  HorizontalContentAlignment="Stretch">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Style="{StaticResource Stretch}">
+                                            <StackPanel Orientation="Horizontal" >
+                                                <TextBlock Text="{Binding Path=CheckIn, Converter={StaticResource dateStringConverter}}" Style="{StaticResource Date}"/>
+                                                <TextBlock Text=" - " Style="{StaticResource Date}"/>
+                                                <TextBlock Text="{Binding Path=CheckOut, Converter={StaticResource dateStringConverter}}" Style="{StaticResource Date}"/>
+                                            </StackPanel>
+                                            <Separator />
+                                            <TextBlock Text="{Binding Path=., Converter={StaticResource acquirableToCostStringConverter}}" 
+                                                       Style="{StaticResource Cost}" />
+                                            <TextBlock Style="{StaticResource h3}" >Guests</TextBlock>
+                                            <local:PersonsList DataContext="{Binding Path=Guests}" Style="{StaticResource Stretch}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Attractions -->
+            <TextBlock Style="{StaticResource h1}" >Attractions</TextBlock>
+            <ListBox ItemsSource="{Binding Path=Attractions}" HorizontalContentAlignment="Stretch"
+                     >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=Name}" Style="{StaticResource h2}" />
+                            <Separator Style="{StaticResource Stretch}"/>
+                            <TextBlock Style="{StaticResource Cost}" >
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource acquirableArraySumConverter}">
+                                        <Binding Path="Tickets"/>
+                                        <Binding RelativeSource="{RelativeSource FindAncestor, AncestorType={x:Type UserControl}}" Path="DataContext.Currency"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <local:OnlineDescribed />
+                            <TextBlock Style="{StaticResource h3}" >Tickets</TextBlock>
+                            <ListView ItemsSource="{Binding Path=Tickets}" HorizontalContentAlignment="Stretch" >
+                                <ListView.View>
+                                    <GridView>
+                                        <GridView.Columns>
+                                            <GridViewColumn Header="Owner" DisplayMemberBinding="{Binding Path=Owner.Name}"/>
+                                            <GridViewColumn Header="Cost">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="{Binding Path=., Converter={StaticResource acquirableToCostStringConverter}}"
+                                                                   Style="{StaticResource Cost}"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView.Columns>
+                                    </GridView>
+                                </ListView.View>
+                            </ListView>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <!-- Weather -->
+            <TextBlock Style="{StaticResource h1}" >Weather</TextBlock>
+            <StackPanel DataContext="{Binding Path=Weather}" Style="{StaticResource Stretch}">
+
+                <!-- Display -->
+                <StackPanel >
+                    <StackPanel.DataContext>
+                        <MultiBinding Converter="{StaticResource weatherWidgetConverter}">
+                            <Binding Path="."/>
+                            <Binding ElementName="WeatherDateSlider" Path="Value"/>
+                        </MultiBinding>
+                    </StackPanel.DataContext>
+
+                    <TextBlock Text="{Binding Path=Date, Converter={StaticResource dateStringConverter}}"
+                               Style="{StaticResource Date}"/>
+                    <StackPanel Orientation="Horizontal" Margin="8">
+                        <TextBlock Text="{Binding Path=Temperature}" Style="{StaticResource Number}"/>
+                        <TextBlock Text=" "/>
+                        <TextBlock Text="{Binding Path=Unit}"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Slider -->
+
+                <Slider Name="WeatherDateSlider" Orientation="Horizontal"
+                        Value="0"
+                        Minimum="0" Maximum="{Binding Path=., Converter={StaticResource weatherSizeConverter}}"
+                        IsSnapToTickEnabled="True" TickPlacement="BottomRight" TickFrequency="1"/>
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

@@ -4,6 +4,60 @@
              xmlns:local="clr-namespace:AdventurePRO"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        
+        <ControlTemplate x:Key="NoScroll">
+            <ItemsPresenter/>
+        </ControlTemplate>
+
+        <Style TargetType="{x:Type ListBox}">
+            <Setter Property="VirtualizingPanel.ScrollUnit" Value="Pixel"/>
+            <Setter Property="Template" Value="{StaticResource NoScroll}"/>
+        </Style>
+
+        <Style TargetType="ListView">
+            <EventSetter Event="PreviewMouseWheel" Handler="listTest_PreviewMouseWheel"/>
+        </Style>
+
+        <Style x:Key="Stretch">
+            <Setter Property="Control.HorizontalAlignment" Value="Stretch"/>
+        </Style>
+
+        <Style x:Key="h1">
+            <Setter Property="TextBlock.Foreground" Value="DarkGray"/>
+            <Setter Property="TextBlock.FontFamily" Value="Verdana"/>
+            <Setter Property="TextBlock.FontSize" Value="18pt"/>
+            <Setter Property="Control.Margin" Value="12"/>
+        </Style>
+
+        <Style x:Key="h2" BasedOn="{StaticResource h1}">
+            <Setter Property="TextBlock.FontSize" Value="16pt"/>
+            <Setter Property="Control.Margin" Value="10"/>
+        </Style>
+
+        <Style x:Key="h3" BasedOn="{StaticResource h1}">
+            <Setter Property="TextBlock.FontSize" Value="13pt"/>
+            <Setter Property="TextBlock.FontStyle" Value="Italic"/>
+            <Setter Property="Control.Margin" Value="6"/>
+        </Style>
+
+        <Style x:Key="Number">
+            <Setter Property="TextBlock.Foreground" Value="#1A1A2A"/>
+            <Setter Property="TextBlock.FontWeight" Value="DemiBold"/>
+            <Setter Property="TextBlock.FontFamily" Value="Arial"/>
+        </Style>
+
+        <Style x:Key="Date" BasedOn="{StaticResource Number}">
+            <Setter Property="TextBlock.Foreground" Value="Gray"/>
+        </Style>
+
+        <Style x:Key="TotalCost" BasedOn="{StaticResource Number}">
+            <Setter Property="TextBlock.FontWeight" Value="ExtraBold"/>
+            <Setter Property="TextBlock.FontSize" Value="14"/>
+            <Setter Property="TextBlock.Foreground" Value="DarkBlue"/>
+        </Style>
+
+        <Style x:Key="Cost" BasedOn="{StaticResource TotalCost}">
+            <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+        </Style>
     </Application.Resources>
 </Application>

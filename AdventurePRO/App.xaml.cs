@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace AdventurePRO
 {
@@ -13,5 +9,14 @@ namespace AdventurePRO
     /// </summary>
     public partial class App : Application
     {
+
+        public void listTest_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
+            MouseWheelEventArgs e2 = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);
+            e2.RoutedEvent = UIElement.MouseWheelEvent;
+            (sender as ListView).RaiseEvent(e2);
+        }
     }
+
 }
