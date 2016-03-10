@@ -45,6 +45,11 @@ namespace AdventurePRO.Model
         /// Attractions tickets
         /// </summary>
         public AttractionTicket[] Attractions { get; set; }
+
+        /// <summary>
+        /// Child or Adult
+        /// </summary>
+        public PersonType Type { get; set; }
     }
 
     /// <summary>
@@ -70,7 +75,7 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Child
         /// </summary>
-        Children,
+        Child,
         /// <summary>
         /// Adult
         /// </summary>

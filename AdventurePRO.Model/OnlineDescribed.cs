@@ -35,5 +35,20 @@ namespace AdventurePRO.Model
         /// Comments list
         /// </summary>
         public Comment[] Comments { get; set; }
+
+        /// <summary>
+        /// Phone number
+        /// </summary>
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Email
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Address
+        /// </summary>
+        public string Address { get; set; }
     }
 }
