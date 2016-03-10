@@ -8,6 +8,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Xml.Linq;
 using System.IO;
+using System;
 
 namespace AdventurePRO.Model.APIs.Hotelbeds
 {
@@ -18,7 +19,7 @@ namespace AdventurePRO.Model.APIs.Hotelbeds
         private const uint HOTEL_CONTENT_API_LIMIT = 1000;
 
         /// <summary>
-        /// Asks hotel-comtent-api for countries list
+        /// Requests hotel-comtent-api for countries list
         /// </summary>
         /// <param name="country_codes">
         /// The country codes to request for. 
@@ -46,7 +47,7 @@ namespace AdventurePRO.Model.APIs.Hotelbeds
         }
 
         /// <summary>
-        /// Asks hotel-comtent-api for destinations list
+        /// Requests hotel-comtent-api for destinations list
         /// </summary>
         /// <param name="countries">
         /// The list of countries for the list of destinations is returned. 
@@ -54,7 +55,7 @@ namespace AdventurePRO.Model.APIs.Hotelbeds
         /// but Country property in each of returned destination should be null
         /// </param>
         /// <returns>The list of available destinations</returns>
-        public async Task<Destination[]> GetDestinationAsync(IEnumerable<Country> countries)
+        public async Task<Destination[]> GetDestinationsAsync(IEnumerable<Country> countries)
         {
             NameValueCollection parameters = new NameValueCollection();
 
@@ -85,52 +86,88 @@ namespace AdventurePRO.Model.APIs.Hotelbeds
             return destinations.ToArray();
         }
 
-
         /// <summary>
-        /// Gets the full list of objects where api returns portions of them from "from" to "to" position
+        /// Requests hotels list by destination
         /// </summary>
-        /// <param name="method">API method</param>
-        /// <param name="parameters">Request parameters</param>
-        /// <param name="root_name">Name of the response body xml root element</param>
-        /// <param name="array_name">Name of the xml object array</param>
-        /// <param name="item_name">Name of desirable objects</param>
-        /// <returns>Full list of desirable objects</returns>
-        public async Task<IEnumerable<XElement>> WithFromTo(string method, NameValueCollection parameters,
-            string root_name, string array_name, string item_name)
+        /// <param name="d"></param>
+        /// <returns></returns>
+        public async Task<Hotel[]> GetHotelsByDestination(Destination d)
         {
-            uint from = 1;
-            uint to;
-            
-            List<XElement> elements = new List<XElement>();
+            NameValueCollection parameters = new NameValueCollection();
 
-            XDocument xdoc;
-            do
-            {
-                to = from + HOTEL_CONTENT_API_LIMIT - 1;
+            parameters.Add("fields",
+                "name,description,coordinates,categoryCode,chaincode,address,email,phones,images,web");
+            parameters.Add("destinationCode", d.Code);
 
-                xdoc = await from_to(method, parameters, root_name, array_name, item_name, from, to);
-                elements.AddRange(xdoc.Element(root_name).Element(array_name).Elements(item_name));
-                
-                from += HOTEL_CONTENT_API_LIMIT;
+            var elements = await WithFromTo("hotels", parameters, "hotelsrs", "hotels", "hotel");
 
-            } while (uint.Parse(xdoc.Element(root_name).Element("total").Value) > to);
+            var hotels = from xe in elements
+                         select new Hotel()
+                         {
+                             Code = xe.Attribute("code").Value,
+                             Name = xe.Element("name").Value,
+                             Description = xe.Element("description").Value,
+                             Site = xe.Element("web").Value,
+                             Location = new Location()
+                             {
+                                 Attitude = float.Parse(xe.Element("coordinates").Attribute("latitude").Value),
+                                 Longitude = float.Parse(xe.Element("coordinates").Attribute("longitude").Value)
+                             },
+                             Photos = (from image in xe.Element("images").Elements("image")
+                                       where image.Attribute("imageTypeCode").Value == "RES"
+                                       select new Uri("http://photos.hotelbeds.com/giata/" + image.Attribute("path").Value)).ToArray()
+                             
+                   };
 
-            return elements;
+            return hotels.ToArray();
+
         }
 
-        //  Returns portion of objects from "from" to "to"
-        private async Task<XDocument> from_to(string method, NameValueCollection parameters,
-            string root_name, string array_name, string item_name, uint from, uint to)
+    /// <summary>
+    /// Gets the full list of objects where api returns portions of them from "from" to "to" position
+    /// </summary>
+    /// <param name="method">API method</param>
+    /// <param name="parameters">Request parameters</param>
+    /// <param name="root_name">Name of the response body xml root element</param>
+    /// <param name="array_name">Name of the xml object array</param>
+    /// <param name="item_name">Name of desirable objects</param>
+    /// <returns>Full list of desirable objects</returns>
+    public async Task<IEnumerable<XElement>> WithFromTo(string method, NameValueCollection parameters,
+        string root_name, string array_name, string item_name)
+    {
+        uint from = 1;
+        uint to;
+
+        List<XElement> elements = new List<XElement>();
+
+        XDocument xdoc;
+        do
         {
-            parameters["from"] = from.ToString();
-            parameters["to"] = to.ToString();
+            to = from + HOTEL_CONTENT_API_LIMIT - 1;
 
-            byte[] response = await GetAsync(HOTEL_CONTENT_API, HOTEL_CONTENT_API_VERSION, method, parameters);
+            xdoc = await from_to(method, parameters, root_name, array_name, item_name, from, to);
+            elements.AddRange(xdoc.Element(root_name).Element(array_name).Elements(item_name));
 
-            using (var stream = new MemoryStream(response))
-            {
-                return XDocument.Load(stream);
-            }
+            from += HOTEL_CONTENT_API_LIMIT;
+
+        } while (uint.Parse(xdoc.Element(root_name).Element("total").Value) > to);
+
+        return elements;
+    }
+
+    //  Returns portion of objects from "from" to "to"
+    private async Task<XDocument> from_to(string method, NameValueCollection parameters,
+        string root_name, string array_name, string item_name, uint from, uint to)
+    {
+        parameters["from"] = from.ToString();
+        parameters["to"] = to.ToString();
+
+        byte[] response = await GetAsync(HOTEL_CONTENT_API, HOTEL_CONTENT_API_VERSION, method, parameters);
+
+        using (var stream = new MemoryStream(response))
+        {
+            return XDocument.Load(stream);
         }
     }
+}
 }
