@@ -50,6 +50,9 @@
     <Compile Include="APIs\HttpManager.cs" />
     <Compile Include="APIs\Options\Accomodation.cs" />
     <Compile Include="APIs\Results\HotelRoom.cs" />
+    <Compile Include="APIs\Results\SeatwaveEvent.cs" />
+    <Compile Include="APIs\Results\SeatwaveVenue.cs" />
+    <Compile Include="APIs\Seatwave\ApiClient.cs" />
     <Compile Include="Attraction.cs" />
     <Compile Include="Acquirable.cs" />
     <Compile Include="Comment.cs" />
