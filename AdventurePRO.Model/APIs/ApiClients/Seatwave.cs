@@ -21,12 +21,13 @@ namespace AdventurePRO.Model.APIs.ApiClients
     {
         private const string endpoint = "http://api-sandbox.seatwave.com";
         private const string api = "v2/discovery";
+        private const string date_format = "yy-MM-dd";
 
         /// <summary>
         /// The default api key
         /// </summary>
-        public const string DEFAULT_API_KEY = "05ab88651cf14449a31450bc9d5881d0";
-
+        public const string DEFAULT_API_KEY = "05ab88651cf14449a31450bc9d5881d0";        
+        
         /// <summary>
         /// The default api secret
         /// </summary>
@@ -64,13 +65,13 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// <param name="what">What do you search</param>
         /// <param name="max_price">The maximum price of event</param>
         /// <returns></returns>
-        public async Task<SeatwaveEvent[]> GetEventsAsync(string where, string whenFrom, string whenTo, string what, float max_price = 0)
+        public async Task<SeatwaveEvent[]> GetEventsAsync(string where, DateTime whenFrom, DateTime whenTo, string what, float max_price = 0)
         {
             NameValueCollection parameters = new NameValueCollection();
 
             parameters.Add("what", what);
-            parameters.Add("whenFrom", whenFrom);
-            parameters.Add("whenTo", whenTo);
+            parameters.Add("whenFrom", whenFrom.ToString(date_format));
+            parameters.Add("whenTo", whenTo.ToString(date_format));
 
             if(what != null)
             {
