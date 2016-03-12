@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adventure.cs" />
+    <Compile Include="APIs\Fixer\Fixer.cs" />
     <Compile Include="APIs\Hotelbeds\ApiClient.cs" />
     <Compile Include="APIs\Hotelbeds\ApiClient.HotelApi.cs" />
     <Compile Include="APIs\Hotelbeds\ApiClient.HotelContentApi.cs" />
