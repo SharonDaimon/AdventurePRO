@@ -11,12 +11,12 @@ using System.IO;
 using System.Xml.Linq;
 using System.Globalization;
 
-namespace AdventurePRO.Model.APIs.Openweathermap
+namespace AdventurePRO.Model.APIs.ApiClients
 {
     /// <summary>
     /// Describes a weather api client
     /// </summary>
-    public class ApiClient
+    public class Openweathermap
     {
         private const string endpoint = "http://api.openweathermap.org";
         private const string api = "data";
@@ -36,7 +36,7 @@ namespace AdventurePRO.Model.APIs.Openweathermap
         /// Creates new client with given api key
         /// </summary>
         /// <param name="key">Api key</param>
-        public ApiClient(string key)
+        public Openweathermap(string key)
         {
             Key = key;
         }

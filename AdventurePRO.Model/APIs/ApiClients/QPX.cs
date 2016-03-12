@@ -13,12 +13,12 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using AdventurePRO.Model.APIs.Results;
 
-namespace AdventurePRO.Model.APIs.QPX
+namespace AdventurePRO.Model.APIs.ApiClients
 {
     /// <summary>
     /// A QPX API client
     /// </summary>
-    public class ApiClient
+    public class QPX
     {
         private const string endpoint = "https://www.googleapis.com";
         private const string api = "qpxExpress";
@@ -35,7 +35,7 @@ namespace AdventurePRO.Model.APIs.QPX
         /// Creates new client with given api key
         /// </summary>
         /// <param name="key"></param>
-        public ApiClient(string key)
+        public QPX(string key)
         {
             Key = key;
         }
@@ -43,7 +43,7 @@ namespace AdventurePRO.Model.APIs.QPX
         /// <summary>
         /// Api key
         /// </summary>
-        public string Key { get; set; }
+        public string Key { get; private set; }
 
         /// <summary>
         /// Requests for available tickets

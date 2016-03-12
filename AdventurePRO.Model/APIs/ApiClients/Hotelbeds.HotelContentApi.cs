@@ -10,9 +10,9 @@ using System.Xml.Linq;
 using System.IO;
 using System;
 
-namespace AdventurePRO.Model.APIs.Hotelbeds
+namespace AdventurePRO.Model.APIs.ApiClients
 {
-    public partial class ApiClient
+    public partial class Hotelbeds
     {
         private const string HOTEL_CONTENT_API = "hotel-content-api";
         private const string HOTEL_CONTENT_API_VERSION = "1.0";

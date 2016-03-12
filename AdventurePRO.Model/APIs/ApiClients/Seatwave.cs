@@ -12,12 +12,12 @@ using System.Xml.Serialization;
 using System.Threading.Tasks;
 using AdventurePRO.Model.APIs.Results;
 
-namespace AdventurePRO.Model.APIs.Seatwave
+namespace AdventurePRO.Model.APIs.ApiClients
 {
     /// <summary>
     /// Describes an seatwaves api client
     /// </summary>
-    public class ApiClient
+    public class Seatwave
     {
         private const string endpoint = "http://api-sandbox.seatwave.com";
         private const string api = "v2/discovery";
@@ -39,7 +39,7 @@ namespace AdventurePRO.Model.APIs.Seatwave
         /// </summary>
         /// <param name="key">Api key</param>
         /// <param name="secret">Api secret</param>
-        public ApiClient(string key, string secret)
+        public Seatwave(string key, string secret)
         {
             Key = key;
             Secret = secret;
@@ -48,12 +48,12 @@ namespace AdventurePRO.Model.APIs.Seatwave
         /// <summary>
         /// Api key
         /// </summary>
-        public string Key { get; set; }
+        public string Key { get; private set; }
 
         /// <summary>
         /// Api secret
         /// </summary>
-        public string Secret { get; set; }
+        public string Secret { get; private set; }
 
         /// <summary>
         /// Returns the list of events by given parameters

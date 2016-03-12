@@ -10,7 +10,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace AdventurePRO.Model.APIs.Fixer
+namespace AdventurePRO.Model.APIs.ApiClients
 {
     /// <summary>
     /// Represents a curency rates api client

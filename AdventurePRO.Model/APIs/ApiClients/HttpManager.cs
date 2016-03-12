@@ -8,7 +8,7 @@ using System.Net;
 using System.Web;
 using System.Collections.Specialized;
 
-namespace AdventurePRO.Model.APIs
+namespace AdventurePRO.Model.APIs.ApiClients
 {
     /// <summary>
     /// The class that contains the query http methods

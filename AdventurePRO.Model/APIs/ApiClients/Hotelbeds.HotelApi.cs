@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 using AdventurePRO.Model.APIs.Results;
 using AdventurePRO.Model.APIs.Options;
 
-namespace AdventurePRO.Model.APIs.Hotelbeds
+namespace AdventurePRO.Model.APIs.ApiClients
 {
-    public partial class ApiClient
+    public partial class Hotelbeds
     {
         private const string DATE_PATTERN = "yyyy-MM-dd";
 

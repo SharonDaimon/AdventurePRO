@@ -48,19 +48,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adventure.cs" />
-    <Compile Include="APIs\Fixer\Fixer.cs" />
-    <Compile Include="APIs\Hotelbeds\ApiClient.cs" />
-    <Compile Include="APIs\Hotelbeds\ApiClient.HotelApi.cs" />
-    <Compile Include="APIs\Hotelbeds\ApiClient.HotelContentApi.cs" />
-    <Compile Include="APIs\HttpManager.cs" />
-    <Compile Include="APIs\Openweathermap\ApiClient.cs" />
+    <Compile Include="APIs\ApiClients\Fixer.cs" />
+    <Compile Include="APIs\ApiClients\Hotelbeds.cs" />
+    <Compile Include="APIs\ApiClients\Hotelbeds.HotelApi.cs" />
+    <Compile Include="APIs\ApiClients\Hotelbeds.HotelContentApi.cs" />
+    <Compile Include="APIs\ApiClients\HttpManager.cs" />
+    <Compile Include="APIs\ApiClients\Openweathermap.cs" />
     <Compile Include="APIs\Options\Accomodation.cs" />
-    <Compile Include="APIs\QPX\ApiClient.cs" />
+    <Compile Include="APIs\ApiClients\QPX.cs" />
     <Compile Include="APIs\Results\HotelRoom.cs" />
     <Compile Include="APIs\Results\SeatwaveEvent.cs" />
     <Compile Include="APIs\Results\SeatwaveVenue.cs" />
     <Compile Include="APIs\Results\QPXTrip.cs" />
-    <Compile Include="APIs\Seatwave\ApiClient.cs" />
+    <Compile Include="APIs\ApiClients\Seatwave.cs" />
     <Compile Include="Attraction.cs" />
     <Compile Include="Acquirable.cs" />
     <Compile Include="Comment.cs" />

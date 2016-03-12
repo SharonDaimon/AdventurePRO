@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 using System.Collections.Specialized;
 using System.Security.Cryptography;
 
-namespace AdventurePRO.Model.APIs.Hotelbeds
+namespace AdventurePRO.Model.APIs.ApiClients
 {
     /// <summary>
     /// This class is designed to receive data via the hotelbeds API
     /// </summary>
-    public partial class ApiClient
+    public partial class Hotelbeds
     {
         /// <summary>
         /// API key by default
@@ -40,7 +40,7 @@ namespace AdventurePRO.Model.APIs.Hotelbeds
         /// </summary>
         /// <param name="key">Api key</param>
         /// <param name="secret">Api shared secret</param>
-        public ApiClient(string key, string secret)
+        public Hotelbeds(string key, string secret)
         {
             this.Key = key;
             this.Secret = secret;
