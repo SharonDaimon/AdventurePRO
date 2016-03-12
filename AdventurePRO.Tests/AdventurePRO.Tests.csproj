@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8492A699-4C1F-4705-9D80-8495329A21A5}</ProjectGuid>
+    <ProjectGuid>{F4A189BB-E49C-4FC1-825E-60D833214AFD}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AdventurePRO.Tests</RootNamespace>
@@ -50,7 +50,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="APIs\ApiClients\FixerTests.cs" />
+    <Compile Include="APIs\ApiClients\HotelbedsTests.cs" />
+    <Compile Include="APIs\ApiClients\OpenweathermapTests.cs" />
+    <Compile Include="APIs\ApiClients\QPXTests.cs" />
+    <Compile Include="APIs\ApiClients\SeatwaveTests.cs" />
+    <Compile Include="TestApis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
