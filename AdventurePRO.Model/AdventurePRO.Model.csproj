@@ -52,6 +52,7 @@
     <Compile Include="APIs\Hotelbeds\ApiClient.HotelApi.cs" />
     <Compile Include="APIs\Hotelbeds\ApiClient.HotelContentApi.cs" />
     <Compile Include="APIs\HttpManager.cs" />
+    <Compile Include="APIs\Openweathermap\ApiClient.cs" />
     <Compile Include="APIs\Options\Accomodation.cs" />
     <Compile Include="APIs\QPX\ApiClient.cs" />
     <Compile Include="APIs\Results\HotelRoom.cs" />
