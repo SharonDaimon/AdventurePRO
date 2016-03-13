@@ -29,7 +29,7 @@ namespace AdventurePRO.Model.APIs.ApiClients.Tests
             var weather = map.GetWeatherAsync(location, days_count).Result;
 
             Assert.IsNotNull(weather);
-            Assert.AreEqual(weather.Length, days_count);
+            Assert.AreEqual<uint>((uint)weather.Length, days_count);
 
             DateTime today = DateTime.Now;
 

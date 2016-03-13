@@ -75,7 +75,7 @@ namespace AdventurePRO.Model.APIs.ApiClients.Tests
 
             var destinations = hotelbeds.GetDestinationsAsync(null).Result;
 
-            Assert.AreEqual<int>(destinations.Length, 0);
+            Assert.IsNotNull(destinations);
         }
 
         [TestMethod]
