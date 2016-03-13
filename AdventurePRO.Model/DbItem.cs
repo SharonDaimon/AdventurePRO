@@ -2,6 +2,8 @@
 // Дата: 29.02.2016
 // This file contains the description of the application data model class DbItem
 
+using System.ComponentModel.DataAnnotations;
+
 namespace AdventurePRO.Model
 {
     /// <summary>
@@ -12,6 +14,7 @@ namespace AdventurePRO.Model
         /// <summary>
         /// An object ID
         /// </summary>
+        [Key]
         public int ID { get; set; }
     }
 }

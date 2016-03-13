@@ -13,17 +13,17 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Check out date
         /// </summary>
-        public DateTime CheckOut { get; set; }
+        public virtual DateTime CheckOut { get; set; }
 
         /// <summary>
         /// Check in date
         /// </summary>
-        public DateTime CheckIn { get; set; }
+        public virtual DateTime CheckIn { get; set; }
 
         /// <summary>
         /// Total number of days in this room
         /// </summary>
-        public uint DaysAmount
+        public virtual uint DaysAmount
         {
             get
             {
@@ -49,7 +49,7 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Room guests list
         /// </summary>
-        public Person[] Guests { get; set; }
+        public virtual Person[] Guests { get; set; }
 
         /// <summary>
         /// Type of the room

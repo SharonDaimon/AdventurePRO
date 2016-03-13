@@ -12,11 +12,11 @@ namespace AdventurePRO.Model
         /// <summary>
         /// The location of the place
         /// </summary>
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
 
         /// <summary>
         /// The country of the place
         /// </summary>
-        public Country Country { get; set; }
+        public virtual Country Country { get; set; }
     }
 }

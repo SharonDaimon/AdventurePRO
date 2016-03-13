@@ -23,7 +23,7 @@ namespace AdventurePRO.Model
         /// <summary>
         /// The owner of the ticket
         /// </summary>
-        public Person Owner { get; set; }
+        public virtual Person Owner { get; set; }
 
         /// <summary>
         /// The type of a transport
@@ -33,11 +33,11 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Arrival time
         /// </summary>
-        public DateTime Arrival { get; set; }
+        public virtual DateTime Arrival { get; set; }
 
         /// <summary>
         /// Departure time
         /// </summary>
-        public DateTime Departure { get; set; }
+        public virtual DateTime Departure { get; set; }
     }
 }

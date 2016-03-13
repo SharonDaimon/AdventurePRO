@@ -11,12 +11,12 @@ namespace AdventurePRO.Model
         /// <summary>
         /// The attraction location
         /// </summary>
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
 
         /// <summary>
         /// The location ticket
         /// </summary>
-        public AttractionTicket[] Tickets { get; set; }
+        public virtual AttractionTicket[] Tickets { get; set; }
     }
 
     /// <summary>
@@ -27,11 +27,11 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Ticket owner
         /// </summary>
-        public Person Owner { get; set; }
+        public virtual Person Owner { get; set; }
 
         /// <summary>
         /// An attraction of the ticket
         /// </summary>
-        public Attraction Attraction { get; set; }
+        public virtual Attraction Attraction { get; set; }
     }
 }

@@ -19,32 +19,32 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Sex of the person
         /// </summary>
-        public Gender Gender { get; set; }
+        public virtual Gender Gender { get; set; }
 
         /// <summary>
         /// Taxis list
         /// </summary>
-        public Taxi[] Taxis { get; set; }
+        public virtual Taxi[] Taxis { get; set; }
 
         /// <summary>
         /// Tickets list
         /// </summary>
-        public Ticket[] Tickets { get; set; }
+        public virtual Ticket[] Tickets { get; set; }
 
         /// <summary>
         /// Person accomodation
         /// </summary>
-        public Occupancy Accomodation { get; set; }
+        public virtual Occupancy Accomodation { get; set; }
 
         /// <summary>
         /// Person`s avatar
         /// </summary>
-        public Uri Avatar { get; set; }
+        public virtual Uri Avatar { get; set; }
 
         /// <summary>
         /// Attractions tickets
         /// </summary>
-        public AttractionTicket[] Attractions { get; set; }
+        public virtual AttractionTicket[] Attractions { get; set; }
     }
 
     /// <summary>
