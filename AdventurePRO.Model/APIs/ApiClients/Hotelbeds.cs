@@ -1,5 +1,5 @@
 ﻿// Author: Kristina Enikeeva
-// Дата: 08.03.2016
+// Date: 08.03.2016
 // This file contains general hotelbeds apitude access logic
 
 using System;
@@ -18,12 +18,12 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// <summary>
         /// API key by default
         /// </summary>
-        public const string DEFAULT_KEY = "vg8b333xg5bxfvd5khfz2mgg";
+        public const string DEFAULT_KEY = "4aebbdxprwg6cu927mbxjrjb";
 
         /// <summary>
         /// API shared secret by default
         /// </summary>
-        public const string DEFAULT_SECRET = "gqA5MBZfAH";
+        public const string DEFAULT_SECRET = "c2qdajMpKY";
 
         /// <summary>
         /// API endpoint

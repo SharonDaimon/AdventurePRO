@@ -1,5 +1,5 @@
 ﻿// Author: Kristina Enikeeva
-// Дата: 08.03.2016
+// Date: 08.03.2016
 // This file contains some Http requests methods
 
 using System.Linq;
@@ -23,7 +23,10 @@ namespace AdventurePRO.Model.APIs.ApiClients
         public static WebClient CreateClient(NameValueCollection headers)
         {
             WebClient client = new WebClient();
-            client.Headers.Add(headers);
+            if (headers != null)
+            {
+                client.Headers.Add(headers);
+            }
             return client;
         }
 

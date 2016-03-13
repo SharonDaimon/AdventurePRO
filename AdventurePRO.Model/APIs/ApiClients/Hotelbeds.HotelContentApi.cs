@@ -1,5 +1,5 @@
 ﻿// Author: Kristina Enikeeva
-// Дата: 08.03.2016
+// Date: 08.03.2016
 // This file contains hotelbeds hotel-content-api access logic
 
 using System.Collections.Generic;
@@ -17,6 +17,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
         private const string HOTEL_CONTENT_API = "hotel-content-api";
         private const string HOTEL_CONTENT_API_VERSION = "1.0";
         private const uint HOTEL_CONTENT_API_LIMIT = 1000;
+        private static readonly XNamespace xmlns = "http://www.hotelbeds.com/schemas/messages";
 
         /// <summary>
         /// Requests hotel-comtent-api for countries list
@@ -38,10 +39,13 @@ namespace AdventurePRO.Model.APIs.ApiClients
                 parameters.Add("codes", string.Join(",", country_codes));
             }
 
-            var x_countries = await WithFromTo("locations/countries", parameters, "countriesrs", "countries", "country");
+            var x_countries = await WithFromTo("locations/countries", parameters, "countriesRS", "countries", "country");
 
             var countries = from xc in x_countries
-                            select new Country() { Name = xc.Element("description").Value, Code = xc.Attribute("code").Value };
+                            select new Country() {
+                                Name = xc.Element(xmlns + "description").Value.Trim(' '),
+                                Code = xc.Attribute( "code").Value
+                            };
 
             return countries.ToArray();
         }
@@ -67,7 +71,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
                 parameters.Add("countryCodes", string.Join(",", countries.Select(c => c.Code)));
             }
 
-            var x_destinations = await WithFromTo("locations/destinations", parameters, "destinationsrs", "destinations", "destination");
+            var x_destinations = await WithFromTo("locations/destinations", parameters, "destinationsRS", "destinations", "destination");
 
             //  To prevent NullReferenceException in linq to sql below
             if (countries == null)
@@ -78,7 +82,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
             var destinations = from xc in x_destinations
                                select new Destination()
                                {
-                                   Name = xc.Element("name").Value,
+                                   Name = xc.Element(xmlns + "name").Value,
                                    Code = xc.Attribute("code").Value,
                                    Country = countries.FirstOrDefault(c => c.Code == xc.Attribute("countryCode").Value)
                                };
@@ -99,75 +103,80 @@ namespace AdventurePRO.Model.APIs.ApiClients
                 "name,description,coordinates,categoryCode,chaincode,address,email,phones,images,web");
             parameters.Add("destinationCode", d.Code);
 
-            var elements = await WithFromTo("hotels", parameters, "hotelsrs", "hotels", "hotel");
+            var elements = await WithFromTo("hotels", parameters, "hotelsRS", "hotels", "hotel");
 
             var hotels = from xe in elements
                          select new Hotel()
                          {
                              Code = xe.Attribute("code").Value,
-                             Name = xe.Element("name").Value,
-                             Description = xe.Element("description").Value,
-                             Site = xe.Element("web").Value,
+                             Name = xe.Element(xmlns + "name").Value,
+                             Description = xe.Element(xmlns + "description").Value,
+                             Site = xe.Element(xmlns + "web").Value,
                              Location = new Location()
                              {
-                                 Attitude = float.Parse(xe.Element("coordinates").Attribute("latitude").Value),
-                                 Longitude = float.Parse(xe.Element("coordinates").Attribute("longitude").Value)
+                                 Attitude = (float)decimal.Parse(xe.Element(xmlns + "coordinates").Attribute("latitude").Value.Trim(' ')),
+                                 Longitude = (float)decimal.Parse(xe.Element(xmlns + "coordinates").Attribute("longitude").Value.Trim(' '))
                              },
-                             Photos = (from image in xe.Element("images").Elements("image")
+                             Photos = (from image in xe.Element(xmlns + "images").Elements(xmlns + "image")
                                        where image.Attribute("imageTypeCode").Value == "RES"
                                        select new Uri("http://photos.hotelbeds.com/giata/" + image.Attribute("path").Value)).ToArray()
-                             
-                   };
+
+                         };
 
             return hotels.ToArray();
 
         }
 
-    /// <summary>
-    /// Gets the full list of objects where api returns portions of them from "from" to "to" position
-    /// </summary>
-    /// <param name="method">API method</param>
-    /// <param name="parameters">Request parameters</param>
-    /// <param name="root_name">Name of the response body xml root element</param>
-    /// <param name="array_name">Name of the xml object array</param>
-    /// <param name="item_name">Name of desirable objects</param>
-    /// <returns>Full list of desirable objects</returns>
-    public async Task<IEnumerable<XElement>> WithFromTo(string method, NameValueCollection parameters,
-        string root_name, string array_name, string item_name)
-    {
-        uint from = 1;
-        uint to;
-
-        List<XElement> elements = new List<XElement>();
-
-        XDocument xdoc;
-        do
+        /// <summary>
+        /// Gets the full list of objects where api returns portions of them from "from" to "to" position
+        /// </summary>
+        /// <param name="method">API method</param>
+        /// <param name="parameters">Request parameters</param>
+        /// <param name="root_name">Name of the response body xml root element</param>
+        /// <param name="array_name">Name of the xml object array</param>
+        /// <param name="item_name">Name of desirable objects</param>
+        /// <returns>Full list of desirable objects</returns>
+        public async Task<IEnumerable<XElement>> WithFromTo(string method, NameValueCollection parameters,
+            string root_name, string array_name, string item_name)
         {
-            to = from + HOTEL_CONTENT_API_LIMIT - 1;
+            uint from = 1;
+            uint to;
 
-            xdoc = await from_to(method, parameters, root_name, array_name, item_name, from, to);
-            elements.AddRange(xdoc.Element(root_name).Element(array_name).Elements(item_name));
+            List<XElement> elements = new List<XElement>();
 
-            from += HOTEL_CONTENT_API_LIMIT;
+            XDocument xdoc;
+            do
+            {
+                to = from + HOTEL_CONTENT_API_LIMIT - 1;
 
-        } while (uint.Parse(xdoc.Element(root_name).Element("total").Value) > to);
+                xdoc = await from_to(method, parameters, root_name, array_name, item_name, from, to);
 
-        return elements;
-    }
+                var root = xdoc.Root;
+                var array = root.Element(xmlns + array_name);
+                var ar_elements = array.Elements(xmlns + item_name);
 
-    //  Returns portion of objects from "from" to "to"
-    private async Task<XDocument> from_to(string method, NameValueCollection parameters,
-        string root_name, string array_name, string item_name, uint from, uint to)
-    {
-        parameters["from"] = from.ToString();
-        parameters["to"] = to.ToString();
+                elements.AddRange(ar_elements /*xdoc.Element(root_name).Element(array_name).Elements(item_name)*/);
 
-        byte[] response = await GetAsync(HOTEL_CONTENT_API, HOTEL_CONTENT_API_VERSION, method, parameters);
+                from += HOTEL_CONTENT_API_LIMIT;
 
-        using (var stream = new MemoryStream(response))
+            } while (uint.Parse(xdoc.Element(xmlns + root_name).Element(xmlns + "total").Value) > to);
+
+            return elements;
+        }
+
+        //  Returns portion of objects from "from" to "to"
+        private async Task<XDocument> from_to(string method, NameValueCollection parameters,
+            string root_name, string array_name, string item_name, uint from, uint to)
         {
-            return XDocument.Load(stream);
+            parameters["from"] = from.ToString();
+            parameters["to"] = to.ToString();
+
+            byte[] response = await GetAsync(HOTEL_CONTENT_API, HOTEL_CONTENT_API_VERSION, method, parameters);
+
+            using (var stream = new MemoryStream(response))
+            {
+                return XDocument.Load(stream);
+            }
         }
     }
-}
 }

@@ -1,13 +1,16 @@
 ﻿// Author: Kristina Enikeeva
-// Дата: 12.03.2016
+// Date: 12.03.2016
 // This file contains weather api access logic
 
 using System;
+using System.Globalization;
+using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Collections.Specialized;
 using System.Threading.Tasks;
 using System.IO;
+using System.Xml;
 using System.Xml.Linq;
 using System.Globalization;
 
@@ -56,8 +59,9 @@ namespace AdventurePRO.Model.APIs.ApiClients
         {
             NameValueCollection parameters = new NameValueCollection();
 
-            parameters.Add("lat", location.Attitude.ToString());
-            parameters.Add("lon", location.Longitude.ToString());
+            //parameters.Add("lat", location.Attitude.ToString());
+            //parameters.Add("lon", location.Longitude.ToString());
+            parameters.Add("q", "Sankt-Peterburg");
             parameters.Add("cnt", count_of_days.ToString());
             parameters.Add("mode", "xml");
             parameters.Add("appid", Key);
@@ -65,15 +69,22 @@ namespace AdventurePRO.Model.APIs.ApiClients
             byte[] data = await HttpManager.GetAsync(endpoint, api, version, "forecast/daily",
                 parameters, null, null);
 
-            XDocument response;
+            string str = Encoding.ASCII.GetString(data);
 
-            using (var stream = new MemoryStream())
+            XDocument response; 
+            
+            using (var stream = new MemoryStream(data))
             {
-                response = XDocument.Load(stream);
+                using(var reader = XmlReader.Create(stream))
+                {
+                    response = XDocument.Load(reader);
+                }
             }
 
-            float lat = float.Parse(response.Element("location").Element("location").Attribute("latitude").Value);
-            float lon = float.Parse(response.Element("location").Element("location").Attribute("longitude").Value);
+            var weatherdata = response.Root;
+
+            float lat = float.Parse(weatherdata.Element("location").Element("location").Attribute("altitude").Value, CultureInfo.InvariantCulture);
+            float lon = float.Parse(weatherdata.Element("location").Element("location").Attribute("longitude").Value, CultureInfo.InvariantCulture);
 
             Location loc = new Location { Attitude = lat, Longitude = lon };
 
@@ -82,7 +93,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
                           {
                               Region = loc,
                               Date = DateTime.ParseExact(time.Attribute("day").Value, "yyyy-MM-dd", CultureInfo.InvariantCulture),
-                              Temperature = float.Parse(time.Element("temperature").Attribute("day").Value) - KELVIN_CONST,
+                              Temperature = float.Parse(time.Element("temperature").Attribute("day").Value, CultureInfo.InvariantCulture) - KELVIN_CONST,
                               Unit = "°C"
                           };
 

@@ -11,6 +11,7 @@ using System.Collections.Specialized;
 using System.Xml.Serialization;
 using System.Threading.Tasks;
 using AdventurePRO.Model.APIs.Results;
+using System.Globalization;
 
 namespace AdventurePRO.Model.APIs.ApiClients
 {
@@ -21,7 +22,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
     {
         private const string endpoint = "http://api-sandbox.seatwave.com";
         private const string api = "v2/discovery";
-        private const string date_format = "yy-MM-dd";
+        private const string date_format = "yyyy-MM-dd";
 
         /// <summary>
         /// The default api key
@@ -69,11 +70,10 @@ namespace AdventurePRO.Model.APIs.ApiClients
         {
             NameValueCollection parameters = new NameValueCollection();
 
-            parameters.Add("what", what);
             parameters.Add("whenFrom", whenFrom.ToString(date_format));
             parameters.Add("whenTo", whenTo.ToString(date_format));
 
-            if(what != null)
+            if(what != null && what != "")
             {
                 parameters.Add("what", what);
             }
@@ -99,22 +99,18 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// <returns>Venue with given id</returns>
         public async Task<SeatwaveVenue> GetVenueAsync(string id)
         {
-            NameValueCollection parameters = new NameValueCollection();
-
-            parameters.Add("venueId", id);
-
-            var root = await GetRootElementAsync("venue", parameters, "VenueResponse");
+            var root = await GetRootElementAsync("venue/" + id, null, "VenueResponse");
 
             var venue = root.Element("Venue");
-
+            
             return new SeatwaveVenue()
             {
                 VenueId = venue.Element("Id").Value,
                 Name = venue.Element("Name").Value,
                 Location = new Location()
                 {
-                    Attitude = float.Parse(venue.Element("Lat").Value),
-                    Longitude = float.Parse(venue.Element("Long").Value)
+                    Attitude = float.Parse(venue.Element("Lat").Value, CultureInfo.InvariantCulture),
+                    Longitude = float.Parse(venue.Element("Long").Value, CultureInfo.InvariantCulture)
                 }
             };
         }
@@ -150,9 +146,11 @@ namespace AdventurePRO.Model.APIs.ApiClients
 
                 page_number = uint.Parse(x_root.Element("Paging").Element("PageNumber").Value) + 1;
 
+                page_number += 1;
+
                 parameters["pageNumber"] = page_number.ToString();
 
-            } while (page_number <= total_page_count);
+            } while (false);
 
             return elements.ToArray();
         }
@@ -166,12 +164,22 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// <returns>The root element of the response</returns>
         public async Task<XElement> GetRootElementAsync(string method, NameValueCollection parameters, string root_name)
         {
+            if(parameters == null)
+            {
+                parameters = new NameValueCollection();
+            }
+
             parameters["apikey"] = Key;
 
-            byte[] data = await HttpManager.GetAsync(endpoint, api, null, method, parameters, null, null);
+            var headers = new NameValueCollection();
+            headers.Add("Accept", "application/xml");
+
+            byte[] data = await HttpManager.GetAsync(endpoint, api, null, method, parameters, null, headers);
 
             using (var stream = new MemoryStream(data))
             {
+                string s = System.Text.Encoding.ASCII.GetString(data);
+
                 var x_doc = XDocument.Load(stream);
 
                 var x_root = x_doc.Element(root_name);

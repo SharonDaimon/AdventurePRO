@@ -1,5 +1,5 @@
 ﻿// Author: Kristina Enikeeva
-// Дата: 12.03.2016
+// Date: 12.03.2016
 // This file contains qpx access logic
 
 using System;
@@ -60,24 +60,28 @@ namespace AdventurePRO.Model.APIs.ApiClients
             JObject req_obj = new JObject
                 (
                     new JProperty("request",
-                        new JProperty("passengers",
-                            new JProperty("kind", "qpxexpress#passengerCounts"),
-                            new JProperty("adultCount", adult_count),
-                            new JProperty("childCount", child_count)
-                        ),
-                        new JProperty("slice",
-                            new JArray(
+                        new JObject(
+                            new JProperty("passengers",
                                 new JObject(
-                                    new JProperty("kind", "qpxexpress#sliceInput"),
-                                    new JProperty("origin", origin),
-                                    new JProperty("destination", destination),
-                                    new JProperty("date", date.ToString("yyyy-MM-dd"))
-                                ),
-                                 new JObject(
-                                    new JProperty("kind", "qpxexpress#sliceInput"),
-                                    new JProperty("origin", destination),
-                                    new JProperty("destination", origin),
-                                    new JProperty("date", returning_date.ToString("yyyy-MM-dd"))
+                                    new JProperty("kind", "qpxexpress#passengerCounts"),
+                                    new JProperty("adultCount", adult_count),
+                                    new JProperty("childCount", child_count)
+                                )
+                            ),
+                            new JProperty("slice",
+                                new JArray(
+                                    new JObject(
+                                        new JProperty("kind", "qpxexpress#sliceInput"),
+                                        new JProperty("origin", origin),
+                                        new JProperty("destination", destination),
+                                        new JProperty("date", date.ToString("yyyy-MM-dd"))
+                                    ),
+                                    new JObject(
+                                        new JProperty("kind", "qpxexpress#sliceInput"),
+                                        new JProperty("origin", destination),
+                                        new JProperty("destination", origin),
+                                        new JProperty("date", returning_date.ToString("yyyy-MM-dd"))
+                                    )
                                 )
                             )
                         )
@@ -91,8 +95,8 @@ namespace AdventurePRO.Model.APIs.ApiClients
                 using (var jwriter = new JsonTextWriter(new StreamWriter(stream)))
                 {
                     req_obj.WriteTo(jwriter);
-                    req_data = stream.ToArray();
                 }
+                req_data = stream.ToArray();
             }
 
             NameValueCollection parameters = new NameValueCollection();
@@ -142,7 +146,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
 
         private Ticket createTicket(JToken slice, string priceStr)
         {
-            string date_format = "yyyy-MM-ddThh:MMzzz";
+            string date_format = "yyyy-MM-ddTHH\\:mmzzz";
 
             var first_segment = slice["segment"].First;
 

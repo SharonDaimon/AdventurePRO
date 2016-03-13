@@ -13,9 +13,10 @@ namespace AdventurePRO.Model.APIs.Results
     /// Describes an Event
     /// </summary>
     [Serializable]
+    [XmlRoot("Event")]
     public class SeatwaveEvent
     {
-        private const string date_format = "yy-MM-ddThh:mm:ss";
+        private const string date_format = "yyyy-MM-ddTHH\\:mm\\:ss";
 
         /// <summary>
         /// The event id
@@ -49,7 +50,7 @@ namespace AdventurePRO.Model.APIs.Results
         /// Artist or performer image URL
         /// </summary>
         [XmlElement("EventGroupImageURL")]
-        public Uri GroupImageURL { get; set; }
+        public string GroupImageURL { get; set; }
 
         /// <summary>
         ///  Name of the venue

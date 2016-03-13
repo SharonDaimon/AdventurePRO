@@ -1,5 +1,5 @@
 ﻿// Author: Kristina Enikeeva
-// Дата: 12.03.2016
+// Date: 12.03.2016
 // This file contains "fixer" currency rates api logic
 
 using System;

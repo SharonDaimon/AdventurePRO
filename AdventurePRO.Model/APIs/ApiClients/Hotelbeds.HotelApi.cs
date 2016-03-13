@@ -28,17 +28,17 @@ namespace AdventurePRO.Model.APIs.ApiClients
         public async Task<HotelRoom[]> PostHotelsAsync(IEnumerable<Hotel> hotels, DateTime checkIn, DateTime checkOut, IEnumerable<Accomodation> accomodations)
         {
             XDocument xdoc = new XDocument
-                (new XElement("availabilityRQ",
-                    new XElement("stay", new XAttribute("checkIn", checkIn.ToString(DATE_PATTERN)), new XAttribute("checkOut", checkOut.ToString(DATE_PATTERN))),
-                    new XElement("occupancies", from accomodation in accomodations
-                                                select new XElement("occupancy",
+                (new XElement(xmlns + "availabilityRQ",
+                    new XElement(xmlns + "stay", new XAttribute("checkIn", checkIn.ToString(DATE_PATTERN)), new XAttribute("checkOut", checkOut.ToString(DATE_PATTERN))),
+                    new XElement(xmlns + "occupancies", from accomodation in accomodations
+                                                select new XElement(xmlns + "occupancy",
                                                 new XAttribute("rooms", accomodation.RoomsCount ?? 1),
                                                 new XAttribute("adults", accomodation.Guests.Count(p => p.Type == PersonType.Adult)),
                                                 new XAttribute("children", accomodation.Guests.Count(p => p.Type == PersonType.Child)),
-                                                new XElement("paxes", from person in accomodation.Guests
-                                                                      select new XElement("pax", new XAttribute("type", person.Type == PersonType.Child ? "CH" : "AD"), new XAttribute("age", person.Age)))
+                                                new XElement(xmlns + "paxes", from person in accomodation.Guests
+                                                                      select new XElement(xmlns + "pax", new XAttribute("type", person.Type == PersonType.Child ? "CH" : "AD"), new XAttribute("age", person.Age)))
                                                                       )),
-                    new XElement("hotels", from hotel in hotels select new XElement("hotel", hotel.Code))
+                    new XElement(xmlns + "hotels", from hotel in hotels select new XElement(xmlns + "hotel", hotel.Code))
                 ));
 
             byte[] request_data = null;
@@ -58,9 +58,9 @@ namespace AdventurePRO.Model.APIs.ApiClients
                 x_response = XDocument.Load(stream);
             }
 
-            var rooms = from hotel in x_response.Element("availabilityrs").Element("hotels").Elements("hotel")
-                        from room in hotel.Element("rooms").Elements("room")
-                        from rate in room.Element("rates").Elements("rate")
+            var rooms = from hotel in x_response.Element(xmlns + "availabilityRS").Element(xmlns + "hotels").Elements(xmlns + "hotel")
+                        from room in hotel.Element(xmlns + "rooms").Elements(xmlns + "room")
+                        from rate in room.Element(xmlns + "rates").Elements(xmlns + "rate")
                         select new HotelRoom()
                         {
                             Hotel = hotels.FirstOrDefault(h => h.Code == hotel.Attribute("code").Value),
