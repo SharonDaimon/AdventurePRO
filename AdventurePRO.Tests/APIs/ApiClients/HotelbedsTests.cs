@@ -85,7 +85,8 @@ namespace AdventurePRO.Model.APIs.ApiClients.Tests
 
             var destinations = hotelbeds.GetDestinationsAsync(new List<Country>()).Result;
 
-            Assert.AreEqual<int>(destinations.Length, 0);
+            Assert.IsNotNull(destinations);
+            Assert.IsTrue(destinations.Length > 0);
         }
 
         [TestMethod]
@@ -105,7 +106,7 @@ namespace AdventurePRO.Model.APIs.ApiClients.Tests
 
             Assert.IsNotNull(destinations);
 
-            var spb = countries.First(c => c.Code == "LED");
+            var spb = destinations.First(c => c.Code == "LED");
 
             Assert.IsNotNull(spb);
             Assert.IsTrue(spb.Name.Contains("Petersburg"));
