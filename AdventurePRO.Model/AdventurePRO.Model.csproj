@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adventure.cs" />
+    <Compile Include="AdventureContext.cs" />
     <Compile Include="Attraction.cs" />
     <Compile Include="Acquirable.cs" />
     <Compile Include="Comment.cs" />
