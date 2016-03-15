@@ -9,6 +9,7 @@ using System.Linq;
 using System.Xml.Linq;
 using System.IO;
 using System;
+using System.Globalization;
 
 namespace AdventurePRO.Model.APIs.ApiClients
 {
@@ -42,9 +43,10 @@ namespace AdventurePRO.Model.APIs.ApiClients
             var x_countries = await WithFromTo("locations/countries", parameters, "countriesRS", "countries", "country");
 
             var countries = from xc in x_countries
-                            select new Country() {
+                            select new Country()
+                            {
                                 Name = xc.Element(xmlns + "description").Value.Trim(' '),
-                                Code = xc.Attribute( "code").Value
+                                Code = xc.Attribute("code").Value
                             };
 
             return countries.ToArray();
@@ -105,26 +107,29 @@ namespace AdventurePRO.Model.APIs.ApiClients
 
             var elements = await WithFromTo("hotels", parameters, "hotelsRS", "hotels", "hotel");
 
-            var hotels = from xe in elements
-                         select new Hotel()
-                         {
-                             Code = xe.Attribute("code").Value,
-                             Name = xe.Element(xmlns + "name").Value,
-                             Description = xe.Element(xmlns + "description").Value,
-                             Site = xe.Element(xmlns + "web").Value,
-                             Location = new Location()
-                             {
-                                 Attitude = (float)decimal.Parse(xe.Element(xmlns + "coordinates").Attribute("latitude").Value.Trim(' ')),
-                                 Longitude = (float)decimal.Parse(xe.Element(xmlns + "coordinates").Attribute("longitude").Value.Trim(' '))
-                             },
-                             Photos = (from image in xe.Element(xmlns + "images").Elements(xmlns + "image")
-                                       where image.Attribute("imageTypeCode").Value == "RES"
-                                       select new Uri("http://photos.hotelbeds.com/giata/" + image.Attribute("path").Value)).ToArray()
+            string c, n, des, s, a, l;
+            Uri[] p;
 
-                         };
+            return (from xe in elements
+                    select new Hotel()
+                    {
+                        Code = c =  xe.Attribute("code").Value,
+                        Name = n = xe.Element(xmlns + "name").Value,
+                        Description = des = xe.Element(xmlns + "description").Value,
+                        Site = s = xe.Element(xmlns + "web").Value,
+                        Location = new Location()
+                        {
+                            Attitude = float.Parse(a = xe.Element(xmlns + "coordinates").Attribute("latitude").Value,
+                                               CultureInfo.InvariantCulture),
+                            Longitude = float.Parse(l = xe.Element(xmlns + "coordinates").Attribute("longitude").Value,
+                                               CultureInfo.InvariantCulture)
+                        },
+                        Photos = p = (from image in xe.Element(xmlns + "images").Elements(xmlns + "image")
+                                  where image.Attribute("imageTypeCode").Value == "RES"
+                                  select new Uri("http://photos.hotelbeds.com/giata/" + image.Attribute("path").Value))
+                                  .ToArray()
 
-            return hotels.ToArray();
-
+                    }).ToList().ToArray();
         }
 
         /// <summary>
