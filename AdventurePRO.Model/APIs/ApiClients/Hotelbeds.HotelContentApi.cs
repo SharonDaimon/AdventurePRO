@@ -107,29 +107,40 @@ namespace AdventurePRO.Model.APIs.ApiClients
 
             var elements = await WithFromTo("hotels", parameters, "hotelsRS", "hotels", "hotel");
 
-            string c, n, des, s, a, l;
-            Uri[] p;
+            var empty = new XElement("Empty");
 
-            return (from xe in elements
-                    select new Hotel()
-                    {
-                        Code = c =  xe.Attribute("code").Value,
-                        Name = n = xe.Element(xmlns + "name").Value,
-                        Description = des = xe.Element(xmlns + "description").Value,
-                        Site = s = xe.Element(xmlns + "web").Value,
-                        Location = new Location()
+            var empty_ar = new XElement[0];
+
+            try
+            {
+                return (from xe in elements
+                        select new Hotel()
                         {
-                            Attitude = float.Parse(a = xe.Element(xmlns + "coordinates").Attribute("latitude").Value,
-                                               CultureInfo.InvariantCulture),
-                            Longitude = float.Parse(l = xe.Element(xmlns + "coordinates").Attribute("longitude").Value,
-                                               CultureInfo.InvariantCulture)
-                        },
-                        Photos = p = (from image in xe.Element(xmlns + "images").Elements(xmlns + "image")
-                                  where image.Attribute("imageTypeCode").Value == "RES"
-                                  select new Uri("http://photos.hotelbeds.com/giata/" + image.Attribute("path").Value))
-                                  .ToArray()
+                            Code = xe.Attribute("code").Value,
+                            Name = (xe.Element(xmlns + "name") ?? empty).Value,
+                            Description = (xe.Element(xmlns + "description") ?? empty).Value,
+                            Site = (xe.Element(xmlns + "web") ?? empty).Value,
+                            Location = new Location()
+                            {
+                                Attitude = float.Parse((xe.Element(xmlns + "coordinates") ?? empty)
+                                                    .Attribute("latitude").Value,
+                                                    CultureInfo.InvariantCulture),
+                                Longitude = float.Parse((xe.Element(xmlns + "coordinates") ?? empty)
+                                                    .Attribute("longitude").Value,
+                                                    CultureInfo.InvariantCulture)
+                            },
+                            Photos = (from image in ((xe.Element(xmlns + "images") ?? empty)
+                                            .Elements(xmlns + "image") ?? empty_ar)
+                                      where image.Attribute("imageTypeCode").Value == "RES"
+                                      select new Uri("http://photos.hotelbeds.com/giata/" + image.Attribute("path").Value))
+                                      .ToArray()
 
-                    }).ToList().ToArray();
+                        }).ToArray();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         /// <summary>

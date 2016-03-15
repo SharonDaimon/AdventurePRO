@@ -18,12 +18,12 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// <summary>
         /// API key by default
         /// </summary>
-        public const string DEFAULT_KEY = "6k79be247gmv48783qfc63j2";
+        public const string DEFAULT_KEY = "vg8b333xg5bxfvd5khfz2mgg";
 
         /// <summary>
         /// API shared secret by default
         /// </summary>
-        public const string DEFAULT_SECRET = "sZ7RT5aEGb";
+        public const string DEFAULT_SECRET = "gqA5MBZfAH";
 
         /// <summary>
         /// API endpoint
