@@ -20,7 +20,7 @@ namespace AdventurePRO.Model.Logics.Tests
     public class AdventureLogicsTests
     {
         [TestMethod]
-        public async Task AdventureApiContextTestAsync()
+        public void AdventureApiContextTestAsync()
         {
             AdventureOptions options = new AdventureOptions();
 
@@ -38,9 +38,11 @@ namespace AdventurePRO.Model.Logics.Tests
 
             options.SearchByGPS = true;
 
+
             var countries = options.AvailableCountries;
 
-            await Task.Delay(1000);
+            Task.Delay(1000).Wait();
+
             countries = options.AvailableCountries;
 
             Assert.IsNotNull(countries);
@@ -52,7 +54,7 @@ namespace AdventurePRO.Model.Logics.Tests
 
             var destinations = options.AvailableDestinations;
 
-            await Task.Delay(1000);
+            Task.Delay(1000).Wait();
 
             destinations = options.AvailableDestinations;
 
@@ -63,7 +65,7 @@ namespace AdventurePRO.Model.Logics.Tests
 
             var origins = options.AvailableOrigins;
 
-            await Task.Delay(1000);
+            Task.Delay(1000).Wait();
 
             origins = options.AvailableOrigins;
 
@@ -73,7 +75,7 @@ namespace AdventurePRO.Model.Logics.Tests
 
             var trips = options.AvailableTrips;
 
-            await Task.Delay(1000);
+            Task.Delay(1000).Wait();
 
             trips = options.AvailableTrips;
 
@@ -83,7 +85,7 @@ namespace AdventurePRO.Model.Logics.Tests
 
             var attractions = options.AvailableAttractions;
 
-            await Task.Delay(1000);
+            Task.Delay(1000).Wait();
 
             attractions = options.AvailableAttractions;
 
@@ -93,7 +95,7 @@ namespace AdventurePRO.Model.Logics.Tests
 
             var hotels = options.AvailableHotels;
 
-            await Task.Delay(1000);
+            Task.Delay(1000).Wait();
 
             hotels = options.AvailableHotels;
 
@@ -109,7 +111,7 @@ namespace AdventurePRO.Model.Logics.Tests
 
             var results = context.AdventureResults;
 
-            await Task.Delay(5000);
+            Task.Delay(5000).Wait();
 
             results = context.AdventureResults;
 
