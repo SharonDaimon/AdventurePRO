@@ -5,7 +5,7 @@ namespace AdventurePRO.Model.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<AdventurePRO.Model.AdventureContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<AdventurePRO.Model.AdventureDbContext>
     {
         public Configuration()
         {
@@ -13,7 +13,7 @@ namespace AdventurePRO.Model.Migrations
             ContextKey = "AdventurePRO.Model.AdventureContext";
         }
 
-        protected override void Seed(AdventurePRO.Model.AdventureContext context)
+        protected override void Seed(AdventurePRO.Model.AdventureDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

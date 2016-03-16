@@ -71,7 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adventure.cs" />
-    <Compile Include="AdventureContext.cs" />
+    <Compile Include="AdventureDbContext.cs" />
     <Compile Include="APIs\ApiClients\Fixer.cs" />
     <Compile Include="APIs\ApiClients\Hotelbeds.cs" />
     <Compile Include="APIs\ApiClients\Hotelbeds.HotelApi.cs" />
@@ -92,6 +92,8 @@
     <Compile Include="CurrencyConvert.cs" />
     <Compile Include="DbItem.cs" />
     <Compile Include="Destination.cs" />
+    <Compile Include="Logics\AdventureApiContext.cs" />
+    <Compile Include="Logics\AdventureOptions.cs" />
     <Compile Include="Migrations\201603131158277_InitialCreate.cs" />
     <Compile Include="Migrations\201603131158277_InitialCreate.Designer.cs">
       <DependentUpon>201603131158277_InitialCreate.cs</DependentUpon>
