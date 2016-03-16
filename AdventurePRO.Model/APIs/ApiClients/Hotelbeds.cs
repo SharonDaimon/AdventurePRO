@@ -5,6 +5,7 @@
 using System;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Security.Cryptography;
 
@@ -15,6 +16,10 @@ namespace AdventurePRO.Model.APIs.ApiClients
     /// </summary>
     public partial class Hotelbeds
     {
+        private static Dictionary<string, Task> requestDelay = new Dictionary<string, Task>();
+
+        private const int DELAY_TIME = 300;
+
         /// <summary>
         /// API key by default
         /// </summary>
@@ -66,7 +71,13 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// <returns>A request result (Response body)</returns>
         public async Task<byte[]> GetAsync(string api, string api_version, string method, NameValueCollection parameters)
         {
-            return await HttpManager.GetAsync(ENDPOINT, api, api_version, method, parameters, null, createHeaders(Key, Secret));
+            if (requestDelay.ContainsKey(Key))
+            {
+                await requestDelay[Key];
+            }
+            var data = await HttpManager.GetAsync(ENDPOINT, api, api_version, method, parameters, null, createHeaders(Key, Secret));
+            requestDelay[Key] = Task.Delay(DELAY_TIME);
+            return data;
         }
 
         /// <summary>
@@ -80,7 +91,13 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// <returns>A request result (Response body)</returns>
         public async Task<byte[]> PostAsync(string api, string api_version, string method, NameValueCollection parameters, byte[] data)
         {
-            return await HttpManager.PostAsync(ENDPOINT, api, api_version, method, parameters, null, createHeaders(Key, Secret), data);
+            if (requestDelay.ContainsKey(Key))
+            {
+                await requestDelay[Key];
+            }
+            var response = await HttpManager.PostAsync(ENDPOINT, api, api_version, method, parameters, null, createHeaders(Key, Secret), data);
+            requestDelay[Key] = Task.Delay(DELAY_TIME);
+            return response;
         }
 
         // Creates an X-Signature for hotelbeds apitude
