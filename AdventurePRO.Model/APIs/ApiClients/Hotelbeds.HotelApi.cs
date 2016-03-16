@@ -3,6 +3,7 @@
 // This file contains hotelbeds hotel-api logic
 
 using System;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
@@ -71,7 +72,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
                             ChildrenNumber = uint.Parse(rate.Attribute("children").Value),
                             ChildrenAges = from a in rate.Attribute("childrenAges").Value.Split(',') select uint.Parse(a),
                             RoomsCount = uint.Parse(room.Attribute("rooms").Value),
-                            Cost = float.Parse(rate.Attribute("net").Value),
+                            Cost = float.Parse(rate.Attribute("net").Value, CultureInfo.InvariantCulture),
                             Key = rate.Attribute("rateKey").Value                            
                         };
 
@@ -143,9 +144,8 @@ namespace AdventurePRO.Model.APIs.ApiClients
                             Code = room.Attribute("code").Value,
                             AdultsNumber = uint.Parse(rate.Attribute("adults").Value),
                             ChildrenNumber = uint.Parse(rate.Attribute("children").Value),
-                            ChildrenAges = from a in rate.Attribute("childrenAges").Value.Split(',') select uint.Parse(a),
-                            RoomsCount = uint.Parse(room.Attribute("rooms").Value),
-                            Cost = float.Parse(rate.Attribute("net").Value),
+                            RoomsCount = uint.Parse(rate.Attribute("rooms").Value),
+                            Cost = float.Parse(rate.Attribute("net").Value, CultureInfo.InvariantCulture),
                             Key = rate.Attribute("rateKey").Value
                         };
 
