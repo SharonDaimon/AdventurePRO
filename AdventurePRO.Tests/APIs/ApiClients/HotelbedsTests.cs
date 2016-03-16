@@ -135,7 +135,7 @@ namespace AdventurePRO.Model.APIs.ApiClients.Tests
             {
                 new Hotel
                 {
-                    Code = "21918"
+                    Code = "219199"
                 }
             };
 
@@ -164,5 +164,49 @@ namespace AdventurePRO.Model.APIs.ApiClients.Tests
             Assert.IsNotNull(hotel_rooms);
         }
 
+        [TestMethod()]
+        public void PostHotelsByGPSRadiusAsyncTest()
+        {
+            Hotelbeds hotelbeds = new Hotelbeds(Hotelbeds.DEFAULT_KEY, Hotelbeds.DEFAULT_SECRET);
+
+            Hotel[] hotels =
+            {
+                new Hotel
+                {
+                    Code = "219199"
+                }
+            };
+
+            Accomodation[] accomodations =
+            {
+                new Accomodation
+                {
+                    Guests = new Person[]
+                    {
+                        new Person
+                        {
+                            Age = 19,
+                            Name = "Nasty",
+                            Gender = Gender.Female,
+                            Type = PersonType.Adult
+                        }
+                    },
+                    RoomsCount = 1
+                }
+            };
+
+            var hotel_rooms =
+                hotelbeds.PostHotelsByGPSRadiusAsync(
+                    hotels,
+                    TestUtils.From,
+                    TestUtils.To,
+                    accomodations,
+                    new Location { Longitude = 30.3585972f, Attitude = 59.9314033f },
+                    0.8f
+                    )
+                .Result;
+
+            Assert.IsNotNull(hotel_rooms);
+        }
     }
 }
