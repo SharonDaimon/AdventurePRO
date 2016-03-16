@@ -484,6 +484,11 @@ namespace AdventurePRO.Model.Logics
             }
         }
 
+        /// <summary>
+        /// Determines whether user needs to search by GPS
+        /// </summary>
+        public bool SearchByGPS { get; set; }
+
         #endregion
 
         #region Attractions and events

@@ -104,13 +104,35 @@ namespace AdventurePRO.Model.Logics
 
             var finish = options.Lastest.AddHours(-MIN_AIRPORT_HOTEL_TRAVELLING_TIME_IN_HOURS);
 
-            var rooms = await hotelbeds.PostHotelsAsync
-                (
-                    options.Hotels,
-                    start,
-                    finish,
-                    options.Accomodations
-                );
+            HotelRoom[] rooms;
+
+
+            var center = centerOfMass(options.Attractions.Select(a => a.Location).ToArray());
+
+            var nearest_attr = options.Attractions.OrderBy(a => distance(center, a.Location));
+
+            if (!options.SearchByGPS)
+            {
+                rooms = await hotelbeds.PostHotelsAsync
+                    (
+                        options.Hotels,
+                        start,
+                        finish,
+                        options.Accomodations
+                    );
+            }
+            else
+            {
+                rooms = await hotelbeds.PostHotelsByGPSRadiusAsync
+                    (
+                        options.Hotels,
+                        start,
+                        finish,
+                        options.Accomodations,
+                        center,
+                        (float)distance(center, nearest_attr.Last().Location)
+                    );
+            }
 
             var hotels = rooms.Select(r => r.Hotel).Distinct();
 
@@ -135,8 +157,6 @@ namespace AdventurePRO.Model.Logics
                                  })
                                 .ToArray();
             }
-
-            var center = centerOfMass(hotels.Select(h => h.Location).ToArray());
 
             var nearest = hotels.OrderBy(h => distance(h.Location, center));
 
@@ -170,12 +190,32 @@ namespace AdventurePRO.Model.Logics
             };
         }
 
+        // Returns distance in kilometers between two points
         private static double distance(Location a, Location b)
         {
-            return Math.Sqrt(
-                            Math.Pow(a.Attitude - b.Attitude, 2) +
-                            Math.Pow(a.Longitude - b.Longitude, 2)
-                            );
+            // This code is taken from
+            // http://stackoverflow.com/questions/6544286/calculate-distance-of-two-geo-points-in-km-c-sharp
+
+            double R = 6371; // km
+
+            double sLat1 = Math.Sin(radians(a.Attitude));
+            double sLat2 = Math.Sin(radians(b.Attitude));
+            double cLat1 = Math.Cos(radians(a.Attitude));
+            double cLat2 = Math.Cos(radians(b.Attitude));
+            double cLon = Math.Cos(radians(a.Longitude) - radians(b.Longitude));
+
+            double cosD = sLat1 * sLat2 + cLat1 * cLat2 * cLon;
+
+            double d = Math.Acos(cosD);
+
+            double dist = R * d;
+
+            return dist;
+        }
+
+        private static double radians(double l)
+        {
+            return 2 * Math.PI * (l / 360.0); 
         }
     }
 }
