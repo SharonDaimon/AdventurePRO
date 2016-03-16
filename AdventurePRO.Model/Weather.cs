@@ -23,12 +23,17 @@ namespace AdventurePRO.Model
         /// <summary>
         /// For which location does this forecast right 
         /// </summary>
-        public Location Region { get; set; }
+        public virtual Location Region { get; set; }
 
         /// <summary>
         /// Forecast date
         /// </summary>
-        public DateTime Date { get; set; }
+        public virtual DateTime Date { get; set; }
+
+        /// <summary>
+        /// The type of the weather
+        /// </summary>
+        public virtual Type WeatherType { get; set; }
 
         /// <summary>
         /// Weather Type

@@ -13,21 +13,21 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Passengers list
         /// </summary>
-        public Person[] Passengers { get; set; }
+        public virtual Person[] Passengers { get; set; }
 
         /// <summary>
         /// The start point of this taxi
         /// </summary>
-        public Location From { get; set; }
+        public virtual Location From { get; set; }
 
         /// <summary>
         /// The finish point of this taxi
         /// </summary>
-        public Location To { get; set; }
+        public virtual Location To { get; set; }
 
         /// <summary>
         /// Then does this taxi commute
         /// </summary>
-        public DateTime When { get; set; }
+        public virtual DateTime When { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Photos list
         /// </summary>
-        public Uri[] Photos { get; set; }
+        public virtual Uri[] Photos { get; set; }
 
         /// <summary>
         /// Web - site
@@ -34,6 +34,21 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Comments list
         /// </summary>
-        public Comment[] Comments { get; set; }
+        public virtual Comment[] Comments { get; set; }
+
+        /// <summary>
+        /// Phone number
+        /// </summary>
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Email
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Address
+        /// </summary>
+        public string Address { get; set; }
     }
 }

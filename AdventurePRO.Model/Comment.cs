@@ -19,7 +19,7 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Author`s avatar
         /// </summary>
-        public Uri Avatar { get; set; }
+        public virtual Uri Avatar { get; set; }
 
         /// <summary>
         /// Comment text
@@ -29,6 +29,6 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Comment publication date
         /// </summary>
-        public DateTime Date { get; set; }
+        public virtual DateTime Date { get; set; }
     }
 }

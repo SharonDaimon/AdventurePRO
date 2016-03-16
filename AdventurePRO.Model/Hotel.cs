@@ -14,7 +14,7 @@ namespace AdventurePRO.Model
         /// <summary>
         /// The total price of all rooms
         /// </summary>
-        public float TotalPrice
+        public virtual float TotalPrice
         {
             get
             {
@@ -26,12 +26,12 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Rooms list
         /// </summary>
-        public Occupancy[] Occupancies { get; set; }
+        public virtual Occupancy[] Occupancies { get; set; }
 
         /// <summary>
         /// Hotel location
         /// </summary>
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
 
         /// <summary>
         /// Count of hotel stars

@@ -17,7 +17,7 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Full cost of the adventure
         /// </summary>
-        public float FullCost
+        public virtual float FullCost
         {
             get
             {
@@ -38,51 +38,51 @@ namespace AdventurePRO.Model
         /// <summary>
         /// Adventure start date
         /// </summary>
-        public DateTime StartDate { get; set; }
+        public virtual DateTime StartDate { get; set; }
 
         /// <summary>
         /// Adventure finish date
         /// </summary>
-        public DateTime FinishDate { get; set; }
+        public virtual DateTime FinishDate { get; set; }
 
         /// <summary>
         /// Adventure members list
         /// </summary>
-        public Person[] Persons { get; set; }
+        public virtual Person[] Persons { get; set; }
 
         /// <summary>
         /// Adventure hotels list
         /// </summary>
-        public Hotel[] Hotels { get; set; }
+        public virtual Hotel[] Hotels { get; set; }
 
         /// <summary>
         /// Adventure taxis list
         /// </summary>
-        public Taxi[] Taxis { get; set; }
+        public virtual Taxi[] Taxis { get; set; }
 
         /// <summary>
         /// Adventure tickects list
         /// </summary>
-        public Ticket[] Tickets { get; set; }
+        public virtual Ticket[] Tickets { get; set; }
 
         /// <summary>
         /// The destination of the adventure
         /// </summary>
-        public Destination Destination { get; set; }
+        public virtual Destination Destination { get; set; }
 
         /// <summary>
         /// The home place of adventurers
         /// </summary>
-        public Destination Home { get; set; }
+        public virtual Destination Home { get; set; }
 
         /// <summary>
         /// All adventure attractions list
         /// </summary>
-        public Attraction[] Attractions { get; set; }
+        public virtual Attraction[] Attractions { get; set; }
 
         /// <summary>
         /// Weather forecasts list
         /// </summary>
-        public Weather[] Weather { get; set; }
+        public virtual Weather[] Weather { get; set; }
     }
 }
