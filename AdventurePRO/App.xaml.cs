@@ -10,7 +10,7 @@ namespace AdventurePRO
     public partial class App : Application
     {
 
-        public void listTest_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        public void listview_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
             MouseWheelEventArgs e2 = new MouseWheelEventArgs(e.MouseDevice, e.Timestamp, e.Delta);

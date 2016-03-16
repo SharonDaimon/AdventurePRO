@@ -33,8 +33,14 @@ namespace AdventurePRO
             // Some logic to show results
             initExchangeConverter();
 
+            NewPerson = new Person { Gender = Gender.Female, Name = "kate"};
+
+            Options.DataContext = this;
+
             MainContent.Navigate(new AdventureResultsPage(createAdventureList()));
         }
+
+        #region Remove It Before release
 
         private void initExchangeConverter()
         {
@@ -51,6 +57,8 @@ namespace AdventurePRO
                 new Person() {Name = "Лёша", Age = 18, Gender = Gender.Male }
             };
 
+            this.Persons = persons1;
+
             Occupancy[] oc1H1 = new Occupancy[]
             {
                 new Occupancy() { CheckIn = new DateTime(2016, 03, 21), CheckOut = new DateTime(2016, 03, 24), Cost = 12560, Currency="р", Guests = persons1 }
@@ -58,8 +66,10 @@ namespace AdventurePRO
 
             Hotel[] hotels1 = new Hotel[]
             {
-                new Hotel() { Stars = 3, Occupancies = oc1H1 },
+                new Hotel() { Name = "Syper luxiry hotel", Stars = 3, Occupancies = oc1H1 },
             };
+
+            this.Hotels = hotels1;
 
             Taxi[] taxis1 = new Taxi[]
             {
@@ -99,6 +109,20 @@ Vel omnis eruditi no, mel ne viris blandit pertinacia, te eam indoctum volutpat 
 
             };
 
+            this.Attractions = attractions1;
+
+            this.Countries = new Country[]
+            {
+                new Country { Code = "RU", Name = "Russia" },
+                new Country { Code = "UK", Name = "United Kingdom" }
+            };
+
+            this.Destinations = new Destination[]
+            {
+                new Destination {Code = "MOW", Name = "Moscow" },
+                new Destination {Code = "LED", Name = "St. Petersburg" }
+            };
+
             Weather[] weather = new Weather[]
             {
                 new Weather() { Date = new DateTime(2016, 3, 21), Temperature = 18, Unit="C" },
@@ -120,8 +144,6 @@ Vel omnis eruditi no, mel ne viris blandit pertinacia, te eam indoctum volutpat 
                 Weather = weather
             };
 
-
-
             adventures.Add(a1);
 
             return adventures;
@@ -142,5 +164,23 @@ Vel omnis eruditi no, mel ne viris blandit pertinacia, te eam indoctum volutpat 
                 return cost;
             }
         }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime FinishDate { get; set; }
+
+        public IEnumerable<Country> Countries { get; set; }
+
+        public IEnumerable<Destination> Destinations { get; set; }
+
+        public IEnumerable<Hotel> Hotels { get; set; }
+
+        public IEnumerable<Attraction> Attractions { get; set; }
+
+        public IEnumerable<Person> Persons { get; set; }
+
+        public Person NewPerson { get; set; }
+
+        #endregion
     }
 }

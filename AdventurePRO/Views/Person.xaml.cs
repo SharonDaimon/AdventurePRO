@@ -12,20 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using AdventurePRO.Model;
-using System.Windows.Data;
 
-namespace AdventurePRO.Pages
+namespace AdventurePRO.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AdventureResultsPage.xaml
+    /// Логика взаимодействия для Person.xaml
     /// </summary>
-    public partial class AdventureResultsPage : Page
+    public partial class Person : UserControl
     {
-        public AdventureResultsPage(IEnumerable<Adventure> adventures)
+        public Person()
         {
             InitializeComponent();
-            AdventureResultsList.ItemsSource = adventures;
         }
-    }   
+    }
 }

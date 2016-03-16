@@ -62,6 +62,9 @@
     <Compile Include="Views\Adventure.xaml.cs">
       <DependentUpon>Adventure.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\AdventureOptionsPanel.xaml.cs">
+      <DependentUpon>AdventureOptionsPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Converters\AcquirableArraySumConverter.cs" />
     <Compile Include="Views\Converters\AcquirableToCostStringConverter.cs" />
     <Compile Include="Views\Converters\AdventureCostStringConverter.cs" />
@@ -70,11 +73,18 @@
     <Compile Include="Views\Converters\CombiningTwoConverters.cs" />
     <Compile Include="Views\Converters\DateStringConverter.cs" />
     <Compile Include="Views\Converters\HotelsOccupanciesConverter.cs" />
+    <Compile Include="Views\Converters\NullableToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\RatingConverter.cs" />
     <Compile Include="Views\Converters\WeatherSizeConverter.cs" />
     <Compile Include="Views\Converters\WeatherWidgetConverter.cs" />
+    <Compile Include="Views\Nameable.xaml.cs">
+      <DependentUpon>Nameable.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OnlineDescribed.xaml.cs">
       <DependentUpon>OnlineDescribed.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Person.xaml.cs">
+      <DependentUpon>Person.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PersonsList.xaml.cs">
       <DependentUpon>PersonsList.xaml</DependentUpon>
@@ -99,7 +109,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\AdventureOptionsPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Nameable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\OnlineDescribed.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Person.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -170,6 +192,16 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\loading.gif">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\fa-minus.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\fa-plus.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

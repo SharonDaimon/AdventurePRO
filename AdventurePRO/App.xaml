@@ -2,8 +2,14 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:AdventurePRO"
+             xmlns:converters="clr-namespace:AdventurePRO.Views.Converters"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        <converters:NullableToVisibilityConverter x:Shared="false" x:Key="nullableToVisibilityConverter"/>
+
+        <Style x:Key="Visible">
+            <Setter Property="Control.Visibility" Value="{Binding Path=., Converter={StaticResource nullableToVisibilityConverter}}"/>
+        </Style>
         
         <ControlTemplate x:Key="NoScroll">
             <ItemsPresenter/>
@@ -15,14 +21,14 @@
         </Style>
 
         <Style TargetType="ListView">
-            <EventSetter Event="PreviewMouseWheel" Handler="listTest_PreviewMouseWheel"/>
+            <EventSetter Event="PreviewMouseWheel" Handler="listview_PreviewMouseWheel"/>
         </Style>
 
         <Style x:Key="Stretch">
             <Setter Property="Control.HorizontalAlignment" Value="Stretch"/>
         </Style>
 
-        <Style x:Key="h1">
+        <Style x:Key="h1" BasedOn="{StaticResource Visible}">
             <Setter Property="TextBlock.Foreground" Value="DarkGray"/>
             <Setter Property="TextBlock.FontFamily" Value="Verdana"/>
             <Setter Property="TextBlock.FontSize" Value="18pt"/>
@@ -40,24 +46,40 @@
             <Setter Property="Control.Margin" Value="6"/>
         </Style>
 
-        <Style x:Key="Number">
-            <Setter Property="TextBlock.Foreground" Value="#1A1A2A"/>
-            <Setter Property="TextBlock.FontWeight" Value="DemiBold"/>
-            <Setter Property="TextBlock.FontFamily" Value="Arial"/>
+        <Style x:Key="Name" TargetType="TextBlock" BasedOn="{StaticResource Visible}">
+            <Setter Property="FontFamily" Value="Arial"/>
+            <Setter Property="FontWeight" Value="500"/>
         </Style>
 
-        <Style x:Key="Date" BasedOn="{StaticResource Number}">
-            <Setter Property="TextBlock.Foreground" Value="Gray"/>
+        <Style x:Key="Code" TargetType="TextBlock" BasedOn="{StaticResource Visible}">
+            <Setter Property="FontFamily" Value="Verdana"/>
+            <Setter Property="FontWeight" Value="Heavy"/>
+            <Setter Property="Foreground" Value="Blue"/>
         </Style>
 
-        <Style x:Key="TotalCost" BasedOn="{StaticResource Number}">
-            <Setter Property="TextBlock.FontWeight" Value="ExtraBold"/>
-            <Setter Property="TextBlock.FontSize" Value="14"/>
-            <Setter Property="TextBlock.Foreground" Value="DarkBlue"/>
+        <Style x:Key="Number" TargetType="TextBlock" BasedOn="{StaticResource Visible}">
+            <Setter Property="Foreground" Value="#1A1A2A"/>
+            <Setter Property="FontWeight" Value="DemiBold"/>
+            <Setter Property="FontFamily" Value="Arial"/>
         </Style>
 
-        <Style x:Key="Cost" BasedOn="{StaticResource TotalCost}">
-            <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+        <Style x:Key="Date" BasedOn="{StaticResource Number}" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="Gray"/>
+        </Style>
+
+        <Style x:Key="TotalCost" BasedOn="{StaticResource Number}" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="ExtraBold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="DarkBlue"/>
+        </Style>
+
+        <Style x:Key="Cost" BasedOn="{StaticResource TotalCost}" TargetType="TextBlock">
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <Style x:Key="SelectionComboBox" TargetType="ComboBox">
+            <Setter Property="IsTextSearchEnabled" Value="True"/>
+            <Setter Property="IsEditable" Value="True"/>
         </Style>
     </Application.Resources>
 </Application>

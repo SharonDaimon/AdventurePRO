@@ -73,9 +73,29 @@ namespace AdventurePRO.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fa_minus {
+            get {
+                object obj = ResourceManager.GetObject("fa_minus", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap fa_plane {
             get {
                 object obj = ResourceManager.GetObject("fa_plane", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fa_plus {
+            get {
+                object obj = ResourceManager.GetObject("fa_plus", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

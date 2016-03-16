@@ -6,30 +6,28 @@
              xmlns:local="clr-namespace:AdventurePRO.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    
-    <Grid HorizontalAlignment="Stretch">
-        <ListView ItemsSource="{Binding Path=.}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Name">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Name}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="Age">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding Path=Age}" Style="{StaticResource Number}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
 
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
-    </Grid>
+    <ListView ItemsSource="{Binding Path=.}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+        <ListView.View>
+            <GridView>
+                <GridView.Columns>
+                    <GridViewColumn Header="Name">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Name}" Style="{StaticResource Name}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Age">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Path=Age}" Style="{StaticResource Number}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                </GridView.Columns>
+            </GridView>
+        </ListView.View>
+    </ListView>
 </UserControl>

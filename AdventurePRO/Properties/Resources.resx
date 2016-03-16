@@ -121,8 +121,14 @@
   <data name="fa_bed" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>fa-bed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="fa_minus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>fa-minus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="fa_plane" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>fa-plane.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="fa_plus" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>fa-plus.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="fa_taxi" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>fa-taxi.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

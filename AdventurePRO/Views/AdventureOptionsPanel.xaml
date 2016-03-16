@@ -1,0 +1,116 @@
+﻿<UserControl x:Class="AdventurePRO.Views.AdventureOptionsPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AdventurePRO.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <Style TargetType="Image" x:Key="person_add_remove">
+            <Setter Property="Width" Value="18"/>
+        </Style>
+    </UserControl.Resources>
+
+
+    <StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0">Start date</TextBlock>
+            <DatePicker Grid.Row="1" Grid.Column="0" SelectedDate="{Binding Path=StartDate, Mode=OneWayToSource}"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="1">Finish date</TextBlock>
+            <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding Path=FinishDate, Mode=OneWayToSource}"/>
+        </Grid>
+
+        <TextBlock Style="{StaticResource h3}">Country</TextBlock>
+        <ComboBox ItemsSource="{Binding Path=Countries}" Style="{StaticResource SelectionComboBox}" TextSearch.TextPath="Name">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <local:Nameable/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <TextBlock Style="{StaticResource h3}">Destination</TextBlock>
+        <ComboBox ItemsSource="{Binding Path=Destinations}" Style="{StaticResource SelectionComboBox}" TextSearch.TextPath="Name">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <local:Nameable/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <StackPanel>
+            <ListBox ItemsSource="{Binding Path=Persons}" Background="Blue" HorizontalContentAlignment="Stretch">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <local:Person Grid.Column="0"/>
+                            <Button Grid.Column="1">
+                                <Image Source="pack://siteoforigin:,,,/Properties/fa-minus.png"
+                                       Style="{StaticResource person_add_remove}"/>
+                            </Button>
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <local:Person Grid.Column="0"/>
+
+                <Button Grid.Column="1" Click="Add_Click">
+                    <Image Source="pack://siteoforigin:,,,/Properties/fa-plus.png"
+                           Style="{StaticResource person_add_remove}"/>
+                </Button>
+            </Grid>
+        </StackPanel>
+
+        <GroupBox Header="Available hotels">
+            <ListBox ItemsSource="{Binding Path=Hotels}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox>
+                            <Grid Style="{StaticResource Stretch}">
+                                <local:OnlineDescribed/>
+                            </Grid>
+                        </CheckBox>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+
+        <GroupBox Header="Available Attractions">
+            <ListBox ItemsSource="{Binding Path=Attractions}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox>
+                            <Grid Style="{StaticResource Stretch}">
+                                <local:OnlineDescribed/>
+                            </Grid>
+                        </CheckBox>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+
+    </StackPanel>
+</UserControl>

@@ -5,9 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AdventurePRO"
         xmlns:pages="clr-namespace:AdventurePRO.Pages"
+        xmlns:views="clr-namespace:AdventurePRO.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525" MinWidth="400">
     <Grid>
-        <Frame Name="MainContent"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <StackPanel>
+                <views:AdventureOptionsPanel x:Name="Options"/>
+                <Frame Name="MainContent"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

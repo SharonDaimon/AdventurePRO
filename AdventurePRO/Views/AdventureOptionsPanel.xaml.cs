@@ -12,20 +12,23 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using AdventurePRO.Model;
-using System.Windows.Data;
 
-namespace AdventurePRO.Pages
+namespace AdventurePRO.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AdventureResultsPage.xaml
+    /// Логика взаимодействия для AdventureOptionsPanel.xaml
     /// </summary>
-    public partial class AdventureResultsPage : Page
+    public partial class AdventureOptionsPanel : UserControl
     {
-        public AdventureResultsPage(IEnumerable<Adventure> adventures)
+        public AdventureOptionsPanel()
         {
             InitializeComponent();
-            AdventureResultsList.ItemsSource = adventures;
         }
-    }   
+
+        private void Add_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+    }
 }
+    
