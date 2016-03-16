@@ -26,7 +26,10 @@ namespace AdventurePRO.Model.Logics
 
         private void notifyPropertyChanged(string name)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         #region Date
@@ -184,6 +187,10 @@ namespace AdventurePRO.Model.Logics
         {
             get
             {
+                if(availableOrigins == null)
+                {
+                    initAvailableOrigins();
+                }
                 return availableOrigins;
             }
             set
@@ -366,13 +373,25 @@ namespace AdventurePRO.Model.Logics
 
         private async void initAvailableTrips()
         {
+
+            var empty_collection = new Person[] { };
+
+            if (Origin == null
+                || Destination == null
+                || StartDate == null
+                || FinishDate == null
+                || Persons == null)
+            {
+                return;
+            }
+
             AvailableTrips = await new QPX(QPX.DEFAULT_API_KEY).RequestTicketsAsync(
                     Origin.Code,
                     Destination.Code,
                     StartDate,
                     FinishDate,
-                    (uint)Persons.Where(p => p.Type == PersonType.Adult).Count(),
-                    (uint)Persons.Where(p => p.Type == PersonType.Child).Count()
+                    (uint)(Persons.Where(p => p.Type == PersonType.Adult) ?? empty_collection).Count(),
+                    (uint)(Persons.Where(p => p.Type == PersonType.Child) ?? empty_collection).Count()
                 );
         }
 
