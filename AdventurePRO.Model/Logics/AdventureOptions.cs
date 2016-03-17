@@ -306,8 +306,6 @@ namespace AdventurePRO.Model.Logics
 
         #region Persons
 
-        private Person[] persons;
-
         /// <summary>
         /// Persons list
         /// </summary>
@@ -315,16 +313,15 @@ namespace AdventurePRO.Model.Logics
         {
             get
             {
-                return persons;
-            }
-            set
-            {
-                persons = value;
+                if(Accomodations == null)
+                {
+                    return null;
+                }
 
-                AvailableTrips = null;
-                AvailableHotels = null;
-
-                notifyPropertyChanged("Persons");
+                var persons = from a in Accomodations
+                              from g in a.Guests
+                              select g;
+                return persons.ToArray();
             }
         }
 
