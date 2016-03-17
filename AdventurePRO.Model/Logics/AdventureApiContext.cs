@@ -109,10 +109,30 @@ namespace AdventurePRO.Model.Logics
 
             HotelRoom[] rooms;
 
+            Location center;
+            if (options.Attractions != null)
+            {
+                center = centerOfMass(options.Attractions.Select(a => a.Location).ToArray());
+            }
+            else
+            {
+                center = options.Destination.Location;
+            }
 
-            var center = centerOfMass(options.Attractions.Select(a => a.Location).ToArray());
+            IOrderedEnumerable<Attraction> nearest_attr;
+            float largest_dist;
 
-            var nearest_attr = options.Attractions.OrderBy(a => distance(center, a.Location));
+            if (options.Attractions != null)
+            {
+                nearest_attr = options.Attractions.OrderBy(a => distance(center, a.Location));
+                largest_dist = (float)distance(center, nearest_attr.Last().Location);
+            }
+            else
+            {
+                largest_dist = 1;
+                nearest_attr = new Attraction[0].OrderBy(a => distance(center, a.Location));
+            }
+
 
             if (!options.SearchByGPS)
             {
@@ -133,7 +153,7 @@ namespace AdventurePRO.Model.Logics
                         finish,
                         options.Accomodations,
                         center,
-                        (float)distance(center, nearest_attr.Last().Location)
+                        largest_dist
                     );
             }
 
@@ -171,7 +191,7 @@ namespace AdventurePRO.Model.Logics
                              from h in hotels
                              select new Adventure
                              {
-                                 Attractions = options.Attractions,
+                                 Attractions = nearest_attr.ToArray(),
                                  Home = options.Origin,
                                  Destination = options.Destination,
                                  StartDate = options.StartDate,
