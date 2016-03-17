@@ -43,7 +43,10 @@ namespace AdventurePRO.Model.Logics
 
         private void notifyPropertyChanged(string name)
         {
-            PropertyChanged(this, new PropertyChangedEventArgs(name));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         private AdventureOptions options;
