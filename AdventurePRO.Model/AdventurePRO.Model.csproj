@@ -52,11 +52,16 @@
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,7 +71,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Adventure.cs" />
-    <Compile Include="AdventureContext.cs" />
+    <Compile Include="AdventureDbContext.cs" />
+    <Compile Include="APIs\ApiClients\Fixer.cs" />
+    <Compile Include="APIs\ApiClients\Hotelbeds.cs" />
+    <Compile Include="APIs\ApiClients\Hotelbeds.HotelApi.cs" />
+    <Compile Include="APIs\ApiClients\Hotelbeds.HotelContentApi.cs" />
+    <Compile Include="APIs\ApiClients\HttpManager.cs" />
+    <Compile Include="APIs\ApiClients\Openweathermap.cs" />
+    <Compile Include="APIs\Options\Accomodation.cs" />
+    <Compile Include="APIs\ApiClients\QPX.cs" />
+    <Compile Include="APIs\Results\HotelRoom.cs" />
+    <Compile Include="APIs\Results\SeatwaveEvent.cs" />
+    <Compile Include="APIs\Results\SeatwaveVenue.cs" />
+    <Compile Include="APIs\Results\QPXTrip.cs" />
+    <Compile Include="APIs\ApiClients\Seatwave.cs" />
     <Compile Include="Attraction.cs" />
     <Compile Include="Acquirable.cs" />
     <Compile Include="Comment.cs" />
@@ -74,6 +92,8 @@
     <Compile Include="CurrencyConvert.cs" />
     <Compile Include="DbItem.cs" />
     <Compile Include="Destination.cs" />
+    <Compile Include="Logics\AdventureApiContext.cs" />
+    <Compile Include="Logics\AdventureOptions.cs" />
     <Compile Include="Migrations\201603131158277_InitialCreate.cs" />
     <Compile Include="Migrations\201603131158277_InitialCreate.Designer.cs">
       <DependentUpon>201603131158277_InitialCreate.cs</DependentUpon>
@@ -112,6 +132,7 @@
       <DependentUpon>201603131158277_InitialCreate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

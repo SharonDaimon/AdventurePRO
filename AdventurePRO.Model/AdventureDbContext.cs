@@ -14,7 +14,7 @@ namespace AdventurePRO.Model
     /// <summary>
     /// The database context
     /// </summary>
-    public class AdventureContext : DbContext
+    public class AdventureDbContext : DbContext
     {
         /// <summary>
         /// Adventures
