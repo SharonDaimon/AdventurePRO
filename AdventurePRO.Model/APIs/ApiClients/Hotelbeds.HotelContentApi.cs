@@ -99,6 +99,11 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// <returns></returns>
         public async Task<Hotel[]> GetHotelsByDestination(Destination d)
         {
+            if(d == null)
+            {
+                return null;
+            }
+
             NameValueCollection parameters = new NameValueCollection();
 
             parameters.Add("fields",
@@ -109,37 +114,44 @@ namespace AdventurePRO.Model.APIs.ApiClients
 
             var empty = new XElement("Empty");
 
+            var empty_attr = new XAttribute("name", "value");
+
             var empty_ar = new XElement[0];
-
-            try
-            {
-                return (from xe in elements
-                        select new Hotel()
+            return (from xe in elements
+                    select new Hotel()
+                    {
+                        Code = (xe.Attribute("code") ?? empty_attr).Value,
+                        Name = (xe.Element(xmlns + "name") ?? empty).Value,
+                        Description = (xe.Element(xmlns + "description") ?? empty).Value,
+                        Site = (xe.Element(xmlns + "web") ?? empty).Value,
+                        Location = new Location()
                         {
-                            Code = xe.Attribute("code").Value,
-                            Name = (xe.Element(xmlns + "name") ?? empty).Value,
-                            Description = (xe.Element(xmlns + "description") ?? empty).Value,
-                            Site = (xe.Element(xmlns + "web") ?? empty).Value,
-                            Location = new Location()
-                            {
-                                Attitude = float.Parse((xe.Element(xmlns + "coordinates") ?? empty)
-                                                    .Attribute("latitude").Value,
-                                                    CultureInfo.InvariantCulture),
-                                Longitude = float.Parse((xe.Element(xmlns + "coordinates") ?? empty)
-                                                    .Attribute("longitude").Value,
-                                                    CultureInfo.InvariantCulture)
-                            },
-                            Photos = (from image in ((xe.Element(xmlns + "images") ?? empty)
-                                            .Elements(xmlns + "image") ?? empty_ar)
-                                      where image.Attribute("imageTypeCode").Value == "RES"
-                                      select new Uri("http://photos.hotelbeds.com/giata/" + image.Attribute("path").Value))
-                                      .ToArray()
+                            Attitude = tryParse(((xe.Element(xmlns + "coordinates") ?? empty)
+                                                .Attribute("latitude") ?? empty_attr).Value),
+                            Longitude = tryParse(((xe.Element(xmlns + "coordinates") ?? empty)
+                                                .Attribute("longitude") ?? empty_attr).Value)
+                        },
+                        Photos = ((from image in ((xe.Element(xmlns + "images") ?? empty)
+                                        .Elements(xmlns + "image") ?? empty_ar)
+                                  where ((image ?? empty).Attribute("imageTypeCode") ?? empty_attr).Value == "RES"
+                                  select new Uri("http://photos.hotelbeds.com/giata/" + ((image ?? empty).Attribute("path") ?? empty_attr).Value))
+                                  ?? new Uri[0]
+                                  ).ToArray()
 
-                        }).ToArray();
-            }
-            catch (Exception e)
+                    }).ToArray();
+
+        }
+
+        private static float tryParse(string v)
+        {
+            float f;
+            if(float.TryParse(v, NumberStyles.Float, CultureInfo.InvariantCulture, out f))
             {
-                throw e;
+                return f;
+            }
+            else
+            {
+                return 0;
             }
         }
 
