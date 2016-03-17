@@ -80,7 +80,7 @@ namespace AdventurePRO.Model.Logics
             {
                 if (adv_results == null)
                 {
-
+                    initAdventureResults();
                 }
                 return adv_results;
             }
