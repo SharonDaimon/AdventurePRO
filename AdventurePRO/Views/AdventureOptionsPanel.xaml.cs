@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AdventurePRO.Model.Logics;
 using AdventurePRO.Model.APIs.Options;
+using AdventurePRO.Model.APIs.Results;
 
 namespace AdventurePRO.Views
 {
@@ -81,6 +82,21 @@ namespace AdventurePRO.Views
 
             (this.DataContext as AdventureOptions).Attractions = attractions
                 .Concat(new Model.Attraction[1] { selected }).ToArray();
+        }
+
+        private void Trip_Checked(object sender, RoutedEventArgs e)
+        {
+            var trips = (this.DataContext as AdventureOptions).Trips;
+
+            var selected = (e.OriginalSource as CheckBox).DataContext as QPXTrip;
+
+            if(trips == null)
+            {
+                trips = new QPXTrip[0] { };
+            }
+
+            (this.DataContext as AdventureOptions).Trips
+                = trips.Concat(new QPXTrip[1] { selected }).ToArray();
         }
     }
 }

@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="AdventurePRO.Views.Ticket"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AdventurePRO.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <!-- From -->
+        <StackPanel Grid.Column="0">
+            <TextBlock Text="{Binding Path=From}" Style="{StaticResource Code}"/>
+            <Separator/>
+            <TextBlock Text="{Binding Path=Departure, Converter={StaticResource dateStringConverter}}"
+                       Style="{StaticResource Date}"/>
+        </StackPanel>
+
+        <TextBlock Grid.Column="1"> -----> </TextBlock>
+
+        <!-- To -->
+        <StackPanel Grid.Column="2">
+            <TextBlock Text="{Binding Path=To}" Style="{StaticResource Code}"/>
+            <Separator/>
+            <TextBlock Text="{Binding Path=Arrival, Converter={StaticResource dateStringConverter}}"
+                       Style="{StaticResource Date}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
