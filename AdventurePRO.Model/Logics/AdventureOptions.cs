@@ -321,6 +321,7 @@ namespace AdventurePRO.Model.Logics
                 var persons = from a in Accomodations
                               from g in a.Guests
                               select g;
+
                 return persons.ToArray();
             }
         }
@@ -338,7 +339,7 @@ namespace AdventurePRO.Model.Logics
             set
             {
                 accomodations = value;
-
+                
                 notifyPropertyChanged("Accomodations");
             }
         }
@@ -442,9 +443,9 @@ namespace AdventurePRO.Model.Logics
             {
                 if (Trips == null)
                 {
-                    return StartDate; ;
+                    return FinishDate ;
                 }
-                return Trips.OrderBy(t => t.Back.Departure).First().Back.Departure;
+                return Trips.OrderBy(t => t.Back.Departure).Last().Back.Departure;
             }
         }
 
