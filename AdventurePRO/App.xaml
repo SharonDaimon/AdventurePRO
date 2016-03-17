@@ -7,6 +7,7 @@
     <Application.Resources>
         <converters:NullableToVisibilityConverter x:Shared="false" x:Key="nullableToVisibilityConverter"/>
         <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+        <converters:DateStringConverter x:Key="dateStringConverter"/>
         
         <Style x:Key="Visible">
             <Setter Property="Control.Visibility" Value="{Binding Path=., Converter={StaticResource nullableToVisibilityConverter}}"/>

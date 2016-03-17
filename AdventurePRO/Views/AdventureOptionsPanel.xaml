@@ -141,6 +141,20 @@
             </Button>
         </StackPanel>
 
+        <GroupBox Header="Available trips" >
+            <ListBox ItemsSource="{Binding Path=AvailableTrips}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Checked="Trip_Checked">
+                            <Grid Style="{StaticResource Stretch}">
+                                <local:OnlineDescribed/>
+                            </Grid>
+                        </CheckBox>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </GroupBox>
+        
         <CheckBox Name="SearchByHotels">
             I want to select hotels
         </CheckBox>
