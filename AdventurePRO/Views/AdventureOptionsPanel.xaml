@@ -58,7 +58,7 @@
 
         <TextBlock Style="{StaticResource h3}">Destination Country</TextBlock>
         <ComboBox ItemsSource="{Binding Path=AvailableCountries}" 
-                  SelectedValue="{Binding Path=OriginCountry, Mode=TwoWay}"
+                  SelectedValue="{Binding Path=Country, Mode=TwoWay}"
                   Style="{StaticResource SelectionComboBox}" 
                   TextSearch.TextPath="Name">
             <ComboBox.ItemTemplate>
