@@ -404,7 +404,12 @@ namespace AdventurePRO.Model.Logics
         {
             get
             {
-                return Trips;
+                if(trips == null)
+                {
+                    initAvailableTrips();
+                }
+
+                return trips;
             }
             set
             {
