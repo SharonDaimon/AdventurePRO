@@ -43,6 +43,10 @@
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Nito.AsyncEx.UnitTests.MSTest, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AsyncUnitTests-MSTest.1.0.1\lib\net40-client\Nito.AsyncEx.UnitTests.MSTest.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
@@ -64,6 +68,7 @@
     <Compile Include="APIs\ApiClients\OpenweathermapTests.cs" />
     <Compile Include="APIs\ApiClients\QPXTests.cs" />
     <Compile Include="APIs\ApiClients\SeatwaveTests.cs" />
+    <Compile Include="Logics\AdventureLogicsTests.cs" />
     <Compile Include="TestApis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
