@@ -6,7 +6,8 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <converters:NullableToVisibilityConverter x:Shared="false" x:Key="nullableToVisibilityConverter"/>
-
+        <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+        
         <Style x:Key="Visible">
             <Setter Property="Control.Visibility" Value="{Binding Path=., Converter={StaticResource nullableToVisibilityConverter}}"/>
         </Style>
@@ -46,6 +47,11 @@
             <Setter Property="Control.Margin" Value="6"/>
         </Style>
 
+        <Style x:Key="h4" BasedOn="{StaticResource h3}">
+            <Setter Property="TextBlock.FontSize" Value="12pt"/>
+            <Setter Property="Control.Margin" Value="4"/>
+        </Style>
+        
         <Style x:Key="Name" TargetType="TextBlock" BasedOn="{StaticResource Visible}">
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="FontWeight" Value="500"/>
