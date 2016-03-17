@@ -36,7 +36,7 @@ namespace AdventurePRO.Views
             {
                 guests = new Model.Person[0] { };
             }
-
+           
             a.Guests = guests.Concat(new Model.Person[1] { new Model.Person() }).ToArray();
         }
 

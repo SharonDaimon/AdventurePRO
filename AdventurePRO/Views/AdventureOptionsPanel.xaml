@@ -125,7 +125,6 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <local:Person Grid.Column="0"/>
 
                                 <Button Grid.Column="1" Click="AddGuest_Click">
                                     <Image Source="pack://siteoforigin:,,,/Properties/fa-plus.png"
