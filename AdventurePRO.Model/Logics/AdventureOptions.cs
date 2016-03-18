@@ -332,11 +332,30 @@ namespace AdventurePRO.Model.Logics
                     return null;
                 }
 
+                if(Accomodations.Any(a => a == null))
+                {
+                    return null;
+                }
+
+                if(Accomodations.Any(a => a.Guests == null))
+                {
+                    return null;
+                }
+
+                if(Accomodations.Any(a => a.Guests.Any(g =>  g == null)))
+                {
+                    return null;
+                }
+
                 var persons = from a in Accomodations
                               from g in a.Guests
                               select g;
-
-                return persons.ToArray();
+                
+                if (persons != null)
+                {
+                    return persons.ToArray();
+                }
+                else { return null; }
             }
         }
 
@@ -645,7 +664,16 @@ namespace AdventurePRO.Model.Logics
         /// </summary>
         public Attraction[] Attractions
         {
-            get { return attractions.ToArray(); }
+            get {
+                if(attractions != null)
+                {
+                    return attractions.ToArray();
+                }
+                else
+                {
+                    return null;
+                }
+            }
             set
             {
                 attractions = new List<Attraction>(value);

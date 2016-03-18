@@ -147,7 +147,7 @@ namespace AdventurePRO.Model.Logics
                 h.Occupancies = occupancies.ToArray();
             }
             
-            var weather = new Openweathermap(Openweathermap.DEFAULT_KEY)
+            var weather = await new Openweathermap(Openweathermap.DEFAULT_KEY)
                 .GetWeatherAsync(options.Destination.Location,
                 (uint)DateTime.Now.AddDays(10).Subtract(options.StartDate).Days);
 
@@ -160,7 +160,8 @@ namespace AdventurePRO.Model.Logics
                 FinishDate = options.FinishDate,
                 Hotels = new Hotel[1] { h },
                 Persons = options.Persons,
-                Tickets = new Ticket[2] {null, null }
+                Tickets = new Ticket[2] { null, null },
+                Weather = weather
             };
         }
 
