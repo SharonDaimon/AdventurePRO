@@ -365,6 +365,8 @@ namespace AdventurePRO.Model.Logics
             {
                 availableTrips = value;
 
+                Trips = null;
+
                 notifyPropertyChanged("AvailableTrips");
             }
         }
@@ -402,19 +404,12 @@ namespace AdventurePRO.Model.Logics
         {
             get
             {
-                if(trips == null)
-                {
-                    initAvailableTrips();
-                }
-
                 return trips;
             }
             set
             {
                 trips = value;
-
-                AvailableHotels = null;
-
+                
                 notifyPropertyChanged("Trips");
             }
         }

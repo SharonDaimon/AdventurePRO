@@ -187,6 +187,12 @@ namespace AdventurePRO.Model.Logics
                 .GetWeatherAsync(options.Destination.Location, 
                 (uint)DateTime.Now.AddDays(10).Subtract(options.StartDate).Days);
 
+            if (options.Trips == null)
+            {
+                AdventureResults = null;
+                return;
+            }
+            
             var adventures = from t in options.Trips
                              from h in hotels
                              select new Adventure
