@@ -145,7 +145,7 @@
             <ListBox ItemsSource="{Binding Path=AvailableTrips}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Checked="Trip_Checked">
+                        <CheckBox>
                             <Grid Style="{StaticResource Stretch}">
                                 <local:OnlineDescribed/>
                             </Grid>

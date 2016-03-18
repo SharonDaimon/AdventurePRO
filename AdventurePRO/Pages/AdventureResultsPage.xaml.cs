@@ -22,10 +22,10 @@ namespace AdventurePRO.Pages
     /// </summary>
     public partial class AdventureResultsPage : Page
     {
-        public AdventureResultsPage(IEnumerable<Adventure> adventures)
+        public AdventureResultsPage(Adventure adventure)
         {
             InitializeComponent();
-            AdventureResultsList.ItemsSource = adventures;
+            this.DataContext= adventure;
         }
     }   
 }

@@ -59,14 +59,8 @@ namespace AdventurePRO.Views
             var hotels = (this.DataContext as AdventureOptions).Hotel;
 
             var selected = (e.OriginalSource as CheckBox).DataContext as Model.Hotel;
-
-            if(hotels == null)
-            {
-                hotels = new Model.Hotel[0] { };
-            }
-
-            (this.DataContext as AdventureOptions).Hotel = hotels
-                .Concat(new Model.Hotel[1] { selected }).ToArray();
+            
+            (this.DataContext as AdventureOptions).Hotel = selected;
         }
 
         private void Attraction_Checked(object sender, RoutedEventArgs e)
@@ -82,21 +76,6 @@ namespace AdventurePRO.Views
 
             (this.DataContext as AdventureOptions).Attractions = attractions
                 .Concat(new Model.Attraction[1] { selected }).ToArray();
-        }
-
-        private void Trip_Checked(object sender, RoutedEventArgs e)
-        {
-            var trips = (this.DataContext as AdventureOptions).Trips;
-
-            var selected = (e.OriginalSource as CheckBox).DataContext as QPXTrip;
-
-            if(trips == null)
-            {
-                trips = new QPXTrip[0] { };
-            }
-
-            (this.DataContext as AdventureOptions).Trips
-                = trips.Concat(new QPXTrip[1] { selected }).ToArray();
         }
     }
 }
