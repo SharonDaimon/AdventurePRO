@@ -49,6 +49,7 @@ namespace AdventurePRO.Model.Logics
             {
                 startDate = value;
 
+                AvailableEvents = null;
                 AvailableTrips = null;
 
                 notifyPropertyChanged("StartDate");
@@ -68,6 +69,7 @@ namespace AdventurePRO.Model.Logics
             {
                 finishDate = value;
 
+                AvailableEvents = null;
                 AvailableTrips = null;
 
                 notifyPropertyChanged("FinishDate");
@@ -120,6 +122,7 @@ namespace AdventurePRO.Model.Logics
 
                 // Set dependent properties to null
                 Country = null;
+                OriginCountry = null;
 
                 notifyPropertyChanged("AvailableCountries");
             }
@@ -297,6 +300,7 @@ namespace AdventurePRO.Model.Logics
                 // Set dependent properties to null
                 AvailableTrips = null;
                 AvailableHotels = null;
+                AvailableEvents = null;
 
                 notifyPropertyChanged("Destination");
             }
@@ -339,6 +343,8 @@ namespace AdventurePRO.Model.Logics
             set
             {
                 accomodations = value;
+
+                AvailableTrips = null;
                 
                 notifyPropertyChanged("Accomodations");
             }
