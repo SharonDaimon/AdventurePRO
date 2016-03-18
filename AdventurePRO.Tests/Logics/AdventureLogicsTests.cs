@@ -27,7 +27,16 @@ namespace AdventurePRO.Model.Logics.Tests
             options.StartDate = TestUtils.From;
             options.FinishDate = TestUtils.To;
 
-            options.Persons = new Person[1] { new Person { Name = "Nasty", Age=19, Type=PersonType.Adult } };
+            options.Accomodations = new Accomodation[1]
+            {
+                new Accomodation
+                {
+                    Guests = new Person[1]
+                    {
+                        new Person { Name = "Nasty", Age = 19, Type = PersonType.Adult }
+                    }
+                }
+            };
 
             options.Accomodations = new Accomodation[1] { new Accomodation { Guests = options.Persons, RoomsCount = 1 } };
 
@@ -60,7 +69,7 @@ namespace AdventurePRO.Model.Logics.Tests
 
             Assert.IsNotNull(destinations);
             Assert.IsTrue(destinations.Any());
-            
+
             options.Destination = destinations.First();
 
             var origins = options.AvailableOrigins;
