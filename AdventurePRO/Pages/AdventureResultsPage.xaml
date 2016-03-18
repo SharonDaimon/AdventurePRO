@@ -10,6 +10,6 @@
       Title="AdventureResultsPage">
 
     <Grid>
-        <views:Adventure/>
+        <views:Adventure DataContext="{Binding Path=AdventureResults}"/>
     </Grid>
 </Page>

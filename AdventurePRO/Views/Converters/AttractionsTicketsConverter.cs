@@ -15,8 +15,15 @@ namespace AdventurePRO.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var attractions = (Attraction[])value;
-            return (from a in attractions from t in a.Tickets select t).ToArray();
+            var attractions = value as Attraction[];
+            if (attractions != null)
+            {
+                return (from a in attractions from t in a.Tickets select t).ToArray();
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

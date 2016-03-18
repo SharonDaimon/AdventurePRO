@@ -15,12 +15,18 @@ namespace AdventurePRO.Views.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            var ac = (Acquirable[])values[0];
-            string currency = (string)values[1];
-            
+            var ac = values[0] as Acquirable[];
+            string currency = values[1] as string;
 
-            float sum = (from a in ac select StaticCurrencyConverter.Convert(a.Cost, a.Currency, currency)).Sum();
-            return string.Format("{0:0.00} {1}", sum, currency);
+            if (ac != null && currency != null)
+            {
+                float sum = (from a in ac select StaticCurrencyConverter.Convert(a.Cost, a.Currency, currency)).Sum();
+                return string.Format("{0:0.00} {1}", sum, currency);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

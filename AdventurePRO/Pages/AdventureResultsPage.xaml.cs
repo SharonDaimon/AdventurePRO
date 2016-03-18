@@ -22,10 +22,9 @@ namespace AdventurePRO.Pages
     /// </summary>
     public partial class AdventureResultsPage : Page
     {
-        public AdventureResultsPage(Adventure adventure)
+        public AdventureResultsPage()
         {
             InitializeComponent();
-            this.DataContext= adventure;
         }
     }   
 }

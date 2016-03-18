@@ -13,8 +13,8 @@ namespace AdventurePRO.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool vis = (bool)value;
-            return vis ? Visibility.Visible : Visibility.Collapsed;
+                bool? vis = value as bool?;
+                return vis.GetValueOrDefault() ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

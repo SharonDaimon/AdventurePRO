@@ -54,7 +54,11 @@ namespace AdventurePRO
                 context = new AdventureApiContext { Options = options };
             }
 
-            MainContent.Navigate(new AdventureResultsPage(context.AdventureResult));
+            var page = new AdventureResultsPage();
+
+            page.DataContext = context;
+
+            MainContent.Navigate(page);
         }
 
         private class converter : ICurencyConverter

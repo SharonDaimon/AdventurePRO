@@ -14,8 +14,15 @@ namespace AdventurePRO.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Acquirable ac = (Acquirable)value;
-            return string.Format("{0:0.00} {1}", ac.Cost, ac.Currency);
+            Acquirable ac = value as Acquirable;
+            if (ac != null)
+            {
+                return string.Format("{0:0.00} {1}", ac.Cost, ac.Currency);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

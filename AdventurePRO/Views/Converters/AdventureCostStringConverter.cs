@@ -14,8 +14,15 @@ namespace AdventurePRO.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Model.Adventure adventure = (Model.Adventure)value;
-            return string.Format("{0:0.00} {1}", adventure.FullCost, adventure.Currency);
+            Model.Adventure adventure = value as Model.Adventure;
+            if (adventure != null)
+            {
+                return string.Format("{0:0.00} {1}", adventure.FullCost, adventure.Currency);
+            }
+            else
+            {
+                return string.Empty;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

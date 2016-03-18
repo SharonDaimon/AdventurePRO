@@ -15,13 +15,20 @@ namespace AdventurePRO.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Hotel[] hotels = (Hotel[])value;
+            Hotel[] hotels = value as Hotel[];
 
-            var occupancies = from h in hotels
-                              from occupancy in h.Occupancies
-                              select occupancy;
+            if (hotels != null)
+            {
+                var occupancies = from h in hotels
+                                  from occupancy in h.Occupancies
+                                  select occupancy;
 
-            return occupancies.ToArray();
+                return occupancies.ToArray();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

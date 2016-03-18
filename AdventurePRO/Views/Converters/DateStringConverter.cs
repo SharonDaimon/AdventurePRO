@@ -13,8 +13,15 @@ namespace AdventurePRO.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            DateTime date = (DateTime)value;
-            return date.ToString(System.Globalization.DateTimeFormatInfo.CurrentInfo);
+            if (value != null)
+            {
+                DateTime date = (DateTime)value;
+                return date.ToString(System.Globalization.DateTimeFormatInfo.CurrentInfo);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

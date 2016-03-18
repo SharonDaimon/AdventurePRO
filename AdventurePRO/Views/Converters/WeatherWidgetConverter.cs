@@ -14,9 +14,22 @@ namespace AdventurePRO.Views.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            Weather[] weather = (Weather[])values[0];
-            int val = (int)((double)values[1]);
-            return weather[val];
+            if (values == null || values.Length <= 1)
+            {
+                return null;
+            }
+
+            var weather = values[0] as Weather[];
+            int val = (int)(values[1] as double?);
+
+            if (weather != null)
+            {
+                return weather[val];
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

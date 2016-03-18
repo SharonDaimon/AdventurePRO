@@ -17,7 +17,15 @@ namespace AdventurePRO.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((Weather[])value).Count() - 1;
+            var weathe = value as Weather[];
+            if (weathe != null)
+            {
+                return ((Weather[])value).Count() - 1;
+            }
+            else
+            {
+                return 0;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
