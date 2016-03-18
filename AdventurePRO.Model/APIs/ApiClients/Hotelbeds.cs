@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Security.Cryptography;
+using System.Xml.Linq;
 
 namespace AdventurePRO.Model.APIs.ApiClients
 {
@@ -39,6 +40,8 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// Default language
         /// </summary>
         public const string LANG = "ENG";
+
+        private static readonly XNamespace xmlns = "http://www.hotelbeds.com/schemas/messages";
 
         /// <summary>
         /// Creates an ApiClient with given key and secret

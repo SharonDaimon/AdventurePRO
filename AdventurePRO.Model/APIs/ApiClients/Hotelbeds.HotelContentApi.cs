@@ -18,8 +18,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
         private const string HOTEL_CONTENT_API = "hotel-content-api";
         private const string HOTEL_CONTENT_API_VERSION = "1.0";
         private const uint HOTEL_CONTENT_API_LIMIT = 1000;
-        private static readonly XNamespace xmlns = "http://www.hotelbeds.com/schemas/messages";
-
+        
         /// <summary>
         /// Requests hotel-comtent-api for countries list
         /// </summary>

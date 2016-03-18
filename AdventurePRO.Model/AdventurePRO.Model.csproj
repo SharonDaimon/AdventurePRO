@@ -76,6 +76,7 @@
     <Compile Include="APIs\ApiClients\Hotelbeds.cs" />
     <Compile Include="APIs\ApiClients\Hotelbeds.HotelApi.cs" />
     <Compile Include="APIs\ApiClients\Hotelbeds.HotelContentApi.cs" />
+    <Compile Include="APIs\ApiClients\Hotelbeds.HotelApi.Tools.cs" />
     <Compile Include="APIs\ApiClients\HttpManager.cs" />
     <Compile Include="APIs\ApiClients\Openweathermap.cs" />
     <Compile Include="APIs\Options\Accomodation.cs" />
