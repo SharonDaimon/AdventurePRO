@@ -43,6 +43,12 @@ namespace AdventurePRO.Model.APIs.ApiClients
 
         private static readonly XNamespace xmlns = "http://www.hotelbeds.com/schemas/messages";
 
+        private static readonly XName HOTEL_EL = xmlns + "hotel";
+
+        private static readonly XName LATITUDE_ATTR = "latitude";
+        private static readonly XName LONGITUDE_ATTR = "longitude";
+
+
         /// <summary>
         /// Creates an ApiClient with given key and secret
         /// </summary>

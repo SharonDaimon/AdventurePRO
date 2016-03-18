@@ -33,8 +33,6 @@ namespace AdventurePRO.Model.APIs.ApiClients
         private static readonly XName CHECK_OUT_ATTR = "checkOut";
         private static readonly XName PERSON_TYPE_ATTR = "type";
         private static readonly XName PERSON_AGE_ATTR = "age";
-        private static readonly XName LATITUDE_ATTR = "latitude";
-        private static readonly XName LONGITUDE_ATTR = "longitude";
         private static readonly XName RADIUS_ATTR = "radius";
         private static readonly XName UNIT_ATTR = "unit";
 

@@ -17,8 +17,33 @@ namespace AdventurePRO.Model.APIs.ApiClients
     {
         private const string HOTEL_CONTENT_API = "hotel-content-api";
         private const string HOTEL_CONTENT_API_VERSION = "1.0";
+        private const string HOTEL_CONTENT_API_HOTELS_METHOD = "hotels";
+        private const string HOTEL_CONTENT_API_COUNTRIES_METHOD = "locations/countries";
+        private const string HOTEL_CONTENT_API_DESTINATIONS_METHOD = "locations/destinations";
         private const uint HOTEL_CONTENT_API_LIMIT = 1000;
+
+        private const string PATH_TO_IMAGES = "http://photos.hotelbeds.com/giata/";
+
+        private static readonly XName COUNTRIES_AR = xmlns + "countries";
+        private static readonly XName DESTINATIONS_AR = xmlns + "destinations";
+       
+        private static readonly XName TOTAL_EL = xmlns + "total";
+        private static readonly XName COUNTRIES_RS_EL = xmlns + "countriesRS";
+        private static readonly XName COUNTRY_EL = xmlns + "country";
+        private static readonly XName COUNTRY_NAME_EL = xmlns + "description"; // Yes, description!
+        private static readonly XName DESTINATIONS_RS_EL = xmlns + "destinationsRS";
+        private static readonly XName DESTINATION_EL = xmlns + "destination";
+        private static readonly XName DESTINATION_NAME_EL = xmlns + "name";
+        private static readonly XName HOTELS_RS_EL = xmlns + "hotelsRS";
+        private static readonly XName HOTEL_NAME_EL = xmlns + "name";
+        private static readonly XName HOTEL_DESCRIPTION_EL = xmlns + "description";
+        private static readonly XName HOTEL_WEB_EL = xmlns + "web";
+        private static readonly XName HOTEL_COORDINATES_EL = xmlns + "coordinates";
         
+
+        private static readonly XName COUNTRY_CODE_ATTR = "code";
+        private static readonly XName DESTINATION_CODE_ATTR = "code";
+
         /// <summary>
         /// Requests hotel-comtent-api for countries list
         /// </summary>
@@ -39,13 +64,13 @@ namespace AdventurePRO.Model.APIs.ApiClients
                 parameters.Add("codes", string.Join(",", country_codes));
             }
 
-            var x_countries = await WithFromTo("locations/countries", parameters, "countriesRS", "countries", "country");
+            var x_countries = await WithFromTo(HOTEL_CONTENT_API_COUNTRIES_METHOD, parameters, COUNTRIES_RS_EL, COUNTRIES_AR, COUNTRY_EL);
 
             var countries = from xc in x_countries
                             select new Country()
                             {
-                                Name = xc.Element(xmlns + "description").Value.Trim(' '),
-                                Code = xc.Attribute("code").Value
+                                Name = value(xc, COUNTRY_NAME_EL).Trim(' '),
+                                Code = attribute(xc,COUNTRY_CODE_ATTR)
                             };
 
             return countries.ToArray();
@@ -72,7 +97,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
                 parameters.Add("countryCodes", string.Join(",", countries.Select(c => c.Code)));
             }
 
-            var x_destinations = await WithFromTo("locations/destinations", parameters, "destinationsRS", "destinations", "destination");
+            var x_destinations = await WithFromTo(HOTEL_CONTENT_API_DESTINATIONS_METHOD, parameters, DESTINATIONS_RS_EL, DESTINATIONS_AR, DESTINATION_EL);
 
             //  To prevent NullReferenceException in linq to sql below
             if (countries == null)
@@ -83,9 +108,9 @@ namespace AdventurePRO.Model.APIs.ApiClients
             var destinations = from xc in x_destinations
                                select new Destination()
                                {
-                                   Name = xc.Element(xmlns + "name").Value,
-                                   Code = xc.Attribute("code").Value,
-                                   Country = countries.FirstOrDefault(c => c.Code == xc.Attribute("countryCode").Value)
+                                   Name = value(xc,DESTINATION_NAME_EL),
+                                   Code = attribute(xc,DESTINATION_CODE_ATTR),
+                                   Country = countries.FirstOrDefault(c => c.Code == attribute(xc,COUNTRY_CODE_ATTR))
                                };
 
             return destinations.ToArray();
@@ -98,7 +123,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// <returns></returns>
         public async Task<Hotel[]> GetHotelsByDestination(Destination d)
         {
-            if(d == null)
+            if (d == null)
             {
                 return null;
             }
@@ -109,49 +134,32 @@ namespace AdventurePRO.Model.APIs.ApiClients
                 "name,description,coordinates,categoryCode,chaincode,address,email,phones,images,web");
             parameters.Add("destinationCode", d.Code);
 
-            var elements = await WithFromTo("hotels", parameters, "hotelsRS", "hotels", "hotel");
+            var x_hotels = await WithFromTo(HOTEL_CONTENT_API_HOTELS_METHOD, parameters, HOTELS_RS_EL, HOTELS_AR, HOTEL_EL);
 
-            var empty = new XElement("Empty");
+            var hotels = from h in x_hotels
+                         select new Hotel()
+                         {
+                             Code = attribute(h, HOTEL_CODE_ATTR),
+                             Name = value(h, HOTEL_NAME_EL),
+                             Description = value(h, HOTEL_DESCRIPTION_EL),
+                             Site = value(h, HOTEL_WEB_EL),
+                             Location = new Location()
+                             {
+                                 Attitude = float_attribute(element(h, HOTEL_COORDINATES_EL), LATITUDE_ATTR),
+                                 Longitude = float_attribute(element(h, HOTEL_COORDINATES_EL), LONGITUDE_ATTR)
+                             },
+                             Photos = parseHotelImages(h)
+                         };
 
-            var empty_attr = new XAttribute("name", "value");
-
-            var empty_ar = new XElement[0];
-            return (from xe in elements
-                    select new Hotel()
-                    {
-                        Code = (xe.Attribute("code") ?? empty_attr).Value,
-                        Name = (xe.Element(xmlns + "name") ?? empty).Value,
-                        Description = (xe.Element(xmlns + "description") ?? empty).Value,
-                        Site = (xe.Element(xmlns + "web") ?? empty).Value,
-                        Location = new Location()
-                        {
-                            Attitude = tryParse(((xe.Element(xmlns + "coordinates") ?? empty)
-                                                .Attribute("latitude") ?? empty_attr).Value),
-                            Longitude = tryParse(((xe.Element(xmlns + "coordinates") ?? empty)
-                                                .Attribute("longitude") ?? empty_attr).Value)
-                        },
-                        Photos = ((from image in ((xe.Element(xmlns + "images") ?? empty)
-                                        .Elements(xmlns + "image") ?? empty_ar)
-                                  where ((image ?? empty).Attribute("imageTypeCode") ?? empty_attr).Value == "RES"
-                                  select new Uri("http://photos.hotelbeds.com/giata/" + ((image ?? empty).Attribute("path") ?? empty_attr).Value))
-                                  ?? new Uri[0]
-                                  ).ToArray()
-
-                    }).ToArray();
-
-        }
-
-        private static float tryParse(string v)
-        {
-            float f;
-            if(float.TryParse(v, NumberStyles.Float, CultureInfo.InvariantCulture, out f))
+            if (hotels != null)
             {
-                return f;
+                return hotels.ToArray();
             }
             else
             {
-                return 0;
+                return null;
             }
+
         }
 
         /// <summary>
@@ -164,36 +172,35 @@ namespace AdventurePRO.Model.APIs.ApiClients
         /// <param name="item_name">Name of desirable objects</param>
         /// <returns>Full list of desirable objects</returns>
         public async Task<IEnumerable<XElement>> WithFromTo(string method, NameValueCollection parameters,
-            string root_name, string array_name, string item_name)
+            XName root_name, XName array_name, XName item_name)
         {
             uint from = 1;
             uint to;
 
-            List<XElement> elements = new List<XElement>();
+            List<XElement> x_elements = new List<XElement>();
 
             XDocument xdoc;
             do
             {
                 to = from + HOTEL_CONTENT_API_LIMIT - 1;
 
-                xdoc = await from_to(method, parameters, root_name, array_name, item_name, from, to);
+                xdoc = await from_to(method, parameters, from, to);
 
-                var root = xdoc.Root;
-                var array = root.Element(xmlns + array_name);
-                var ar_elements = array.Elements(xmlns + item_name);
+                var root = element(xdoc, root_name);
+                var array = element(root, array_name);
+                var ar_elements = elements(array, item_name);
 
-                elements.AddRange(ar_elements /*xdoc.Element(root_name).Element(array_name).Elements(item_name)*/);
+                x_elements.AddRange(ar_elements);
 
                 from += HOTEL_CONTENT_API_LIMIT;
 
-            } while (uint.Parse(xdoc.Element(xmlns + root_name).Element(xmlns + "total").Value) > to);
+            } while (uint.Parse(xdoc.Element(root_name).Element(TOTAL_EL).Value) > to);
 
-            return elements;
+            return x_elements;
         }
 
         //  Returns portion of objects from "from" to "to"
-        private async Task<XDocument> from_to(string method, NameValueCollection parameters,
-            string root_name, string array_name, string item_name, uint from, uint to)
+        private async Task<XDocument> from_to(string method, NameValueCollection parameters, uint from, uint to)
         {
             parameters["from"] = from.ToString();
             parameters["to"] = to.ToString();

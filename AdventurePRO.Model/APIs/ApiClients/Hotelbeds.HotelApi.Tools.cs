@@ -18,7 +18,6 @@ namespace AdventurePRO.Model.APIs.ApiClients
 
         // XML response elements names
         private static readonly XName AVAILABILITY_RS_EL = xmlns + "availabilityRS";
-        private static readonly XName HOTEL_EL = xmlns + "hotel";
         private static readonly XName ROOM_EL = xmlns + "room";
         private static readonly XName RATE_EL = xmlns + "rate";
 
@@ -128,79 +127,5 @@ namespace AdventurePRO.Model.APIs.ApiClients
             };
         }
 
-        private static uint uint_attribute(XElement el, XName attr_name)
-        {
-            return parse_uint(attribute(el, attr_name));
-        }
-
-        private static float float_attribute(XElement el, XName attr_name)
-        {
-            return parseFloat(attribute(el, attr_name));
-        }
-
-        private static IEnumerable<XElement> elements(XContainer el, XName name)
-        {
-            if (el == null)
-            {
-                return null;
-            }
-
-            return el.Elements(name);
-        }
-
-        private static XElement element(XContainer el, XName name)
-        {
-            if (el == null)
-            {
-                return null;
-            }
-
-            return el.Element(name);
-        }
-
-        private static string attribute(XElement el, XName attr_name)
-        {
-            if (el == null)
-            {
-                return null;
-            }
-            return attribute_val(el.Attribute(attr_name));
-        }
-
-        private static string attribute_val(XAttribute attr)
-        {
-            if (attr != null)
-            {
-                return attr.Value;
-            }
-            return default(string);
-        }
-
-        private static uint parse_uint(string v)
-        {
-            uint u;
-
-            if (uint.TryParse(v, out u))
-            {
-                return u;
-            }
-            else
-            {
-                return default(uint);
-            }
-        }
-
-        private static float parseFloat(string v)
-        {
-            float f;
-            if (float.TryParse(v, out f))
-            {
-                return f;
-            }
-            else
-            {
-                return default(float);
-            }
-        }
     }
 }
