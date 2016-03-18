@@ -3,7 +3,9 @@
 // This file contains the description of the application logics class adventureOptions
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +51,7 @@ namespace AdventurePRO.Model.Logics
             {
                 startDate = value;
 
-                AvailableEvents = null;
+                AvailableAttractions = null;
                 AvailableTrips = null;
 
                 notifyPropertyChanged("StartDate");
@@ -69,7 +71,7 @@ namespace AdventurePRO.Model.Logics
             {
                 finishDate = value;
 
-                AvailableEvents = null;
+                AvailableAttractions = null;
                 AvailableTrips = null;
 
                 notifyPropertyChanged("FinishDate");
@@ -85,16 +87,6 @@ namespace AdventurePRO.Model.Logics
         /// How much time does user need to relax before departing the destination
         /// </summary>
         public double BeforeDepartureRelaxTime { get; set; }
-
-        /// <summary>
-        /// How much time does user need to relax between day attractions
-        /// </summary>
-        public double DayRelaxTime { get; set; }
-
-        /// <summary>
-        /// How much time does user need to relax at night
-        /// </summary>
-        public double NightRelaxTime { get; set; }
 
         #endregion
 
@@ -190,7 +182,7 @@ namespace AdventurePRO.Model.Logics
         {
             get
             {
-                if(availableOrigins == null)
+                if (availableOrigins == null)
                 {
                     initAvailableOrigins();
                 }
@@ -300,7 +292,7 @@ namespace AdventurePRO.Model.Logics
                 // Set dependent properties to null
                 AvailableTrips = null;
                 AvailableHotels = null;
-                AvailableEvents = null;
+                AvailableAttractions = null;
 
                 notifyPropertyChanged("Destination");
             }
@@ -308,29 +300,7 @@ namespace AdventurePRO.Model.Logics
 
         #endregion
 
-        #region Persons
-
-        /// <summary>
-        /// Persons list
-        /// </summary>
-        public Person[] Persons
-        {
-            get
-            {
-                if(Accomodations == null)
-                {
-                    return null;
-                }
-
-                var persons = from a in Accomodations
-                              from g in a.Guests
-                              select g;
-
-                return persons.ToArray();
-            }
-        }
-
-        #endregion
+        #region Persons and accomodations
 
         private Accomodation[] accomodations;
 
@@ -345,10 +315,32 @@ namespace AdventurePRO.Model.Logics
                 accomodations = value;
 
                 AvailableTrips = null;
-                
+
                 notifyPropertyChanged("Accomodations");
             }
         }
+
+        /// <summary>
+        /// Persons list
+        /// </summary>
+        public Person[] Persons
+        {
+            get
+            {
+                if (Accomodations == null)
+                {
+                    return null;
+                }
+
+                var persons = from a in Accomodations
+                              from g in a.Guests
+                              select g;
+
+                return persons.ToArray();
+            }
+        }
+
+        #endregion
 
         #region Trips
 
@@ -357,22 +349,35 @@ namespace AdventurePRO.Model.Logics
         /// <summary>
         /// The list of available tickets from and to
         /// </summary>
-        public QPXTrip[] AvailableTrips
+        public IOrderedEnumerable<QPXTrip> AvailableTrips
         {
             get
             {
-                if (availableTrips == null)
+                if(availableTrips != null)
+                {
+                    return availableTrips.OrderBy
+                        (
+                            t 
+                            =>
+                            Math.Pow(t.There.Arrival.Ticks - StartDate.Ticks, 2)
+                            +
+                            Math.Pow(t.Back.Departure.Ticks - FinishDate.Ticks, 2)
+                        );
+                }
+
+                else 
                 {
                     initAvailableTrips();
+                    return null;
                 }
-                return availableTrips;
             }
             private set
             {
-                availableTrips = value;
-
-                Trips = null;
-
+                if (value != null)
+                {
+                    availableTrips = value.ToArray();
+                }
+                
                 notifyPropertyChanged("AvailableTrips");
             }
         }
@@ -391,7 +396,7 @@ namespace AdventurePRO.Model.Logics
                 return;
             }
 
-            AvailableTrips = await new QPX(QPX.DEFAULT_API_KEY).RequestTicketsAsync(
+            availableTrips = await new QPX(QPX.DEFAULT_API_KEY).RequestTicketsAsync(
                     Origin.Code,
                     Destination.Code,
                     StartDate,
@@ -399,69 +404,22 @@ namespace AdventurePRO.Model.Logics
                     (uint)(Persons.Where(p => p.Type == PersonType.Adult) ?? empty_collection).Count(),
                     (uint)(Persons.Where(p => p.Type == PersonType.Child) ?? empty_collection).Count()
                 );
-        }
 
-        private QPXTrip[] trips;
-
-        /// <summary>
-        /// Trips selected by user
-        /// </summary>
-        public QPXTrip[] Trips
-        {
-            get
-            {
-                return trips;
-            }
-            set
-            {
-                trips = value;
-                
-                notifyPropertyChanged("Trips");
-            }
-        }
-
-        /// <summary>
-        /// Returns the earliset arrival to destination
-        /// </summary>
-        public DateTime Earliest
-        {
-            get
-            {
-                if(Trips == null)
-                {
-                    return StartDate; ;
-                }
-                return Trips.OrderBy(t => t.There.Arrival).First().There.Arrival;
-            }
-        }
-
-        /// <summary>
-        /// Returns the lastest departure from destination
-        /// </summary>
-        public DateTime Lastest
-        {
-            get
-            {
-                if (Trips == null)
-                {
-                    return FinishDate ;
-                }
-                return Trips.OrderBy(t => t.Back.Departure).Last().Back.Departure;
-            }
+            notifyPropertyChanged("AvailableTrips");
         }
 
         #endregion
 
         #region Hotels
 
-        private Hotel[] hotels;
+        private Hotel hotel;
 
         private Hotel[] availableHotels;
 
         /// <summary>
         /// The hotels available in this destination
         /// </summary>
-        public Hotel[] AvailableHotels
+        public IOrderedEnumerable<Hotel> AvailableHotels
         {
             get
             {
@@ -469,17 +427,43 @@ namespace AdventurePRO.Model.Logics
                 {
                     initAvailableHotels();
                 }
-                return availableHotels;
+                return availableHotels.OrderBy(h => distance(h.Location, centerOfAttractions));
             }
             set
             {
-                availableHotels = value;
-
-                // Set dependent properties to null
-                Hotels = null;
-
+                if (value != null)
+                {
+                    availableHotels = value.ToArray();
+                }
                 notifyPropertyChanged("AvailableHotels");
             }
+        }
+
+        private static double distance(Location a, Location b)
+        {
+            // This code is taken from
+            // http://stackoverflow.com/questions/6544286/calculate-distance-of-two-geo-points-in-km-c-sharp
+
+            double R = 6371; // km
+
+            double sLat1 = Math.Sin(radians(a.Attitude));
+            double sLat2 = Math.Sin(radians(b.Attitude));
+            double cLat1 = Math.Cos(radians(a.Attitude));
+            double cLat2 = Math.Cos(radians(b.Attitude));
+            double cLon = Math.Cos(radians(a.Longitude) - radians(b.Longitude));
+
+            double cosD = sLat1 * sLat2 + cLat1 * cLat2 * cLon;
+
+            double d = Math.Acos(cosD);
+
+            double dist = R * d;
+
+            return dist;
+        }
+
+        private static double radians(double l)
+        {
+            return 2 * Math.PI * (l / 360.0);
         }
 
         private async void initAvailableHotels()
@@ -488,20 +472,27 @@ namespace AdventurePRO.Model.Logics
             {
                 return;
             }
-            AvailableHotels =
+            var hotels =
                 await new Hotelbeds(Hotelbeds.DEFAULT_KEY, Hotelbeds.DEFAULT_SECRET)
                 .GetHotelsByDestination(Destination);
+
+            if(hotels != null)
+            {
+                availableHotels = hotels.ToArray();
+
+                notifyPropertyChanged("AvailableHotels");
+            }
         }
 
         /// <summary>
-        /// List of hotels in which to lodge
+        /// The hotel selected by user
         /// </summary>
-        public Hotel[] Hotels
+        public Hotel Hotel
         {
-            get { return hotels; }
+            get { return hotel; }
             set
             {
-                hotels = value;
+                hotel = value;
 
                 notifyPropertyChanged("Hotels");
             }
@@ -516,48 +507,46 @@ namespace AdventurePRO.Model.Logics
 
         #region Attractions and events
 
-        private SeatwaveEvent[] availableEvents;
-
-        /// <summary>
-        /// The events available in this destination
-        /// </summary>
-        public SeatwaveEvent[] AvailableEvents
+        private Location centerOfAttractions
         {
             get
             {
-                if (availableEvents == null)
+                if (Destination == null)
                 {
-                    initAvailableEvets();
+                    return default(Location);
                 }
-                return availableEvents;
-            }
-            set
-            {
-                availableEvents = value;
 
-                AvailableAttractions = null;
+                if (Attractions == null)
+                {
+                    return Destination.Location;
+                }
 
-                notifyPropertyChanged("AvailableEvents");
+                var locations = Attractions.Select(a => a.Location).ToArray();
+
+                if (locations == null)
+                {
+                    return Destination.Location;
+                }
+
+                return centerOfMass(locations.ToArray());
             }
         }
 
-        private async void initAvailableEvets()
+        private static Location centerOfMass(params Location[] locations)
         {
-            if (Destination == null)
+            return new Location
             {
-                return;
-            }
-
-            AvailableEvents =
-                await new Seatwave(Seatwave.DEFAULT_API_KEY, Seatwave.DEFAULT_API_SECRET)
-                    .GetEventsAsync
-                    (
-                        Destination.Name, 
-                        Earliest.AddHours(AfterArrivalRelaxTime), 
-                        Lastest.AddHours(BeforeDepartureRelaxTime),
-                        null
-                    );
+                Attitude = locations.Select(l => l.Attitude).Sum() / (float)locations.Count(),
+                Longitude = locations.Select(l => l.Longitude).Sum() / (float)locations.Count()
+            };
         }
+
+        /// <summary>
+        /// What attractions to search
+        /// </summary>
+        public string WhatAttraction { get; set; }
+
+        private Attraction[] available_attractions;
 
         /// <summary>
         /// The attractions available in this destination.
@@ -567,57 +556,122 @@ namespace AdventurePRO.Model.Logics
         {
             get
             {
-                return getAvailableAttractions();
+                if (available_attractions == null)
+                {
+                    initAvailableAttractions();
+                }
+
+                return available_attractions;
             }
+
             private set
             {
-                // Set dependent properties to null
-                Attractions = null;
+                available_attractions = value;
 
                 notifyPropertyChanged("AvailableAttractions");
             }
         }
 
-        private Attraction[] getAvailableAttractions()
+        private async void initAvailableAttractions()
         {
-            // Calling the AvailableEvents property should call the update,
-            // calling the update should set the AvailableAttractions property to null
-            // since the AvailableAttractions property is dependent on AvailableEvents,
-            // then it should notify about AvailableAttractions property changing,
-            // and then calling an AvailableAttractions property getter should call this method,
-            // but by that time AvailableEvents property is not null 
-            // and this method should return the AvailableAttraction property
-            var events = AvailableEvents;
+            if (Destination == null
+                || StartDate == null
+                || FinishDate == null)
+            {
+                return;
+            }
+
+            var events =
+                await new Seatwave(Seatwave.DEFAULT_API_KEY, Seatwave.DEFAULT_API_SECRET)
+                    .GetEventsAsync
+                    (
+                        Destination.Name,
+                        StartDate.AddHours(AfterArrivalRelaxTime),
+                        FinishDate.AddHours(BeforeDepartureRelaxTime),
+                        WhatAttraction
+                    );
 
             if (events == null)
+            {
+                return;
+            }
+
+            var avail = (from e in events
+                         select new Attraction
+                         {
+                             Code = e.Id,
+                             Name = e.GroupName,
+                             Site = e.EventSwURL,
+                             Photos = new Uri[1] { new Uri(e.GroupImageURL) },
+                             Tickets = createTickets(e)
+                         });
+
+            if (avail == null)
+            {
+                return;
+            }
+
+            AvailableAttractions = avail.ToArray();
+        }
+
+        private AttractionTicket[] createTickets(SeatwaveEvent e)
+        {
+            if (Persons == null || e == null)
             {
                 return null;
             }
 
-            return (from e in events
-                    select new Attraction
-                    {
-                        Code = e.Id,
-                        Name = e.GroupName,
-                        Site = e.EventSwURL,
-                        Photos = new Uri[1] { new Uri(e.GroupImageURL) }
-                    })
-                    .ToArray();
+            var tickets = from p in Persons
+                          select new AttractionTicket
+                          {
+                              Owner = p,
+                              Cost = e.Price,
+                              Currency = e.Currency,
+                              OrderLink = e.EventSwURL
+                          };
+
+            if (tickets != null)
+            {
+                return tickets.ToArray();
+            }
+
+            return null;
         }
 
-        private Attraction[] attractions;
+        private List<Attraction> attractions;
 
         /// <summary>
-        /// List of Attractions, which are interesting for user
+        /// List of Attractions selected by user
         /// </summary>
         public Attraction[] Attractions
         {
-            get { return attractions; }
+            get { return attractions.ToArray(); }
             set
             {
-                attractions = value;
+                attractions = new List<Attraction>(value);
 
                 notifyPropertyChanged("Attractions");
+            }
+        }
+
+        /// <summary>
+        /// Adds the selected by user attraction
+        /// </summary>
+        /// <param name="a"></param>
+        public void AddAttraction(Attraction a)
+        {
+            attractions.Add(a);
+        }
+
+        /// <summary>
+        /// Removes the selected by user attraction
+        /// </summary>
+        /// <param name="a"></param>
+        public void RemoveAttraction(Attraction a)
+        {
+            if (attractions.Contains(a))
+            {
+                attractions.Remove(a);
             }
         }
 

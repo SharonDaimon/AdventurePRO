@@ -56,7 +56,7 @@ namespace AdventurePRO.Views
 
         private void Hotel_Checked(object sender, RoutedEventArgs e)
         {
-            var hotels = (this.DataContext as AdventureOptions).Hotels;
+            var hotels = (this.DataContext as AdventureOptions).Hotel;
 
             var selected = (e.OriginalSource as CheckBox).DataContext as Model.Hotel;
 
@@ -65,7 +65,7 @@ namespace AdventurePRO.Views
                 hotels = new Model.Hotel[0] { };
             }
 
-            (this.DataContext as AdventureOptions).Hotels = hotels
+            (this.DataContext as AdventureOptions).Hotel = hotels
                 .Concat(new Model.Hotel[1] { selected }).ToArray();
         }
 

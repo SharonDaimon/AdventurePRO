@@ -33,7 +33,7 @@ namespace AdventurePRO.Model.Logics
 
         private void Options_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            AdventureResults = null;
+            AdventureResult = null;
         }
 
         /// <summary>
@@ -66,185 +66,103 @@ namespace AdventurePRO.Model.Logics
 
                 options.PropertyChanged += Options_PropertyChanged;
 
-                AdventureResults = null;
+                AdventureResult = null;
 
                 notifyPropertyChanged("Options");
             }
         }
 
-        private Adventure[] adv_results;
+        private Adventure adv_result;
 
         /// <summary>
         /// Results of creating
         /// </summary>
-        public Adventure[] AdventureResults
+        public Adventure AdventureResult
         {
             get
             {
-                if (adv_results == null)
+                if (adv_result == null)
                 {
-                    initAdventureResults();
+                    initAdventureResult();
                 }
-                return adv_results;
+                return adv_result;
             }
             private set
             {
-                adv_results = value;
-                notifyPropertyChanged("AdventureResults");
+                adv_result = value;
+                notifyPropertyChanged("AdventureResult");
             }
         }
 
-        private async void initAdventureResults()
+        private async void initAdventureResult()
         {
-            if (options == null)
+            if (options == null ||
+                options.StartDate == null ||
+                options.FinishDate == null ||
+                options.Accomodations == null ||
+                options.Hotel == null ||
+                options.AvailableTrips == null)
             {
                 return;
             }
 
             var hotelbeds = new Hotelbeds(Hotelbeds.DEFAULT_KEY, Hotelbeds.DEFAULT_SECRET);
 
-            var start = options.Earliest.AddHours(MIN_AIRPORT_HOTEL_TRAVELLING_TIME_IN_HOURS);
+            var checkIn = options.StartDate.AddHours(options.AfterArrivalRelaxTime);
 
-            var finish = options.Lastest.AddHours(-MIN_AIRPORT_HOTEL_TRAVELLING_TIME_IN_HOURS);
+            var checkOut = options.FinishDate.AddHours(options.BeforeDepartureRelaxTime);
 
-            HotelRoom[] rooms;
+            var h = options.Hotel;
 
-            Location center;
-            if (options.Attractions != null)
+            var rooms = await hotelbeds.PostHotelsAsync
+                (
+                    new Hotel[1] { h },
+                    checkIn,
+                    checkOut,
+                    options.Accomodations
+                );
+
+            if (rooms == null)
             {
-                center = centerOfMass(options.Attractions.Select(a => a.Location).ToArray());
-            }
-            else
-            {
-                center = options.Destination.Location;
-            }
-
-            IOrderedEnumerable<Attraction> nearest_attr;
-            float largest_dist;
-
-            if (options.Attractions != null)
-            {
-                nearest_attr = options.Attractions.OrderBy(a => distance(center, a.Location));
-                largest_dist = (float)distance(center, nearest_attr.Last().Location);
-            }
-            else
-            {
-                largest_dist = 1;
-                nearest_attr = new Attraction[0].OrderBy(a => distance(center, a.Location));
-            }
-
-
-            if (!options.SearchByGPS)
-            {
-                rooms = await hotelbeds.PostHotelsAsync
-                    (
-                        options.Hotels,
-                        start,
-                        finish,
-                        options.Accomodations
-                    );
-            }
-            else
-            {
-                rooms = await hotelbeds.PostHotelsByGPSRadiusAsync
-                    (
-                        options.Hotels,
-                        start,
-                        finish,
-                        options.Accomodations,
-                        center,
-                        largest_dist
-                    );
-            }
-
-            var hotels = rooms.Select(r => r.Hotel).Distinct();
-
-            foreach(var h in hotels)
-            {
-                var h_rooms = from r in rooms
-                              where r.Hotel == h
-                              select r;
-
-                h.Occupancies = (from r in h_rooms
-                                 select new Occupancy
-                                 {
-                                     Code = r.Code,
-                                     Name = r.Name,
-                                     CheckIn = start,
-                                     CheckOut = finish,
-                                     RoomsCount = r.RoomsCount,
-                                     Capacity = r.AdultsNumber + r.ChildrenNumber,
-                                     OrderLink = r.OrderLink,
-                                     Cost = r.Cost,
-                                     Currency = r.Currency
-                                 })
-                                .ToArray();
-            }
-
-            var nearest = hotels.OrderBy(h => distance(h.Location, center));
-
-            var weather = new Openweathermap(Openweathermap.DEFAULT_KEY)
-                .GetWeatherAsync(options.Destination.Location, 
-                (uint)DateTime.Now.AddDays(10).Subtract(options.StartDate).Days);
-
-            if (options.Trips == null)
-            {
-                AdventureResults = null;
                 return;
             }
-            
-            var adventures = from t in options.Trips
-                             from h in hotels
-                             select new Adventure
-                             {
-                                 Attractions = nearest_attr.ToArray(),
-                                 Home = options.Origin,
-                                 Destination = options.Destination,
-                                 StartDate = options.StartDate,
-                                 FinishDate = options.FinishDate,
-                                 Hotels = new Hotel[1] { h },
-                                 Persons = options.Persons,
-                                 Tickets = new Ticket[2] { t.There, t.Back }
-                             };
 
-            AdventureResults = adventures.ToArray();
-        }
+            var occupancies = (from r in rooms
+                               select new Occupancy
+                               {
+                                   Code = r.Code,
+                                   Name = r.Name,
+                                   CheckIn = checkIn,
+                                   CheckOut = checkOut,
+                                   RoomsCount = r.RoomsCount,
+                                   Capacity = r.AdultsNumber + r.ChildrenNumber,
+                                   OrderLink = r.OrderLink,
+                                   Cost = r.Cost,
+                                   Currency = r.Currency
+                               });
 
-        private static Location centerOfMass(params Location[] locations)
-        {
-            return new Location
+            if (occupancies != null)
             {
-                Attitude = locations.Select(l => l.Attitude).Sum() / (float)locations.Count(),
-                Longitude = locations.Select(l => l.Longitude).Sum() / (float)locations.Count()
+
+                h.Occupancies = occupancies.ToArray();
+            }
+            
+            var weather = new Openweathermap(Openweathermap.DEFAULT_KEY)
+                .GetWeatherAsync(options.Destination.Location,
+                (uint)DateTime.Now.AddDays(10).Subtract(options.StartDate).Days);
+
+            AdventureResult = new Adventure
+            {
+                Attractions = options.Attractions,
+                Home = options.Origin,
+                Destination = options.Destination,
+                StartDate = options.StartDate,
+                FinishDate = options.FinishDate,
+                Hotels = new Hotel[1] { h },
+                Persons = options.Persons,
+                Tickets = new Ticket[2] {null, null }
             };
         }
 
-        // Returns distance in kilometers between two points
-        private static double distance(Location a, Location b)
-        {
-            // This code is taken from
-            // http://stackoverflow.com/questions/6544286/calculate-distance-of-two-geo-points-in-km-c-sharp
-
-            double R = 6371; // km
-
-            double sLat1 = Math.Sin(radians(a.Attitude));
-            double sLat2 = Math.Sin(radians(b.Attitude));
-            double cLat1 = Math.Cos(radians(a.Attitude));
-            double cLat2 = Math.Cos(radians(b.Attitude));
-            double cLon = Math.Cos(radians(a.Longitude) - radians(b.Longitude));
-
-            double cosD = sLat1 * sLat2 + cLat1 * cLat2 * cLon;
-
-            double d = Math.Acos(cosD);
-
-            double dist = R * d;
-
-            return dist;
-        }
-
-        private static double radians(double l)
-        {
-            return 2 * Math.PI * (l / 360.0); 
-        }
     }
 }

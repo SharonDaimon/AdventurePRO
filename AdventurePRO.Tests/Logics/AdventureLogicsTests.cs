@@ -111,18 +111,18 @@ namespace AdventurePRO.Model.Logics.Tests
             Assert.IsNotNull(hotels);
             Assert.IsTrue(hotels.Any());
 
-            options.Hotels = hotels;
+            options.Hotel = hotels;
 
             var context = new AdventureApiContext
             {
                 Options = options
             };
 
-            var results = context.AdventureResults;
+            var results = context.AdventureResult;
 
             Task.Delay(5000).Wait();
 
-            results = context.AdventureResults;
+            results = context.AdventureResult;
 
             Assert.IsNotNull(results);
 
