@@ -168,7 +168,8 @@ namespace AdventurePRO.Model.Logics
                 Hotels = new Hotel[1] { h },
                 Persons = options.Persons,
                 Tickets = new Ticket[2] { trip.There, trip.Back },
-                Weather = weather
+                Weather = weather,
+                Currency = options.Currency
             };
         }
 

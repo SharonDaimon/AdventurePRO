@@ -34,6 +34,8 @@ namespace AdventurePRO.Model.Logics
             }
         }
 
+        public string Currency { get; set; }
+
         #region Date
 
         private DateTime startDate, finishDate;
