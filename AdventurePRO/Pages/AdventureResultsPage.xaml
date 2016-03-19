@@ -9,7 +9,7 @@
       d:DesignHeight="300" d:DesignWidth="300"
       Title="AdventureResultsPage">
 
-    <Grid>
+    <Grid Style="{StaticResource Visible}">
         <views:Adventure/>
     </Grid>
 </Page>
