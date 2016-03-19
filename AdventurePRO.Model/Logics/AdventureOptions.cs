@@ -52,7 +52,6 @@ namespace AdventurePRO.Model.Logics
                 startDate = value;
 
                 AvailableAttractions = null;
-                AvailableTrips = null;
 
                 notifyPropertyChanged("StartDate");
             }
@@ -72,7 +71,6 @@ namespace AdventurePRO.Model.Logics
                 finishDate = value;
 
                 AvailableAttractions = null;
-                AvailableTrips = null;
 
                 notifyPropertyChanged("FinishDate");
             }
@@ -226,8 +224,6 @@ namespace AdventurePRO.Model.Logics
             {
                 origin = value;
 
-                AvailableTrips = null;
-
                 notifyPropertyChanged("Origin");
             }
         }
@@ -290,7 +286,6 @@ namespace AdventurePRO.Model.Logics
                 destination = value;
 
                 // Set dependent properties to null
-                AvailableTrips = null;
                 AvailableHotels = null;
                 AvailableAttractions = null;
 
@@ -302,23 +297,9 @@ namespace AdventurePRO.Model.Logics
 
         #region Persons and accomodations
 
-        private Accomodation[] accomodations;
+        public uint CountOfRooms { get; set; }
 
-        public Accomodation[] Accomodations
-        {
-            get
-            {
-                return accomodations;
-            }
-            set
-            {
-                accomodations = value;
-
-                AvailableTrips = null;
-
-                notifyPropertyChanged("Accomodations");
-            }
-        }
+        private List<Person> persons;
 
         /// <summary>
         /// Persons list
@@ -327,83 +308,41 @@ namespace AdventurePRO.Model.Logics
         {
             get
             {
-                if (Accomodations == null)
+                if (this.persons == null)
                 {
                     return null;
                 }
 
-                if(Accomodations.Any(a => a == null))
-                {
-                    return null;
-                }
-
-                if(Accomodations.Any(a => a.Guests == null))
-                {
-                    return null;
-                }
-
-                if(Accomodations.Any(a => a.Guests.Any(g =>  g == null)))
-                {
-                    return null;
-                }
-
-                var persons = from a in Accomodations
-                              from g in a.Guests
-                              select g;
-                
-                if (persons != null)
-                {
-                    return persons.ToArray();
-                }
-                else { return null; }
+                return persons.ToArray();
             }
+        }
+
+        public void AddPerson(Person p)
+        {
+            if (persons == null)
+            {
+                persons = new List<Person>();
+            }
+
+            persons.Add(p);
+
+            notifyPropertyChanged("Persons");
+        }
+
+        public void RemovePerson(Person p)
+        {
+            if (persons == null || !persons.Contains(p))
+            {
+                return;
+            }
+            persons.Remove(p);
         }
 
         #endregion
 
         #region Trips
-
-        private QPXTrip[] availableTrips;
-
-        /// <summary>
-        /// The list of available tickets from and to
-        /// </summary>
-        public IOrderedEnumerable<QPXTrip> AvailableTrips
+        public async Task<IOrderedEnumerable<QPXTrip>> GetAvailableTripsAsync()
         {
-            get
-            {
-                if(availableTrips != null)
-                {
-                    return availableTrips.OrderBy
-                        (
-                            t 
-                            =>
-                            Math.Pow(t.There.Arrival.Ticks - StartDate.Ticks, 2)
-                            +
-                            Math.Pow(t.Back.Departure.Ticks - FinishDate.Ticks, 2)
-                        );
-                }
-
-                else 
-                {
-                    initAvailableTrips();
-                    return null;
-                }
-            }
-            private set
-            {
-                if (value != null)
-                {
-                    availableTrips = value.ToArray();
-                }
-                
-                notifyPropertyChanged("AvailableTrips");
-            }
-        }
-
-        private async void initAvailableTrips()
-        {
-
             var empty_collection = new Person[] { };
 
             if (Origin == null
@@ -412,10 +351,10 @@ namespace AdventurePRO.Model.Logics
                 || FinishDate == null
                 || Persons == null)
             {
-                return;
+                return null;
             }
 
-            availableTrips = await new QPX(QPX.DEFAULT_API_KEY).RequestTicketsAsync(
+            var availableTrips = await new QPX(QPX.DEFAULT_API_KEY).RequestTicketsAsync(
                     Origin.Code,
                     Destination.Code,
                     StartDate,
@@ -424,7 +363,19 @@ namespace AdventurePRO.Model.Logics
                     (uint)(Persons.Where(p => p.Type == PersonType.Child) ?? empty_collection).Count()
                 );
 
-            notifyPropertyChanged("AvailableTrips");
+            if (availableTrips == null)
+            {
+                return null;
+            }
+
+            return availableTrips.OrderBy
+                        (
+                            t
+                            =>
+                            Math.Pow(t.There.Arrival.Ticks - StartDate.Ticks, 2)
+                            +
+                            Math.Pow(t.Back.Departure.Ticks - FinishDate.Ticks, 2)
+                        );
         }
 
         #endregion
@@ -495,7 +446,7 @@ namespace AdventurePRO.Model.Logics
                 await new Hotelbeds(Hotelbeds.DEFAULT_KEY, Hotelbeds.DEFAULT_SECRET)
                 .GetHotelsByDestination(Destination);
 
-            if(hotels != null)
+            if (hotels != null)
             {
                 availableHotels = hotels.ToArray();
 
@@ -512,8 +463,6 @@ namespace AdventurePRO.Model.Logics
             set
             {
                 hotel = value;
-
-                AvailableTrips = null;
 
                 notifyPropertyChanged("Hotels");
             }
@@ -623,6 +572,7 @@ namespace AdventurePRO.Model.Logics
                              Code = e.Id,
                              Name = e.GroupName,
                              Site = e.EventSwURL,
+                             VenueId = e.VenueId,
                              Photos = new Uri[1] { new Uri(e.GroupImageURL) },
                              Tickets = createTickets(e)
                          });
@@ -666,8 +616,9 @@ namespace AdventurePRO.Model.Logics
         /// </summary>
         public Attraction[] Attractions
         {
-            get {
-                if(attractions != null)
+            get
+            {
+                if (attractions != null)
                 {
                     return attractions.ToArray();
                 }
