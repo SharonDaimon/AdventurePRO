@@ -55,37 +55,37 @@ namespace AdventurePRO.Model.APIs.Results
         /// <summary>
         ///  Name of the venue
         /// </summary>
-        [XmlAttribute("VenueName")]
+        [XmlElement("VenueName")]
         public string VenueName { get; set; }
 
         /// <summary>
         /// Id of the venue
         /// </summary>
-        [XmlAttribute("VenueID")]
+        [XmlElement("VenueId")]
         public string VenueId { get; set; }
 
         /// <summary>
         /// URL of the Seatwave event page. This will redirect via an affiliate platform when one has been specified
         /// </summary>
-        [XmlAttribute("SwURL")]
+        [XmlElement("SwURL")]
         public string EventSwURL { get; set; }
 
         /// <summary>
         /// The number of available tickets
         /// </summary>
-        [XmlAttribute("TicketCount")]
+        [XmlElement("TicketCount")]
         public uint CountOfTickets { get; set; }
 
         /// <summary>
         /// The mininum price price of a ticket
         /// </summary>
-        [XmlAttribute("MinPrice")]
+        [XmlElement("MinPrice")]
         public float Price { get; set; }
 
         /// <summary>
         /// The minimum price currency (standard 3 letter code)
         /// </summary>
-        [XmlAttribute("Currency")]
+        [XmlElement("Currency")]
         public string Currency { get; set; }
 
 

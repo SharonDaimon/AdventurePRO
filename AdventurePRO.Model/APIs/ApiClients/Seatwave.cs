@@ -88,7 +88,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
             var serializer = new XmlSerializer(typeof(SeatwaveEvent));
 
             return (from p in pages
-                    select (SeatwaveEvent)serializer.Deserialize(p.CreateReader()))
+                    select  (SeatwaveEvent)serializer.Deserialize(p.CreateReader()))
                     .ToArray();
         }
 
