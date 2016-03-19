@@ -87,19 +87,6 @@
                 </TextBlock>
             </StackPanel>
 
-            <!-- Taxis -->
-            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal">
-                <Image Source="pack://siteoforigin:,,,/Properties/fa-taxi.png" Style="{StaticResource Icon}"/>
-                <TextBlock Style="{StaticResource Cost}">
-                    <TextBlock.Text>
-                        <MultiBinding Converter="{StaticResource acquirableArraySumConverter}">
-                            <Binding Path="Taxis"/>
-                            <Binding Path="Currency"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-            </StackPanel>
-
             <!-- Hotels -->
             <StackPanel Grid.Row="4" Grid.Column="0" Orientation="Horizontal">
                 <Image Source="pack://siteoforigin:,,,/Properties/fa-bed.png" Style="{StaticResource Icon}"/>
@@ -179,26 +166,6 @@
                         </ListView.View>
                     </ListView>
                 </Grid>
-            </StackPanel>
-
-            <!-- Taxis -->
-            <StackPanel Style="{StaticResource Stretch}" DataContext="{Binding Path=Taxis}">
-                <TextBlock Style="{StaticResource h1}" >Taxis</TextBlock>
-                <ListBox ItemsSource="{Binding Path=.}"  HorizontalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Style="{StaticResource Stretch}">
-                                <TextBlock Text="{Binding Path=When, Converter={StaticResource dateStringConverter}}" 
-                                           Style="{StaticResource Date}" />
-                                <Separator Style="{StaticResource Stretch}"/>
-                                <TextBlock Text="{Binding Path=., Converter={StaticResource acquirableToCostStringConverter}}" Style="{StaticResource Cost}"/>
-                                <local:PersonsList DataContext="{Binding Path=Passengers}" 
-                                                   Style="{StaticResource Stretch}" 
-                                                   HorizontalContentAlignment="Stretch"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
             </StackPanel>
 
             <!-- Hotels -->

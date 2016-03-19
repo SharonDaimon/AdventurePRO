@@ -82,79 +82,46 @@
 
         <TextBlock Style="{StaticResource h3}">Accomodations</TextBlock>
         <StackPanel>
-            <ListBox ItemsSource="{Binding Path=Accomodations, Mode=TwoWay}" HorizontalContentAlignment="Stretch">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel>
+            <StackPanel>
+
+                <StackPanel Grid.Column="1" Width="120">
+                    <TextBlock>Count of rooms:</TextBlock>
+                    <TextBox Grid.Column="1" Text="{Binding Path=CountOfRooms, Mode=TwoWay}"/>
+                </StackPanel>
+
+                <ListBox ItemsSource="{Binding Path=Persons}" Background="Blue" HorizontalContentAlignment="Stretch">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
                             <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="60"/>
-                                </Grid.ColumnDefinitions>
-
-                                <TextBlock Grid.Column="0" Style="{StaticResource h4}">
-                                    Accomodation
-                                </TextBlock>
-                                <StackPanel Grid.Column="1" Width="120">
-                                    <TextBlock>Count of rooms:</TextBlock>
-                                    <TextBox Grid.Column="1" Text="{Binding Path=RoomsCount, Mode=TwoWay}"/>
-                                </StackPanel>
-                            </Grid>
-                            
-                            <ListBox ItemsSource="{Binding Path=Guests, Mode=TwoWay}" Background="Blue" HorizontalContentAlignment="Stretch">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-
-                                            <local:Person Grid.Column="0"/>
-                                            <Button Grid.Column="1">
-                                                <Image Source="pack://siteoforigin:,,,/Properties/fa-minus.png"
-                                                        Style="{StaticResource person_add_remove}"/>
-                                            </Button>
-                                        </Grid>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-
-                            <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Button Grid.Column="1" Click="AddGuest_Click">
-                                    <Image Source="pack://siteoforigin:,,,/Properties/fa-plus.png"
-                           Style="{StaticResource person_add_remove}"/>
+                                <local:Person Grid.Column="0"/>
+                                <Button Grid.Column="1" Click="RemovePerson_Click">
+                                    <Image Source="pack://siteoforigin:,,,/Properties/fa-minus.png"
+                                                        Style="{StaticResource person_add_remove}"/>
                                 </Button>
                             </Grid>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
-            <Button Click="AddAccomodation_Click">
-                <Image Width="24" Source="pack://siteoforigin:,,,/Properties/fa-plus.png"/>
-            </Button>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="1" Click="AddPerson_Click">
+                        <Image Source="pack://siteoforigin:,,,/Properties/fa-plus.png"
+                           Style="{StaticResource person_add_remove}"/>
+                    </Button>
+                </Grid>
+            </StackPanel>
         </StackPanel>
 
-        <GroupBox Header="Available trips" >
-            <ListBox ItemsSource="{Binding Path=AvailableTrips}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox>
-                            <Grid Style="{StaticResource Stretch}">
-                                <local:OnlineDescribed/>
-                            </Grid>
-                        </CheckBox>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </GroupBox>
-        
         <CheckBox Name="SearchByHotels">
             I want to select hotels
         </CheckBox>

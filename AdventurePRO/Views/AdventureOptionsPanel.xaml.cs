@@ -28,30 +28,20 @@ namespace AdventurePRO.Views
             InitializeComponent();
         }
 
-        private void AddGuest_Click(object sender, RoutedEventArgs e)
+        private void AddPerson_Click(object sender, RoutedEventArgs e)
         {
-            var a = (e.OriginalSource as Button).DataContext as Accomodation;
-            var guests = a.Guests;
+            var a = (e.OriginalSource as Button).DataContext as AdventureOptions;
 
-            if(guests == null)
-            {
-                guests = new Model.Person[0] { };
-            }
-           
-            a.Guests = guests.Concat(new Model.Person[1] { new Model.Person() }).ToArray();
+            a.AddPerson(new Model.Person());
         }
 
-        private void AddAccomodation_Click(object sender, RoutedEventArgs e)
+        private void RemovePerson_Click(object sender, RoutedEventArgs e)
         {
-            var accomodations = (this.DataContext as AdventureOptions).Accomodations;
+            var a = this.DataContext as AdventureOptions;
 
-            if(accomodations == null)
-            {
-                accomodations = new Accomodation[0] { };
-            }
+            var p = (e.OriginalSource as Button).DataContext as Model.Person;
 
-            (this.DataContext as AdventureOptions).Accomodations = accomodations
-                .Concat(new Accomodation[1] { new Accomodation() }).ToArray();
+            a.RemovePerson(p);
         }
 
         private void Hotel_Checked(object sender, RoutedEventArgs e)
@@ -59,7 +49,7 @@ namespace AdventurePRO.Views
             var hotels = (this.DataContext as AdventureOptions).Hotel;
 
             var selected = (e.OriginalSource as CheckBox).DataContext as Model.Hotel;
-            
+
             (this.DataContext as AdventureOptions).Hotel = selected;
         }
 
@@ -69,7 +59,7 @@ namespace AdventurePRO.Views
 
             var selected = (e.OriginalSource as CheckBox).DataContext as Model.Attraction;
 
-            if(attractions == null)
+            if (attractions == null)
             {
                 attractions = new Model.Attraction[0] { };
             }
@@ -77,6 +67,7 @@ namespace AdventurePRO.Views
             (this.DataContext as AdventureOptions).Attractions = attractions
                 .Concat(new Model.Attraction[1] { selected }).ToArray();
         }
+
+
     }
 }
-    
