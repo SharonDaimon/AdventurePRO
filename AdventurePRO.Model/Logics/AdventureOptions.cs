@@ -52,7 +52,7 @@ namespace AdventurePRO.Model.Logics
                 startDate = value;
 
                 AvailableAttractions = null;
-                
+
                 notifyPropertyChanged("StartDate");
             }
         }
@@ -71,7 +71,7 @@ namespace AdventurePRO.Model.Logics
                 finishDate = value;
 
                 AvailableAttractions = null;
-                
+
                 notifyPropertyChanged("FinishDate");
             }
         }
@@ -223,7 +223,7 @@ namespace AdventurePRO.Model.Logics
             set
             {
                 origin = value;
-                
+
                 notifyPropertyChanged("Origin");
             }
         }
@@ -297,21 +297,9 @@ namespace AdventurePRO.Model.Logics
 
         #region Persons and accomodations
 
-        private Accomodation[] accomodations;
+        public uint CountOfRooms { get; set; }
 
-        public Accomodation[] Accomodations
-        {
-            get
-            {
-                return accomodations;
-            }
-            set
-            {
-                accomodations = value;
-
-                notifyPropertyChanged("Accomodations");
-            }
-        }
+        private List<Person> persons;
 
         /// <summary>
         /// Persons list
@@ -320,36 +308,34 @@ namespace AdventurePRO.Model.Logics
         {
             get
             {
-                if (Accomodations == null)
+                if (this.persons == null)
                 {
                     return null;
                 }
 
-                if (Accomodations.Any(a => a == null))
-                {
-                    return null;
-                }
-
-                if (Accomodations.Any(a => a.Guests == null))
-                {
-                    return null;
-                }
-
-                if (Accomodations.Any(a => a.Guests.Any(g => g == null)))
-                {
-                    return null;
-                }
-
-                var persons = from a in Accomodations
-                              from g in a.Guests
-                              select g;
-
-                if (persons != null)
-                {
-                    return persons.ToArray();
-                }
-                else { return null; }
+                return persons.ToArray();
             }
+        }
+
+        public void AddPerson(Person p)
+        {
+            if (persons == null)
+            {
+                persons = new List<Person>();
+            }
+
+            persons.Add(p);
+
+            notifyPropertyChanged("Persons");
+        }
+
+        public void RemovePerson(Person p)
+        {
+            if (persons == null || !persons.Contains(p))
+            {
+                return;
+            }
+            persons.Remove(p);
         }
 
         #endregion
@@ -377,21 +363,21 @@ namespace AdventurePRO.Model.Logics
                     (uint)(Persons.Where(p => p.Type == PersonType.Child) ?? empty_collection).Count()
                 );
 
-                if(availableTrips == null)
-                {
-                    return null;
-                }
+            if (availableTrips == null)
+            {
+                return null;
+            }
 
-                return availableTrips.OrderBy
-                            (
-                                t
-                                =>
-                                Math.Pow(t.There.Arrival.Ticks - StartDate.Ticks, 2)
-                                +
-                                Math.Pow(t.Back.Departure.Ticks - FinishDate.Ticks, 2)
-                            );
+            return availableTrips.OrderBy
+                        (
+                            t
+                            =>
+                            Math.Pow(t.There.Arrival.Ticks - StartDate.Ticks, 2)
+                            +
+                            Math.Pow(t.Back.Departure.Ticks - FinishDate.Ticks, 2)
+                        );
         }
-            
+
         #endregion
 
         #region Hotels

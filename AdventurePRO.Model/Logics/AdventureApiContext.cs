@@ -95,7 +95,7 @@ namespace AdventurePRO.Model.Logics
             if (options == null ||
                 options.StartDate == null ||
                 options.FinishDate == null ||
-                options.Accomodations == null ||
+                options.Persons == null ||
                 options.AvailableHotels == null)
             {
                 return null;
@@ -120,7 +120,7 @@ namespace AdventurePRO.Model.Logics
                     new Hotel[1] { h },
                     checkIn,
                     checkOut,
-                    options.Accomodations
+                    new Accomodation[1] { new Accomodation { Guests = options.Persons, RoomsCount = options.CountOfRooms } }
                 );
 
             if (rooms == null)
@@ -128,8 +128,10 @@ namespace AdventurePRO.Model.Logics
                 return null;
             }
 
-            var occupancies = (from r in rooms
-                               select new Occupancy
+            var r = rooms.First();
+
+            var occupancies = new Occupancy[1]
+                { new Occupancy
                                {
                                    Code = r.Code,
                                    Name = r.Name,
@@ -139,14 +141,12 @@ namespace AdventurePRO.Model.Logics
                                    Capacity = r.AdultsNumber + r.ChildrenNumber,
                                    OrderLink = r.OrderLink,
                                    Cost = r.Cost,
-                                   Currency = r.Currency
-                               });
+                                   Currency = r.Currency,
+                                   Guests = options.Persons
+                               }
+                };
 
-            if (occupancies != null)
-            {
-
-                h.Occupancies = occupancies.ToArray();
-            }
+            h.Occupancies = occupancies;
 
             var weather = await new Openweathermap(Openweathermap.DEFAULT_KEY)
                 .GetWeatherAsync(options.Destination.Location,
