@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Globalization;
 
 namespace AdventurePRO.Model.APIs.ApiClients
 {
@@ -103,7 +104,7 @@ namespace AdventurePRO.Model.APIs.ApiClients
             }
 
             float f;
-            if (float.TryParse(v, out f))
+            if (float.TryParse(v, NumberStyles.Float, CultureInfo.InvariantCulture, out f))
             {
                 return f;
             }
