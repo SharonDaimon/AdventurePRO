@@ -13,7 +13,7 @@
             <StackPanel>
                 <views:AdventureOptionsPanel x:Name="Options"/>
                 <Button HorizontalAlignment="Right" Click="Search_Click">Search</Button>
-                <Frame Name="MainContent"/>
+                <Frame Name="MainContent" NavigationUIVisibility="Hidden" />
             </StackPanel>
         </ScrollViewer>
     </Grid>
