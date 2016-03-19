@@ -36,12 +36,26 @@ namespace AdventurePRO.Model.Logics
 
         public string Currency { get; set; }
 
+        private Dictionary<string, float> rates;
+        
         public string[] Rates
         {
             get
             {
-                return StaticCurrencyConverter.Converter.Rates;
+                if(rates != null)
+                {
+                    return rates.Keys.ToArray();
+                }
+                initRates();
+                return null;
             }
+        }
+
+        private async void initRates()
+        {
+            StaticCurrencyConverter.Init();
+            rates = await new Fixer().GetRatesAsync();
+            notifyPropertyChanged("Rates");
         }
 
         #region Date

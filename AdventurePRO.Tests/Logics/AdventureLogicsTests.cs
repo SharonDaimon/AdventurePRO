@@ -27,19 +27,9 @@ namespace AdventurePRO.Model.Logics.Tests
             options.StartDate = TestUtils.From;
             options.FinishDate = TestUtils.To;
 
-            options.Accomodations = new Accomodation[1]
-            {
-                new Accomodation
-                {
-                    Guests = new Person[1]
-                    {
-                        new Person { Name = "Nasty", Age = 19, Type = PersonType.Adult }
-                    }
-                }
-            };
+            options.AddPerson(new Person { Name = "Nasty", Age = 19, Type = PersonType.Adult });
 
-            options.Accomodations = new Accomodation[1] { new Accomodation { Guests = options.Persons, RoomsCount = 1 } };
-
+            options.CountOfRooms = 1;
             options.AfterArrivalRelaxTime = 4;
             options.BeforeDepartureRelaxTime = 4;
 
@@ -79,14 +69,6 @@ namespace AdventurePRO.Model.Logics.Tests
             Assert.IsNotNull(origins);
 
             options.Origin = origins.Where(o => o.Code == "LED").First();
-
-            var trips = options.AvailableTrips;
-
-            Task.Delay(1000).Wait();
-
-            trips = options.AvailableTrips;
-
-            Assert.IsNotNull(trips);
 
             var attractions = options.AvailableAttractions;
 

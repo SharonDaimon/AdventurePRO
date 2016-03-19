@@ -32,6 +32,10 @@
             <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding Path=FinishDate, Mode=OneWayToSource}"/>
         </Grid>
 
+        <ComboBox ItemsSource="{Binding Path=Rates}"
+                  SelectedValue="{Binding Path=Currency, Mode=TwoWay}"
+                  Style="{StaticResource SelectionComboBox}" />
+        
         <TextBlock Style="{StaticResource h3}">Origin Country</TextBlock>
         <ComboBox ItemsSource="{Binding Path=AvailableCountries}" 
                   SelectedValue="{Binding Path=OriginCountry, Mode=TwoWay}"

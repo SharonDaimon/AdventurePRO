@@ -35,18 +35,12 @@ namespace AdventurePRO
             InitializeComponent();
 
             // Some logic to show results
-            initExchangeConverter();
-
+            
             options = new AdventureOptions();
 
             Options.DataContext = options;
         }
-
-        private void initExchangeConverter()
-        {
-            StaticCurrencyConverter.Converter = new converter();
-        }
-
+        
         private async void Search_Click(object sender, RoutedEventArgs e)
         {
             if(context == null)
@@ -59,42 +53,6 @@ namespace AdventurePRO
             page.DataContext = await context.GetResultAsync();
 
             MainContent.Navigate(page);
-        }
-
-        private class converter : ICurencyConverter
-        {
-            private const string EUR = "EUR";
-
-            Dictionary<string, float> rates;
-
-            public converter()
-            {
-                init();
-            }
-
-            private async void init()
-            {
-                rates = await new Model.APIs.ApiClients.Fixer().GetRatesAsync();
-            }
-
-            public float this[string from, string to]
-            {
-                get
-                {
-                    if(rates != null
-                        && (rates.ContainsKey(from) || from == EUR) 
-                        && rates.ContainsKey(to) || to == EUR)
-                    {
-                        return (from == EUR ? 1 : rates[from]) / (to == EUR ? 1 : rates[to]);
-                    }
-                    throw new NotSupportedException("Don't have given rate(s)");
-                }
-            }
-
-            public float Convert(float cost, string from, string to)
-            {
-                return cost * this[from, to];
-            }
         }
     }
 }

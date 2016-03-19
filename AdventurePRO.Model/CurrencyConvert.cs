@@ -15,6 +15,11 @@ namespace AdventurePRO.Model
     /// </summary>
     public static class StaticCurrencyConverter
     {
+        public static void Init()
+        {
+            Converter = new converter();
+        }
+
         static StaticCurrencyConverter()
         {
             Converter = new converter();
