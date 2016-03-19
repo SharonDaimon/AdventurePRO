@@ -41,8 +41,6 @@ namespace AdventurePRO.Model.Logics.Tests
             options.Accomodations = new Accomodation[1] { new Accomodation { Guests = options.Persons, RoomsCount = 1 } };
 
             options.AfterArrivalRelaxTime = 4;
-            options.DayRelaxTime = 4;
-            options.NightRelaxTime = 12;
             options.BeforeDepartureRelaxTime = 4;
 
             options.SearchByGPS = true;
@@ -90,8 +88,6 @@ namespace AdventurePRO.Model.Logics.Tests
 
             Assert.IsNotNull(trips);
 
-            options.Trips = trips;
-
             var attractions = options.AvailableAttractions;
 
             Task.Delay(1000).Wait();
@@ -111,7 +107,7 @@ namespace AdventurePRO.Model.Logics.Tests
             Assert.IsNotNull(hotels);
             Assert.IsTrue(hotels.Any());
 
-            options.Hotel = hotels;
+            options.Hotel = hotels.First();
 
             var context = new AdventureApiContext
             {
