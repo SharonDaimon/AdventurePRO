@@ -27,13 +27,6 @@ namespace AdventurePRO.Model.Logics
         public AdventureApiContext()
         {
             options = new AdventureOptions();
-
-            options.PropertyChanged += Options_PropertyChanged;
-        }
-
-        private void Options_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            AdventureResult = null;
         }
 
         /// <summary>
@@ -128,8 +121,12 @@ namespace AdventurePRO.Model.Logics
                 return null;
             }
 
-            var r = rooms.First();
-
+            var r = rooms.FirstOrDefault();
+            if (r == null)
+            {
+                return null;
+            }
+            
             var occupancies = new Occupancy[1]
                 { new Occupancy
                                {

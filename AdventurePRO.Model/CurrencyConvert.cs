@@ -81,7 +81,7 @@ namespace AdventurePRO.Model
                         && (rates.ContainsKey(from) || from == EUR)
                         && rates.ContainsKey(to) || to == EUR)
                     {
-                        return (from == EUR ? 1 : rates[from]) / (to == EUR ? 1 : rates[to]);
+                        return  (to == EUR ? 1 : rates[to]) / (from == EUR ? 1 : rates[from]);
                     }
                     return 1;
                 }

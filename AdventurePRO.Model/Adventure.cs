@@ -23,20 +23,31 @@ namespace AdventurePRO.Model
             {
                 try
                 {
+                    float sum = 0;
                     if (Tickets != null)
                     {
 
-                        return (from a in Tickets.Cast<Acquirable>()
-                                .Concat(Taxis)
-                                .Concat(from h in Hotels from o in h.Occupancies select o)
-                                .Concat(from a in Attractions from t in a.Tickets select t)
-                                select StaticCurrencyConverter.Convert(a.Cost, a.Currency, this.Currency))
-                                 .Sum();
+                        sum += (from t in Tickets
+                                where t != null
+                                select t.Cost).Sum();
                     }
-                    else
+                    if(Attractions != null)
                     {
-                        return 0;
+                        sum += (from a in Attractions
+                                where a != null && a.Tickets != null
+                                from t in a.Tickets
+                                where t != null
+                                select t.Cost).Sum();
                     }
+                    if (Hotels != null)
+                    {
+                        sum += (from h in Hotels
+                                where h != null && h.Occupancies != null
+                                from o in h.Occupancies
+                                where o != null
+                                select o.Cost).Sum();
+                    }
+                    return sum;
                 }
                 catch (Exception)
                 {
