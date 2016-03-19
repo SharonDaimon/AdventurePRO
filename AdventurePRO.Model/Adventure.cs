@@ -21,12 +21,27 @@ namespace AdventurePRO.Model
         {
             get
             {
-                return (from a in Tickets.Cast<Acquirable>()
-                        .Concat(Taxis)
-                        .Concat(from h in Hotels from o in h.Occupancies select o)
-                        .Concat(from a in Attractions from t in a.Tickets select t)
-                        select StaticCurrencyConverter.Convert(a.Cost, a.Currency, this.Currency))
-                         .Sum();
+                try
+                {
+                    if (Tickets != null)
+                    {
+
+                        return (from a in Tickets.Cast<Acquirable>()
+                                .Concat(Taxis)
+                                .Concat(from h in Hotels from o in h.Occupancies select o)
+                                .Concat(from a in Attractions from t in a.Tickets select t)
+                                select StaticCurrencyConverter.Convert(a.Cost, a.Currency, this.Currency))
+                                 .Sum();
+                    }
+                    else
+                    {
+                        return 0;
+                    }
+                }
+                catch (Exception)
+                {
+                    return 0;
+                }
             }
         }
 

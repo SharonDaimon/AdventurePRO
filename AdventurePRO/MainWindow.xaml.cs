@@ -47,7 +47,7 @@ namespace AdventurePRO
             StaticCurrencyConverter.Converter = new converter();
         }
 
-        private void Search_Click(object sender, RoutedEventArgs e)
+        private async void Search_Click(object sender, RoutedEventArgs e)
         {
             if(context == null)
             {
@@ -56,7 +56,7 @@ namespace AdventurePRO
 
             var page = new AdventureResultsPage();
 
-            page.DataContext = context;
+            page.DataContext = await context.GetResultAsync();
 
             MainContent.Navigate(page);
         }

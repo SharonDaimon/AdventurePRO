@@ -64,10 +64,6 @@ namespace AdventurePRO.Model.Logics
             {
                 options = value;
 
-                options.PropertyChanged += Options_PropertyChanged;
-
-                AdventureResult = null;
-
                 notifyPropertyChanged("Options");
             }
         }
@@ -94,7 +90,7 @@ namespace AdventurePRO.Model.Logics
             }
         }
 
-        private async void initAdventureResult()
+        public async Task<Adventure> GetResultAsync()
         {
             if (options == null ||
                 options.StartDate == null ||
@@ -103,7 +99,7 @@ namespace AdventurePRO.Model.Logics
                 options.Hotel == null ||
                 options.AvailableTrips == null)
             {
-                return;
+                return null;
             }
 
             var hotelbeds = new Hotelbeds(Hotelbeds.DEFAULT_KEY, Hotelbeds.DEFAULT_SECRET);
@@ -124,7 +120,7 @@ namespace AdventurePRO.Model.Logics
 
             if (rooms == null)
             {
-                return;
+                return null;
             }
 
             var occupancies = (from r in rooms
@@ -146,12 +142,12 @@ namespace AdventurePRO.Model.Logics
 
                 h.Occupancies = occupancies.ToArray();
             }
-            
+
             var weather = await new Openweathermap(Openweathermap.DEFAULT_KEY)
                 .GetWeatherAsync(options.Destination.Location,
                 (uint)DateTime.Now.AddDays(10).Subtract(options.StartDate).Days);
 
-            AdventureResult = new Adventure
+            return new Adventure
             {
                 Attractions = options.Attractions,
                 Home = options.Origin,
@@ -163,6 +159,11 @@ namespace AdventurePRO.Model.Logics
                 Tickets = new Ticket[2] { null, null },
                 Weather = weather
             };
+        }
+
+        private async void initAdventureResult()
+        {
+            AdventureResult = await GetResultAsync();
         }
 
     }

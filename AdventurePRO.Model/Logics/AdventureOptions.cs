@@ -513,6 +513,8 @@ namespace AdventurePRO.Model.Logics
             {
                 hotel = value;
 
+                AvailableTrips = null;
+
                 notifyPropertyChanged("Hotels");
             }
         }
