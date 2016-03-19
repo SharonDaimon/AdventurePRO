@@ -36,6 +36,14 @@ namespace AdventurePRO.Model.Logics
 
         public string Currency { get; set; }
 
+        public string[] Rates
+        {
+            get
+            {
+                return StaticCurrencyConverter.Converter.Rates;
+            }
+        }
+
         #region Date
 
         private DateTime startDate, finishDate;

@@ -3,6 +3,11 @@
 // This file contains the description of the application data model 
 // class StaticCurrencyConverter and interface ICurrencyConverter
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace AdventurePRO.Model
 {
     /// <summary>
@@ -10,6 +15,11 @@ namespace AdventurePRO.Model
     /// </summary>
     public static class StaticCurrencyConverter
     {
+        static StaticCurrencyConverter()
+        {
+            Converter = new converter();
+        }
+
         /// <summary>
         /// The ICurrencyConverter object
         /// </summary>
@@ -26,6 +36,57 @@ namespace AdventurePRO.Model
         {
             return Converter.Convert(cost, from, to);
         }
+
+        private class converter : ICurencyConverter
+        {
+            private const string EUR = "EUR";
+
+            Dictionary<string, float> rates;
+
+            public string[] Rates
+            {
+                get
+                {
+                    if (rates != null)
+                    {
+                        return rates.Keys.ToArray();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+
+            public converter()
+            {
+                init();
+            }
+
+            private async void init()
+            {
+                rates = await new Model.APIs.ApiClients.Fixer().GetRatesAsync();
+            }
+
+            public float this[string from, string to]
+            {
+                get
+                {
+                    if (rates != null
+                        && (rates.ContainsKey(from) || from == EUR)
+                        && rates.ContainsKey(to) || to == EUR)
+                    {
+                        return (from == EUR ? 1 : rates[from]) / (to == EUR ? 1 : rates[to]);
+                    }
+                    return 1;
+                }
+            }
+
+            public float Convert(float cost, string from, string to)
+            {
+                return cost * this[from, to];
+            }
+        }
     }
 
     /// <summary>
@@ -40,6 +101,8 @@ namespace AdventurePRO.Model
         /// <param name="to"></param>
         /// <returns>An exchange rate</returns>
         float this[string from, string to] { get; }
+
+        string[] Rates { get; }
 
         /// <summary>
         /// Must convert "cost" in "from" currency to "to" currency 
