@@ -32,18 +32,26 @@ namespace AdventurePRO
 
         public MainWindow()
         {
+            AppDomain domain = AppDomain.CurrentDomain;
+            domain.UnhandledException += Domain_UnhandledException;
+
             InitializeComponent();
 
             // Some logic to show results
-            
+
             options = new AdventureOptions();
 
             Options.DataContext = options;
         }
-        
+
+        private void Domain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show(e.ExceptionObject.ToString(), "Exception");
+        }
+
         private async void Search_Click(object sender, RoutedEventArgs e)
         {
-            if(context == null)
+            if (context == null)
             {
                 context = new AdventureApiContext { Options = options };
             }
