@@ -179,7 +179,7 @@
             <ListBox ItemsSource="{Binding Path=AvailableAttractions}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Checked="Attraction_Checked">
+                        <CheckBox IsChecked="{Binding Path=IsChecked, Mode=TwoWay}">
                             <Grid Style="{StaticResource Stretch}">
                                 <local:OnlineDescribed/>
                             </Grid>
