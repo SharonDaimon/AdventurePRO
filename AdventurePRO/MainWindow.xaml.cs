@@ -32,8 +32,8 @@ namespace AdventurePRO
 
         public MainWindow()
         {
-            AppDomain domain = AppDomain.CurrentDomain;
-            domain.UnhandledException += Domain_UnhandledException;
+            Application app = Application.Current;
+            app.DispatcherUnhandledException += App_DispatcherUnhandledException;
 
             InitializeComponent();
 
@@ -44,9 +44,10 @@ namespace AdventurePRO
             Options.DataContext = options;
         }
 
-        private void Domain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            MessageBox.Show(e.ExceptionObject.ToString(), "Exception");
+            MessageBox.Show(e.Exception.Message, "Exception");
+            e.Handled = true;
         }
 
         private async void Search_Click(object sender, RoutedEventArgs e)
