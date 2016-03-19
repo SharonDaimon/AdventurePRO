@@ -15,41 +15,43 @@
         <Style x:Key="Rating" TargetType="TextBlock" BasedOn="{StaticResource Visible}">
             <Setter Property="Foreground" Value="Red"/>
             <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="FontSize" Value="12"/>
         </Style>
 
         <Style x:Key="Link" TargetType="TextBlock" BasedOn="{StaticResource Visible}">
             <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="MaxWidth" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Grid}}, Path=ActualWidth}"/>
         </Style>
 
         <Style x:Key="Description" TargetType="TextBlock" BasedOn="{StaticResource Visible}">
             <Setter Property="Foreground" Value="Gray"/>
             <Setter Property="TextWrapping" Value="Wrap"/>
             <Setter Property="Margin" Value="10"/>
-            <Setter Property="Width" Value="390"/>
         </Style>
     </UserControl.Resources>
 
-    <DockPanel HorizontalAlignment="Stretch">
+    <StackPanel>
 
-        <Grid DockPanel.Dock="Top" DataContext="{Binding Path=Name}">
+        <Grid DataContext="{Binding Path=Name}">
             <TextBlock Text="{Binding Path=.}" Style="{StaticResource h2}" HorizontalAlignment="Stretch"/>
         </Grid>
 
-        <Grid DockPanel.Dock="Top" DataContext="{Binding Path=Rating}">
+        <Grid DataContext="{Binding Path=Rating}">
             <StackPanel Orientation="Horizontal" Style="{StaticResource Visible}">
                 <TextBlock Text="Rating: "/>
                 <TextBlock Text="{Binding Path=., Converter={StaticResource ratingConverter}}" Style="{StaticResource Rating}"/>
             </StackPanel>
         </Grid>
 
-        <Grid DockPanel.Dock="Top" DataContext="{Binding Path=Site}">
+        <Grid DataContext="{Binding Path=Site}">
             <TextBlock Text="{Binding Path=.}" Style="{StaticResource Link}">
                 <Hyperlink NavigateUri="{Binding Path=.}"/>
             </TextBlock>
         </Grid>
 
-        <Grid DataContext="{Binding Path=Photos}" DockPanel.Dock="Top">
+        <Grid DataContext="{Binding Path=Photos}" >
             <ItemsControl ItemsSource="{Binding Path=.}" Style="{StaticResource Visible}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -58,14 +60,14 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <WrapPanel/>
+                        <UniformGrid Columns="4"/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>
         </Grid>
 
-        <Grid DockPanel.Dock="Left" DataContext="{Binding Path=Description}">
+        <Grid DataContext="{Binding Path=Description}">
             <TextBlock Text="{Binding Path=.}" Style="{StaticResource Description}"/>
         </Grid>
-    </DockPanel>
+    </StackPanel>
 </UserControl>

@@ -7,7 +7,7 @@
         xmlns:pages="clr-namespace:AdventurePRO.Pages"
         xmlns:views="clr-namespace:AdventurePRO.Views"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525" MinWidth="400">
+        Title="MainWindow" Height="550" Width="625" MinWidth="600">
     <Grid>
         <ScrollViewer HorizontalScrollBarVisibility="Auto">
             <StackPanel>

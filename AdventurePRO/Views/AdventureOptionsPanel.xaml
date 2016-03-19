@@ -32,10 +32,11 @@
             <DatePicker Grid.Row="1" Grid.Column="1" SelectedDate="{Binding Path=FinishDate, Mode=OneWayToSource}"/>
         </Grid>
 
+        <TextBlock Style="{StaticResource h3}">Your currency</TextBlock>
         <ComboBox ItemsSource="{Binding Path=Rates}"
                   SelectedValue="{Binding Path=Currency, Mode=TwoWay}"
                   Style="{StaticResource SelectionComboBox}" />
-        
+
         <TextBlock Style="{StaticResource h3}">Origin Country</TextBlock>
         <ComboBox ItemsSource="{Binding Path=AvailableCountries}" 
                   SelectedValue="{Binding Path=OriginCountry, Mode=TwoWay}"
@@ -86,72 +87,56 @@
 
         <TextBlock Style="{StaticResource h3}">Accomodations</TextBlock>
         <StackPanel>
-            <StackPanel>
-
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
                 <StackPanel Grid.Column="1" Width="120">
                     <TextBlock>Count of rooms:</TextBlock>
                     <TextBox Grid.Column="1" Text="{Binding Path=CountOfRooms, Mode=TwoWay}"/>
                 </StackPanel>
+            </Grid>
 
-                <ListBox ItemsSource="{Binding Path=Persons}" Background="Blue" HorizontalContentAlignment="Stretch">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <local:Person Grid.Column="0"/>
-                                <Button Grid.Column="1" Click="RemovePerson_Click">
-                                    <Image Source="pack://siteoforigin:,,,/Properties/fa-minus.png"
-                                                        Style="{StaticResource person_add_remove}"/>
-                                </Button>
-                            </Grid>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-
-                    <Button Grid.Column="1" Click="AddPerson_Click">
-                        <Image Source="pack://siteoforigin:,,,/Properties/fa-plus.png"
-                           Style="{StaticResource person_add_remove}"/>
-                    </Button>
-                </Grid>
-            </StackPanel>
-        </StackPanel>
-
-        <CheckBox Name="SearchByHotels">
-            I want to select hotels
-        </CheckBox>
-        <GroupBox Header="Available hotels" 
-                  Visibility="{Binding ElementName=SearchByHotels,
-                                        Path=IsChecked, 
-                                        Converter={StaticResource boolToVisibilityConverter}}">
-            <ListBox ItemsSource="{Binding Path=AvailableHotels}">
+            <ListBox ItemsSource="{Binding Path=Persons}" Background="Blue" HorizontalContentAlignment="Stretch">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Checked="Hotel_Checked">
-                            <Grid Style="{StaticResource Stretch}">
-                                <local:OnlineDescribed/>
-                            </Grid>
-                        </CheckBox>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <local:Person Grid.Column="0"/>
+                            <Button Grid.Column="1" Click="RemovePerson_Click">
+                                <Image Source="pack://siteoforigin:,,,/Properties/fa-minus.png"
+                                                        Style="{StaticResource person_add_remove}"/>
+                            </Button>
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-        </GroupBox>
+
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="1" Click="AddPerson_Click">
+                    <Image Source="pack://siteoforigin:,,,/Properties/fa-plus.png"
+                           Style="{StaticResource person_add_remove}"/>
+                </Button>
+            </Grid>
+        </StackPanel>
 
         <GroupBox Header="Available Attractions">
             <ListBox ItemsSource="{Binding Path=AvailableAttractions}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <CheckBox IsChecked="{Binding Path=IsChecked, Mode=TwoWay}">
-                            <Grid Style="{StaticResource Stretch}">
+                            <Grid>
                                 <local:OnlineDescribed/>
                             </Grid>
                         </CheckBox>
