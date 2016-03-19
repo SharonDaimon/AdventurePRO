@@ -68,7 +68,6 @@
     <Compile Include="APIs\ApiClients\OpenweathermapTests.cs" />
     <Compile Include="APIs\ApiClients\QPXTests.cs" />
     <Compile Include="APIs\ApiClients\SeatwaveTests.cs" />
-    <Compile Include="Logics\AdventureLogicsTests.cs" />
     <Compile Include="TestApis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
