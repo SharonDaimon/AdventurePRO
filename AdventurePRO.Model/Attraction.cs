@@ -1,4 +1,7 @@
-﻿// Author: Anastasia Mukalled
+﻿using AdventurePRO.Model.APIs.ApiClients;
+using AdventurePRO.Model.APIs.Results;
+
+// Author: Anastasia Mukalled
 // Дата: 29.02.2016
 // This file contains the description of the application data model classes Attraction and AttractionTicket
 namespace AdventurePRO.Model
@@ -17,6 +20,36 @@ namespace AdventurePRO.Model
         /// The location ticket
         /// </summary>
         public virtual AttractionTicket[] Tickets { get; set; }
+
+        private bool isChecked;
+
+        public string VenueId { get; set; }
+
+        public virtual bool IsChecked
+        {
+            get
+            {
+                return isChecked;
+
+            }
+            set
+            {
+                isChecked = value;
+
+                if (isChecked)
+                {
+                    updateLocation();
+                }
+            }
+        }
+
+        private async void updateLocation()
+        {
+            var venue = await new Seatwave(Seatwave.DEFAULT_API_KEY, Seatwave.DEFAULT_API_SECRET)
+                .GetVenueAsync(VenueId);
+
+            Location = venue.Location;
+        }
     }
 
     /// <summary>

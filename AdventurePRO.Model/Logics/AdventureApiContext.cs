@@ -96,7 +96,7 @@ namespace AdventurePRO.Model.Logics
                 options.StartDate == null ||
                 options.FinishDate == null ||
                 options.Accomodations == null ||
-                options.Hotel == null ||
+                options.AvailableHotels == null ||
                 options.AvailableTrips == null)
             {
                 return null;
@@ -109,6 +109,12 @@ namespace AdventurePRO.Model.Logics
             var checkOut = options.FinishDate.AddHours(options.BeforeDepartureRelaxTime);
 
             var h = options.Hotel;
+
+            if(h == null)
+            {
+
+                h = options.AvailableHotels.First();
+            }
 
             var rooms = await hotelbeds.PostHotelsAsync
                 (
