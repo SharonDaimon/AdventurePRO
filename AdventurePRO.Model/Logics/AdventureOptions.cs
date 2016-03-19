@@ -360,6 +360,8 @@ namespace AdventurePRO.Model.Logics
                 return;
             }
             persons.Remove(p);
+
+            notifyPropertyChanged("Persons");
         }
 
         #endregion
