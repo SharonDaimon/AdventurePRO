@@ -96,8 +96,7 @@ namespace AdventurePRO.Model.Logics
                 options.StartDate == null ||
                 options.FinishDate == null ||
                 options.Accomodations == null ||
-                options.AvailableHotels == null ||
-                options.AvailableTrips == null)
+                options.AvailableHotels == null)
             {
                 return null;
             }
@@ -110,7 +109,7 @@ namespace AdventurePRO.Model.Logics
 
             var h = options.Hotel;
 
-            if(h == null)
+            if (h == null)
             {
 
                 h = options.AvailableHotels.First();
@@ -153,6 +152,12 @@ namespace AdventurePRO.Model.Logics
                 .GetWeatherAsync(options.Destination.Location,
                 (uint)DateTime.Now.AddDays(10).Subtract(options.StartDate).Days);
 
+            var trips = await options.GetAvailableTripsAsync();
+            if (trips == null) { return null; }
+
+            var trip = trips.First();
+
+
             return new Adventure
             {
                 Attractions = options.Attractions,
@@ -162,7 +167,7 @@ namespace AdventurePRO.Model.Logics
                 FinishDate = options.FinishDate,
                 Hotels = new Hotel[1] { h },
                 Persons = options.Persons,
-                Tickets = new Ticket[2] { null, null },
+                Tickets = new Ticket[2] { trip.There, trip.Back },
                 Weather = weather
             };
         }
